@@ -336,3 +336,33 @@
 下一步：接入通义千问，实现 POST /ideas/{id}/expand 灵感展开（先非流式，再加 SSE 打字机）。
 
 对应提交：feat(api): POST /ideas 新增灵感接口 + pytest 覆盖
+
+#### 2026-09-24　灵感引擎 · 第 2 步：接入通义千问，POST /ideas/{id}/expand 灵感展开
+
+目标：给一个灵感标题，让大模型展开成 2-3 句可落地描述，写回数据库。
+
+改动（apps/idea-api/main.py）：
+
+1.load_env_file()：启动时读同目录 .env，密钥只进环境变量不进代码（.env 已 gitignore，对应 Study.md「客户端零泄密」原则）
+
+2.expand_with_qwen()：用 OpenAI SDK 走百炼 compatible-mode 端点，model="qwen-plus"；缺密钥返回 500 并提示配置位置
+
+3.POST /ideas/{id}/expand：先查灵感（不存在 404）→ 调千问 → UPDATE 写回 "desc" → 返回完整记录；LLM 调用前后分两个数据库连接，慢网络不占着 SQLite
+
+验证（物理证据）：
+
+1.pytest tests -q → 11 passed，新增 3 条用例全部 monkeypatch（404、展开写回落库、缺密钥 500），测试不花一分钱
+
+2.真实联调：百炼 API-KEY 放 .env 后真实调用一次——标题「一只会提醒喝水的小猫摆件」→ 千问返回 200，desc 被展开成 3 句具体设计（湿度传感器、定时提醒、LED 呼吸灯），写库后读取一致
+
+踩坑：
+
+1.阿里云有两种钥匙——RAM AccessKey 是"整栋大楼的总钥匙"（千万别建），大模型要的是百炼控制台的 API-KEY（sk- 开头）
+
+2.云端模型没有"不要 key"的；key ≠ 花钱，百炼新用户每个模型家族送免费额度
+
+3.工作空间密钥（sk-ws- 开头）同样走 dashscope compatible-mode 端点，直接可用
+
+下一步：第 3 步前端接线——idea-web 调后端 expand，加 SSE 流式打字机效果 + Abort 中断。
+
+对应提交：feat(api): POST /ideas/{id}/expand 灵感展开（通义千问 qwen-plus，11 测试通过）

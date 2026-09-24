@@ -21,9 +21,10 @@
 
 ```bash
 cd apps/idea-api
-pip install fastapi uvicorn pytest httpx
-uvicorn main:app --port 8000   # 启动 API，访问 http://127.0.0.1:8000
-pytest tests                   # 当前 8 passed
+pip install fastapi uvicorn pytest httpx openai
+cp .env.example .env                 # 然后填入你的百炼 API-KEY（.env 已被忽略，不会上传）
+uvicorn main:app --port 8000         # 启动 API，访问 http://127.0.0.1:8000
+pytest tests                         # 当前 11 passed
 ```
 
 前端：
@@ -42,6 +43,6 @@ npm run dev                    # http://127.0.0.1:5173
 ## 当前进度
 
 - [x] 灵感引擎后端：GET /ideas、POST /ideas + pytest 8 通过
-- [ ] 后端接入通义千问：POST /ideas/{id}/expand 灵感展开
+- [x] 后端接入通义千问：POST /ideas/{id}/expand 灵感展开（pytest 11 通过 + 真实调用联调成功）
 - [ ] 前端接线后端 + SSE 流式打字机
 - [ ] Mini Agent：agent/ 五个文件逐个落地
