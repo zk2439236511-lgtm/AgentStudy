@@ -97,3 +97,36 @@ def test_post_ideas_blank_title_returns_400(cleanup_created_ideas):
 def test_post_ideas_missing_desc_returns_422(cleanup_created_ideas):
     response = client.post("/ideas", json={"title": f"{CREATED_PREFIX}缺字段"})
     assert response.status_code == 422
+
+
+def test_expand_idea_not_found_returns_404():
+    response = client.post("/ideas/99999999/expand")
+    assert response.status_code == 404
+
+
+def test_expand_idea_updates_desc(cleanup_created_ideas, monkeypatch):
+    monkeypatch.setattr("main.expand_with_qwen", lambda title: "模拟展开的详细描述")
+    created = client.post(
+        "/ideas",
+        json={"title": f"{CREATED_PREFIX}待展开", "desc": "原始描述"},
+    ).json()
+
+    response = client.post(f"/ideas/{created['id']}/expand")
+    assert response.status_code == 200
+    assert response.json()["desc"] == "模拟展开的详细描述"
+
+    data = client.get("/ideas").json()
+    item = next(idea for idea in data if idea["id"] == created["id"])
+    assert item["desc"] == "模拟展开的详细描述"
+
+
+def test_expand_idea_without_key_returns_500(cleanup_created_ideas, monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    created = client.post(
+        "/ideas",
+        json={"title": f"{CREATED_PREFIX}没密钥", "desc": "原始描述"},
+    ).json()
+
+    response = client.post(f"/ideas/{created['id']}/expand")
+    assert response.status_code == 500
+

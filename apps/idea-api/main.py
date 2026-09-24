@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from pathlib import Path
 from typing import Optional
@@ -5,10 +6,26 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+from openai import OpenAI
 from pydantic import BaseModel, Field
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "todos.db"
+
+
+def load_env_file() -> None:
+    env_path = BASE_DIR / ".env"
+    if not env_path.exists():
+        return
+    for line in env_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+load_env_file()
 
 app = FastAPI(title="我的待办事项")
 
@@ -128,6 +145,46 @@ def idea_row_to_dict(row: sqlite3.Row) -> dict:
         "desc": row["desc"],
         "created_at": row["created_at"],
     }
+
+
+def expand_with_qwen(title: str) -> str:
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(
+            status_code=500,
+            detail="未配置 OPENAI_API_KEY，请在 apps/idea-api/.env 中设置百炼密钥",
+        )
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+        timeout=60,
+    )
+    completion = client.chat.completions.create(
+        model="qwen-plus",
+        messages=[
+            {
+                "role": "system",
+                "content": "你是灵感展开助手。把用户的简短灵感标题扩写成 2-3 句具体、可落地的描述，只输出描述正文，不要任何解释、前言或引号。",
+            },
+            {"role": "user", "content": f"灵感标题：{title}"},
+        ],
+    )
+    return completion.choices[0].message.content.strip()
+
+
+@app.post("/ideas/{idea_id}/expand")
+def expand_idea(idea_id: int):
+    with get_connection() as conn:
+        row = conn.execute("SELECT * FROM ideas WHERE id = ?", (idea_id,)).fetchone()
+        if row is None:
+            raise HTTPException(status_code=404, detail="灵感不存在")
+
+    expanded = expand_with_qwen(row["title"])
+
+    with get_connection() as conn:
+        conn.execute('UPDATE ideas SET "desc" = ? WHERE id = ?', (expanded, idea_id))
+        row = conn.execute("SELECT * FROM ideas WHERE id = ?", (idea_id,)).fetchone()
+    return idea_row_to_dict(row)
 
 
 @app.get("/ideas")
