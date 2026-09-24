@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 200vh;
+  font-family: 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
+  background:
+    radial-gradient(600px 400px at 15% 15%, rgba(56, 189, 248, 0.28), transparent),
+    radial-gradient(700px 500px at 85% 25%, rgba(129, 140, 248, 0.28), transparent),
+    radial-gradient(800px 600px at 50% 85%, rgba(232, 121, 249, 0.2), transparent),
+    #0b1020;
+  color: #e2e8f0;
+}
+
+.demo-section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 56px 24px;
+}
+
+.demo-title {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.demo-hint {
+  color: rgba(226, 232, 240, 0.6);
+  margin-bottom: 28px;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.demo-card {
+  padding: 28px 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  font-size: 15px;
+  line-height: 1.6;
+}
