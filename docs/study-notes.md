@@ -303,3 +303,36 @@
 ​	4.永远对环境级大改与危险破坏指令喊停
 
 ​	当AI多次修改产生类型死锁和配置混乱时，AI就会变得混乱，所以看到环境强制降级或者rm -rf指令时，立刻按下Ctrl+ C 强制拦截！
+
+
+
+
+# 实践日志
+
+#### 2026-09-24　灵感引擎 · 第 1 步：新增 POST /ideas 写接口
+
+目标：灵感引擎原来只有 GET /ideas（只能读），这一步补上"写入"能力。
+
+改动（apps/idea-api/main.py）：
+
+1.新增 IdeaCreate 模型：Pydantic 校验，title 1-100 字、desc 1-500 字
+
+2.新增 POST /ideas 接口：strip 后非空校验（空则 400）→ 写入 SQLite → 返回 201 + 新建记录
+
+验证（物理证据）：pytest tests -v → 8 passed，新增 5 条用例：
+
+1.创建成功返回 201
+
+2.响应字段回显（title / desc / id / created_at）
+
+3.写入后能从 GET /ideas 查到（真正落库，不是假成功）
+
+4.空白标题返回 400
+
+5.缺 desc 字段返回 422（Pydantic 校验层拦截）
+
+踩坑：desc 是 SQL 保留字，建表和插入时必须写成 "desc"（加双引号），否则报语法错误。
+
+下一步：接入通义千问，实现 POST /ideas/{id}/expand 灵感展开（先非流式，再加 SSE 打字机）。
+
+对应提交：feat(api): POST /ideas 新增灵感接口 + pytest 覆盖
