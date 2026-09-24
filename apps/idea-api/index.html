@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的待办事项</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1 class="app__title">我的待办事项</h1>
+      <p class="app__date" id="today"></p>
+    </header>
+
+    <form class="composer" id="composer">
+      <input
+        class="composer__input"
+        id="todo-input"
+        type="text"
+        placeholder="今天要做什么？回车添加"
+        autocomplete="off"
+        maxlength="80"
+      >
+      <button class="composer__button" type="submit">添加</button>
+    </form>
+
+    <section class="toolbar">
+      <span class="toolbar__count" id="count">共 0 项</span>
+      <div class="toolbar__filters" id="filters">
+        <button class="filter is-active" type="button" data-filter="all">全部</button>
+        <button class="filter" type="button" data-filter="active">未完成</button>
+        <button class="filter" type="button" data-filter="done">已完成</button>
+      </div>
+      <button class="toolbar__clear" id="clear-done" type="button">清除已完成</button>
+    </section>
+
+    <ul class="list" id="todo-list"></ul>
+
+    <p class="empty" id="empty">还没有待办事项，先加一条吧。</p>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
