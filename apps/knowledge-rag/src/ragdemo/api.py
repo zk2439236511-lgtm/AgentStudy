@@ -101,7 +101,8 @@ def ask(payload: AskRequest):
         {
             "filename": doc.metadata.get("source"),
             "page": doc.metadata.get("page"),
-            "score": round(float(doc.metadata.get("score", -1)), 3),
+            # Chroma 返回的 score 是距离（越小越相关），换算成 0~1 的相关度才好读
+            "relevance": round(1 / (1 + float(doc.metadata.get("score", 1))), 3),
             "excerpt": doc.page_content[:300],
         }
         for doc in result["source_documents"]

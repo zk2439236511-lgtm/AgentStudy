@@ -140,7 +140,8 @@ def test_ask_returns_answer_with_sources(monkeypatch):
     source = data["sources"][0]
     assert source["filename"] == "sample.pdf"
     assert source["page"] == 3
-    assert source["score"] == 0.679
+    # 距离 0.6789 换算成相关度：1 / (1 + 0.6789)
+    assert source["relevance"] == 0.596
     assert len(source["excerpt"]) == 300
 
 

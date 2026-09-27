@@ -13,7 +13,7 @@
 ├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF、提问、答案 + 来源出处）
 ├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）
 ├── agent/                # Mini Agent（规划中：loop.py / tools.py / schema.py / memory.py / context.py）
-├── evals/                # RAG / Mini Agent 评测集（规划中）
+├── evals/                # 检索评测：questions.json（8 问）+ metrics.py + chunk_size×k 网格实验
 └── tests/                # Mini Agent 测试（规划中）
 ```
 
@@ -45,10 +45,20 @@ pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
 pytest                         # 当前 27 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
 
+cd ../..                       # 示例与评测脚本在仓库根目录下运行
 python examples/rag_baseline_demo.py     # 内存版完整 RAG
 python examples/kb_persistent_demo.py    # 持久化版：首次建库，之后重启直接问
 
+cd apps/knowledge-rag
 PYTHONPATH=src uvicorn ragdemo.api:app --port 8001   # 知识库 HTTP 接口
+```
+
+检索评测（evals/，会真实调用百炼 embedding，约几十秒）：
+
+```bash
+pytest evals                       # 当前 8 passed（指标是纯函数，离线免费）
+python evals/retrieval_eval.py --chunk-sizes 500,1000,2000 --ks 4,8
+                                   # 结果写入 evals/results/{日期}-grid.{json,md}
 ```
 
 知识库网页（先启动上面的后端接口）：
@@ -78,8 +88,9 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
 - [x] 2. OpenAI → 百炼 Qwen：模型与端点全部环境变量化，真实问答联调成功
 - [x] 3. InMemoryVectorStore → 持久化向量库（Chroma 本地文件 + SHA-256 哈希去重，pytest 19 通过）
 - [x] 4. CLI → FastAPI + React 网页问答（上传 PDF、提问、Loading/错误态，浏览器端到端验证）
-- [x] 5. 答案附引用出处（文件名 + 页码 + 相似度 + 原文块，点击展开）
+- [x] 5. 答案附引用出处（文件名 + 页码 + 相关度 + 原文块，点击展开）
       · 进阶待做：答案句子与来源块逐句对应、点击跳到 PDF 具体位置
-- [ ] 6. evals/ 检索评测（Recall@K、命中率）
+- [x] 6. evals/ 检索评测：Hit@K / Recall@K / MRR / 关键词覆盖，chunk_size × k 网格实验
+      · 用数据把 k 从 4 调到 8；推荐默认 chunk 1000 + k=8（三项指标全 1.0）
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够

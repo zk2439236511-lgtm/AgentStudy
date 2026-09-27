@@ -58,7 +58,7 @@ export default function AskPanel() {
               <li key={index} className="kb-source">
                 <details>
                   <summary>
-                    来源：{source.filename} · 第 {source.page} 页 · 相似度 {source.score}
+                    来源：{source.filename} · 第 {source.page} 页 · 相关度 {source.relevance}
                   </summary>
                   <p className="kb-excerpt">{source.excerpt}</p>
                 </details>

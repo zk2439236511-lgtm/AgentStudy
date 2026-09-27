@@ -29,6 +29,8 @@ import os
 
 DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 DEFAULT_CHAT_MODEL = "qwen-plus"
+# 检索几条由 evals/ 的网格实验决定：k=8 的 Hit@K 与 Recall@K 全面优于 k=4
+DEFAULT_K = int(os.getenv("RAG_TOP_K", "8"))
 
 
 def _build_llm(model: str | None = None) -> ChatOpenAI:
@@ -61,7 +63,7 @@ def format_docs(docs: list) -> str:
 def create_rag_chain(
     vector_store: VectorStore,
     model: str | None = None,
-    k: int = 4,
+    k: int = DEFAULT_K,
 ):
     """
     Create a RAG chain using LCEL (LangChain Expression Language).
@@ -108,7 +110,7 @@ def create_rag_chain(
 def create_rag_chain_with_sources(
     vector_store: VectorStore,
     model: str | None = None,
-    k: int = 4,
+    k: int = DEFAULT_K,
 ):
     """
     Create a RAG chain that returns both the answer and retrieved documents.

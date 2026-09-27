@@ -472,3 +472,50 @@
 下一步：第 6 阶段——建 evals/questions.json 做检索评测（Hit Rate / Recall@K），并对比 chunk_size 与 k 的影响。做完 RAG 这条线就收口。
 
 对应提交：feat(rag): FastAPI 问答接口 + kb-web 网页（27 passed，浏览器端到端验证）
+
+#### 2026-09-27　知识库 RAG · 第 6 阶段：检索评测（把"感觉还行"换成数字）
+
+目标：前面几步的判断全靠"读一眼答案觉得对"。这一步建评测集，用指标决定 chunk_size 和 k，而不是拍脑袋。
+
+先弄清原理：检索是 RAG 的地基——正确的段落没被召回，模型再强也答不出（它只能看到我们递给它的那几块）。所以这一步**只评检索、不评生成**：变量少、跑得快、还不用花钱调生成模型。四个指标各回答一个问题：
+
+- Hit@K：前 K 块里"有没有"对的页（找没找到）
+- Recall@K：该找到的页"找全了没有"（漏了多少）
+- MRR：第一块对的证据排第几名（越靠前越好，喂进 prompt 的位置更前、更省 token）
+- 关键词覆盖：检索回来的文本里含不含答案关键词（上下文够不够答题）
+
+改动：
+
+1.evals/questions.json（8 问）：每问带 expected_pages（0 起）和 expected_keywords。**期望页码不是猜的**——先写探测脚本真实跑一遍检索，看命中哪几页，再人工核对论文原文定下来
+
+2.evals/metrics.py：四个纯函数 + evaluate() 汇总，不联网、不打模型，能被 pytest 完全覆盖
+
+3.evals/retrieval_eval.py：chunk_size(500/1000/2000) × k(4/8) 网格实验，每组建一个独立的内存向量库（不碰 data/chroma 里的持久索引），结果写进 evals/results/{日期}-grid.{json,md}
+
+4.按数据改配置：rag_chain.py 的 DEFAULT_K 从 4 改成 8，并加注释说明这个值来自网格实验
+
+5.顺手修掉一个真 bug：Chroma 返回的 score 是**距离**（越小越相关），InMemoryVectorStore 返回的是**相似度**（越大越相关），两个后端同名不同义。api.py 换算成 `relevance = 1/(1+distance)` 落到 0~1，前端标签由"相似度"改成"相关度"
+
+验证（物理证据）：
+
+1.pytest evals → 8 passed / 0.04s（纯函数，离线免费）
+
+2.pytest（apps/knowledge-rag）→ 27 passed, 5 skipped；test_api 的相关度断言同步改成 0.596
+
+3.真实网格评测 6 组跑完（结论写在 evals/results/2026-09-27-grid.md）：k=8 在三组 chunk_size 下的 Hit@K / Recall@K 全面 ≥ k=4；chunk 1000 + k=8 三项指标 1.0 且只有 52 块 → 定为推荐默认
+
+4.改完 k 重启服务，curl POST /kb/ask → HTTP 200，来源从 4 条变 8 条，页码 4/3/4/3/2/1/2/0、relevance 0.608→0.5 递减
+
+踩坑：
+
+1.页码口径：PyPDFLoader 的 metadata["page"] 从 **0** 开始。第一版 questions.json 我按"人翻 PDF 时看到的页码"写期望值，怎么算都不对。凡是可能有两套编号的地方（0 起 / 1 起），先探测再写断言，别凭直觉
+
+2.建库耗时不能当性能指标：27 块那组测出 16.4s，同规模另一组只有 1.46s——差的是网络抖动。真实的成本代理是「块数」，它决定 embedding 调用次数和索引大小
+
+3.样本太小就别过度解读：8 个问题意味着 1 个 case 就是 0.125 的差距，0.875 与 1.0 之间可能只差一道题。指标的作用是筛掉明显更差的配置，不是精调到小数点后三位
+
+4.k 从 4 到 8，MRR 却几乎没动（1000 组一直是 0.76）：MRR 只看第一块对证据排第几，扩大 K 不会让已经排在最前面的命中变得更靠前，只有"k=4 落空、k=8 在第 5~8 名捞回来"的用例才推高它。指标之间并不独立，不能当四个互不相关的信号读
+
+下一步：RAG 这条线收口。第三阶段 Mini Agent——把知识库注册成 `search_knowledge_base(query)` 工具，让模型自己决定"要不要查、查到的证据够不够"，那时才真正出现 Decide → Tool → Observe → Verify 的循环。
+
+对应提交：feat(rag): evals 检索评测 + chunk_size×k 网格实验（k 4→8，修 Chroma 距离当相似度）
