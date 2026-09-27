@@ -24,6 +24,21 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.vectorstores import VectorStore
 from langchain_openai import ChatOpenAI
+import os
+
+
+DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+DEFAULT_CHAT_MODEL = "qwen-plus"
+
+
+def _build_llm(model: str | None = None) -> ChatOpenAI:
+    """Build the chat model. Defaults to Bailian's qwen-plus via env override."""
+    return ChatOpenAI(
+        model=model or os.getenv("RAG_CHAT_MODEL", DEFAULT_CHAT_MODEL),
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("RAG_BASE_URL", DEFAULT_BASE_URL),
+        temperature=1,
+    )
 
 
 # RAG prompt template - instructs the model to answer based on context
@@ -45,7 +60,7 @@ def format_docs(docs: list) -> str:
 
 def create_rag_chain(
     vector_store: VectorStore,
-    model: str = "gpt-5-mini",
+    model: str | None = None,
     k: int = 4,
 ):
     """
@@ -73,7 +88,7 @@ def create_rag_chain(
     prompt = ChatPromptTemplate.from_template(RAG_TEMPLATE)
 
     # Create LLM (gpt-5 models only support temperature=1)
-    llm = ChatOpenAI(model=model, temperature=1)
+    llm = _build_llm(model)
 
     # Build the RAG chain using LCEL
     # The | operator chains components together
@@ -92,7 +107,7 @@ def create_rag_chain(
 
 def create_rag_chain_with_sources(
     vector_store: VectorStore,
-    model: str = "gpt-5-mini",
+    model: str | None = None,
     k: int = 4,
 ):
     """
@@ -110,7 +125,7 @@ def create_rag_chain_with_sources(
         Callable that returns {"answer": str, "source_documents": list[Document]}
     """
     prompt = ChatPromptTemplate.from_template(RAG_TEMPLATE)
-    llm = ChatOpenAI(model=model, temperature=1)
+    llm = _build_llm(model)
 
     def retrieve_with_scores(question: str) -> list[Document]:
         """Retrieve documents with similarity scores attached to metadata."""

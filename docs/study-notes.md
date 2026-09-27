@@ -366,3 +366,39 @@
 下一步：第 3 步前端接线——idea-web 调后端 expand，加 SSE 流式打字机效果 + Abort 中断。
 
 对应提交：feat(api): POST /ideas/{id}/expand 灵感展开（通义千问 qwen-plus，11 测试通过）
+
+#### 2026-09-27　知识库 RAG · 第 1-2 阶段：迁入 ragdemo 基线 + 换百炼 Qwen 真实跑通
+
+目标：按评估建议把主线从"堆功能"切到 RAG 核心工程——先跑通 kousen/ragdemo 的 Python 原版理解基线，再把模型供应商换成百炼。
+
+先弄清 RAG 是什么：让 AI 回答前先"查资料"。流水线五步——Load（PDF 抽文字）→ Chunk（切小块）→ Embed（把每块文字变成一串数字坐标，语义相近则坐标相近）→ Retrieve（拿问题的坐标去库里找最近的几块）→ Generate（把找到的原文块塞进提示词，让模型照着回答）。它和 Agent 的区别是：流程仍由我写死，模型不拿决定权。
+
+改动：
+
+1.原样迁入 apps/knowledge-rag（四个模块 + 测试 + MIT LICENSE + 出处说明），先不改一行代码，建立"基线"
+
+2.vector_store.py：模型名与端点改为环境变量驱动（RAG_EMBEDDING_MODEL / RAG_CHAT_MODEL / RAG_BASE_URL，默认百炼 compatible-mode + text-embedding-v4 + qwen-plus）；52 个块按每批 10 条分批入库
+
+3.rag_chain.py：抽出 _build_llm() 工厂，两处构造 LLM 统一走配置
+
+4.新增 examples/rag_baseline_demo.py：一条命令跑完整流水线，还能传自定义问题
+
+验证（物理证据）：
+
+1.基线 pytest → 14 passed, 5 skipped（跳过的是需要真实 OpenAI 的集成用例）
+
+2.换百炼后单测仍 14 passed——因为测试用 Mock 假模型，说明"换供应商"没有污染业务逻辑
+
+3.真实跑通：sample.pdf（Attention Is All You Need）15 页 → 切 52 块 → 全部向量化入库 → 问「What is multi-head attention?」→ 检索回 4 块（带页码 4/2/1 和相似度 0.677~0.733）→ qwen-plus 答出 h=8 个头、dk=dv=dmodel/h=64、拼接后再投影，全部来自原文而非编造
+
+踩坑：
+
+1.400 InternalError.Algo.InvalidParameter: contents is neither str nor list of str——LangChain 的 OpenAIEmbeddings 默认先把文本编码成 token 数字数组再发送，百炼只接受字符串。解法是 check_embedding_ctx_length=False。教训：所有"OpenAI 兼容"平台兼容的是接口形状，不等于兼容 LangChain 的私有优化路径
+
+2.百炼 embedding 单次请求最多 10 条，一次喂 52 条必炸，得自己分批（与 Java 版踩到同一个坑，这次是第二次遇到）
+
+3.向量库是 InMemoryVectorStore，程序一重启 52 个块全丢——这正是第 3 阶段要做持久化的原因
+
+下一步：第 3 阶段——换成 Chroma 持久化向量库，做到"索引建一次、重启还能问"。
+
+对应提交：feat(rag): 接入百炼 Qwen，RAG 流水线真实跑通（14 passed + 真实问答证据）
