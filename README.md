@@ -9,7 +9,8 @@
 ├── docs/study-notes.md   # 12 课课程笔记 + 实践日志（改动/验证/踩坑/下一步）
 ├── apps/idea-api/        # 灵感引擎后端：FastAPI + SQLite（待办 + 灵感接口 + 千问展开）
 ├── apps/idea-web/        # 灵感引擎前端：Vite + React 19（磨砂玻璃 Navbar、Loading 交互）
-├── apps/knowledge-rag/   # 知识库 RAG 基线：LangChain 四模块（Load→Chunk→Embed→Retrieve→Generate）
+├── apps/knowledge-rag/   # 知识库 RAG：LangChain 四模块 + Chroma 持久化 + FastAPI 问答接口
+├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF、提问、答案 + 来源出处）
 ├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）
 ├── agent/                # Mini Agent（规划中：loop.py / tools.py / schema.py / memory.py / context.py）
 ├── evals/                # RAG / Mini Agent 评测集（规划中）
@@ -42,10 +43,20 @@ npm run dev                    # http://127.0.0.1:5173
 cd apps/knowledge-rag
 pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
-pytest                         # 当前 19 passed, 5 skipped（集成用例需显式导出密钥）
+pytest                         # 当前 27 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
 
-python examples/rag_baseline_demo.py     # 在仓库根目录跑内存版完整 RAG
+python examples/rag_baseline_demo.py     # 内存版完整 RAG
 python examples/kb_persistent_demo.py    # 持久化版：首次建库，之后重启直接问
+
+PYTHONPATH=src uvicorn ragdemo.api:app --port 8001   # 知识库 HTTP 接口
+```
+
+知识库网页（先启动上面的后端接口）：
+
+```bash
+cd apps/kb-web
+npm install
+npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代理到 8001
 ```
 
 ## 学习记录方式
@@ -66,8 +77,9 @@ python examples/kb_persistent_demo.py    # 持久化版：首次建库，之后�
 - [x] 1. 原版 Python 跑通 + pytest（14 passed）
 - [x] 2. OpenAI → 百炼 Qwen：模型与端点全部环境变量化，真实问答联调成功
 - [x] 3. InMemoryVectorStore → 持久化向量库（Chroma 本地文件 + SHA-256 哈希去重，pytest 19 通过）
-- [ ] 4. CLI → FastAPI + React 网页问答
-- [ ] 5. 答案附引用出处（PDF 文件名 + 页码 + 原文块）
+- [x] 4. CLI → FastAPI + React 网页问答（上传 PDF、提问、Loading/错误态，浏览器端到端验证）
+- [x] 5. 答案附引用出处（文件名 + 页码 + 相似度 + 原文块，点击展开）
+      · 进阶待做：答案句子与来源块逐句对应、点击跳到 PDF 具体位置
 - [ ] 6. evals/ 检索评测（Recall@K、命中率）
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够

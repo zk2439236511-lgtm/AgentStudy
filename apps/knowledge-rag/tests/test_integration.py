@@ -1,4 +1,9 @@
-"""Integration tests requiring OPENAI_API_KEY."""
+"""Integration tests that call the real model.
+
+必须显式开启：RUN_INTEGRATION=1 pytest
+默认跳过——因为只要 .env 被加载过，OPENAI_API_KEY 就一直存在于环境里，
+光判断密钥会让"跑个单测"悄悄变成真金白银的调用。
+"""
 
 import os
 from pathlib import Path
@@ -6,10 +11,9 @@ from pathlib import Path
 import pytest
 
 
-# Skip all tests in this module if no API key
 pytestmark = pytest.mark.skipif(
-    not os.getenv("OPENAI_API_KEY"),
-    reason="OPENAI_API_KEY not set"
+    not os.getenv("RUN_INTEGRATION"),
+    reason="集成用例会真实调用模型，需显式设 RUN_INTEGRATION=1 才跑",
 )
 
 

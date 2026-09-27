@@ -17,6 +17,9 @@ dependencies = [
     "langchain-chroma>=0.2.0",
     "pypdf>=4.0.0",
     "python-dotenv>=1.0.0",
+    "python-multipart>=0.0.9",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
 ]
 
 [project.optional-dependencies]

@@ -438,3 +438,37 @@
 下一步：第 4 阶段——把 CLI 换成 FastAPI 接口 + React 网页问答，前端能上传 PDF、提问、看答案。
 
 对应提交：feat(rag): Chroma 持久化向量库 + SHA-256 内容去重（19 passed，重启免重嵌入）
+
+#### 2026-09-27　知识库 RAG · 第 4 阶段：FastAPI 接口 + React 问答页（顺带交付引用出处）
+
+目标：CLI 只能自己敲命令，这一步把知识库变成"网页能调用的服务"——上传 PDF、提问、看答案和出处。
+
+先弄清原理：HTTP 接口就是给后厨开一个"点菜窗口"。浏览器不会直接跑 Python，它发一个 POST /kb/ask 请求（里面是 JSON），后端算完再把 JSON 回给它。前端开发时只跟 5173 端口说话，`/kb` 开头的请求由 Vite 代理转发到后端 8001，这样不用处理跨域。
+
+改动：
+
+1.src/ragdemo/api.py（新）：GET /kb/status（几个文件几个向量）、GET /kb/documents（读登记表）、POST /kb/documents（上传 PDF → 落盘 → 走 ingest 增量入库）、POST /kb/ask（问题 → 答案 + 来源）。向量库用懒加载：启动服务不建索引，第一次提问才打开磁盘索引
+
+2.安全细节：上传文件名先过 `Path(file.filename).name`，只取文件名部分——挡掉 `../../etc/passwd.pdf` 这种带路径的文件名往上级目录写文件
+
+3.apps/kb-web（新前端）：状态徽章 + 上传区 + 提问区，Loading / 错误态齐全，答案下方列出「来源：sample.pdf · 第 4 页 · 相似度 0.645」，点击展开显示原文块；关键节点都带 data-testid 便于验证
+
+验证（物理证据）：
+
+1.pytest → 27 passed, 5 skipped，新增 8 条接口用例（假向量库 + 假 chain + 临时登记表 + 临时上传目录），默认跑法完全离线
+
+2.curl 真实打接口：GET /kb/status → {"files":1,"vectors":52}；POST /kb/ask → HTTP 200，答案 + 4 条来源（页码 3/4，相似度 0.645~0.805，各带 300 字原文摘录）
+
+3.浏览器端到端：页面显示"已入库 1 个文件 · 52 个向量块"（数据来自真实 SQLite 登记表 + Chroma 索引），输入问题点按钮 → 出答案 → 点开来源看到原文段落；控制台除 Vite/React 的开发提示外无任何报错
+
+踩坑：
+
+1.Form data requires "python-multipart"——FastAPI 接收文件上传要单独装这个包，光装 fastapi 不够
+
+2.最值钱的一个坑：api.py 在模块导入时执行 load_dotenv()，把密钥注进了环境变量。而 test_integration.py 的跳过条件是"没有 OPENAI_API_KEY 就跳过"，于是跑默认 pytest 时那 5 条集成用例**悄悄真的去调了千问**——47 秒、花真钱、还全过了。判断条件写错了：不该问"有没有密钥"，该问"我这次是否明确要跑集成测试"。改成 RUN_INTEGRATION=1 显式开关后回到 9 秒离线。教训：默认测试套件必须离线、免费、可重复，否则它会在别人机器上偷偷花钱
+
+3.测试里给登记表塞种子数据前，得先调 init_registry 建表，否则 no such table: documents
+
+下一步：第 6 阶段——建 evals/questions.json 做检索评测（Hit Rate / Recall@K），并对比 chunk_size 与 k 的影响。做完 RAG 这条线就收口。
+
+对应提交：feat(rag): FastAPI 问答接口 + kb-web 网页（27 passed，浏览器端到端验证）

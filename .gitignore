@@ -14,6 +14,9 @@ apps/knowledge-rag/data/
 node_modules/
 dist/
 
+# 运行期日志
+*.log
+
 # 环境变量与密钥（永远不进仓库）
 .env
 *.key
