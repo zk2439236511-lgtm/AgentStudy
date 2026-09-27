@@ -18,6 +18,17 @@ DEFAULT_EMBEDDING_MODEL = "text-embedding-v4"
 EMBEDDING_BATCH_SIZE = 10
 
 
+def create_embeddings(model: str | None = None) -> OpenAIEmbeddings:
+    """Build the embedding model; endpoint and name come from env vars."""
+    return OpenAIEmbeddings(
+        model=model or os.getenv("RAG_EMBEDDING_MODEL", DEFAULT_EMBEDDING_MODEL),
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("RAG_BASE_URL", DEFAULT_BASE_URL),
+        # LangChain 默认把文本编码成 token 数组发送，百炼只接受字符串，会报 400
+        check_embedding_ctx_length=False,
+    )
+
+
 def create_vector_store(
     chunks: list,
     model: str | None = None,
@@ -26,7 +37,7 @@ def create_vector_store(
     Create a vector store from document chunks.
 
     The InMemoryVectorStore is suitable for demos and small datasets.
-    For production, consider Chroma, PGVector, or Redis.
+    For persistence across restarts, see ingest.load_vector_store (Chroma).
 
     Args:
         chunks: List of Document objects to embed and store
@@ -35,13 +46,7 @@ def create_vector_store(
     Returns:
         Populated InMemoryVectorStore
     """
-    embeddings = OpenAIEmbeddings(
-        model=model or os.getenv("RAG_EMBEDDING_MODEL", DEFAULT_EMBEDDING_MODEL),
-        api_key=os.getenv("OPENAI_API_KEY"),
-        base_url=os.getenv("RAG_BASE_URL", DEFAULT_BASE_URL),
-        # LangChain 默认把文本编码成 token 数组发送，百炼只接受字符串，会报 400
-        check_embedding_ctx_length=False,
-    )
+    embeddings = create_embeddings(model)
 
     vector_store = InMemoryVectorStore(embedding=embeddings)
     for start in range(0, len(chunks), EMBEDDING_BATCH_SIZE):

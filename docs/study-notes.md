@@ -402,3 +402,39 @@
 下一步：第 3 阶段——换成 Chroma 持久化向量库，做到"索引建一次、重启还能问"。
 
 对应提交：feat(rag): 接入百炼 Qwen，RAG 流水线真实跑通（14 passed + 真实问答证据）
+
+#### 2026-09-27　知识库 RAG · 第 3 阶段：持久化向量库（Chroma）+ 内容哈希去重
+
+目标：解决"每次启动都要重新 embedding、程序一关索引全丢"——做到索引建一次、重启还能问。
+
+先弄清原理：向量库本质是一张"内容地图"，把每块文字算成一串坐标存起来。内存版（InMemoryVectorStore）这张地图只画在运行时内存里，进程结束就蒸发，下次启动得把 52 块重新算一遍坐标（花钱花时间）。持久化就是**把算好的地图存成磁盘文件**，下次直接读文件，不再重算。配套还要解决"哪些文件已经算过"——用文件内容算 SHA-256 指纹存进登记表，指纹没变就跳过。
+
+改动：
+
+1.src/ragdemo/ingest.py（新模块，原 vector_store.py 保留不动，基线仍可复现）：init_registry 建 documents 表（filename 主键 / hash / chunks / ingested_at）、file_sha256 分块读文件算指纹、ingest_directory 只处理新增或内容变化的 PDF、load_vector_store 直接打开磁盘索引
+
+2.重新入库某个文件前先 store.delete(where={"source": filename}) 清掉它的旧向量，否则同一文件的旧新版本会混在检索结果里
+
+3.vector_store.py 抽出 create_embeddings() 工厂，内存版与持久化版共用同一套百炼配置（含 check_embedding_ctx_length=False 与每批 10 条）
+
+4.examples/kb_persistent_demo.py：打印入库耗时、新处理/跳过文件数、磁盘向量总数，然后问答
+
+验证（物理证据）：
+
+1.pytest → 19 passed, 5 skipped（新增 5 条去重逻辑用例，全部用假向量库 + tmp_path，不建库不联网）
+
+2.第一次运行：解析 15 页 → 52 块 → 入库耗时 5.06s，磁盘生成 1.5MB 的 chroma.sqlite3
+
+3.换一个新进程第二次运行：输出「Skip sample.pdf: 内容未变，沿用磁盘上的索引」、入库耗时 0.00s、磁盘索引仍是 52 个向量，**换问「What is the Transformer architecture?」照样答对并给出页码出处**——这就是"建一次、重启还能问"
+
+4.登记表实查：('sample.pdf', 'bdfaa68d8984f0dc…', 52, '2026-09-27 10:34:24')
+
+踩坑：
+
+1.测试断言写错而非代码错：假向量库是有状态的，跨两次运行累计记录，我用绝对值断言 store.deleted == [] 必然失败。教训：写断言前先想清楚替身会不会累积，该断言"增量"而不是"总量"
+
+2.Chroma 索引和 registry.db 都是本地生成物，必须进 .gitignore（否则仓库里塞一堆二进制，别人 clone 下来还是错的索引）
+
+下一步：第 4 阶段——把 CLI 换成 FastAPI 接口 + React 网页问答，前端能上传 PDF、提问、看答案。
+
+对应提交：feat(rag): Chroma 持久化向量库 + SHA-256 内容去重（19 passed，重启免重嵌入）

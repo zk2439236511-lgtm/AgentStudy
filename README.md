@@ -42,9 +42,10 @@ npm run dev                    # http://127.0.0.1:5173
 cd apps/knowledge-rag
 pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
-pytest                         # 当前 14 passed, 5 skipped（集成用例需显式导出密钥）
+pytest                         # 当前 19 passed, 5 skipped（集成用例需显式导出密钥）
 
-python examples/rag_baseline_demo.py        # 在仓库根目录跑完整 RAG 问答
+python examples/rag_baseline_demo.py     # 在仓库根目录跑内存版完整 RAG
+python examples/kb_persistent_demo.py    # 持久化版：首次建库，之后重启直接问
 ```
 
 ## 学习记录方式
@@ -64,7 +65,7 @@ python examples/rag_baseline_demo.py        # 在仓库根目录跑完整 RAG �
 
 - [x] 1. 原版 Python 跑通 + pytest（14 passed）
 - [x] 2. OpenAI → 百炼 Qwen：模型与端点全部环境变量化，真实问答联调成功
-- [ ] 3. InMemoryVectorStore → 持久化向量库（Chroma / pgvector）
+- [x] 3. InMemoryVectorStore → 持久化向量库（Chroma 本地文件 + SHA-256 哈希去重，pytest 19 通过）
 - [ ] 4. CLI → FastAPI + React 网页问答
 - [ ] 5. 答案附引用出处（PDF 文件名 + 页码 + 原文块）
 - [ ] 6. evals/ 检索评测（Recall@K、命中率）

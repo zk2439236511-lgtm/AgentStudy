@@ -7,6 +7,9 @@ __pycache__/
 # SQLite 运行时数据库（首次运行会自动重建）
 *.db
 
+# Chroma 持久化向量索引（本地生成，可由 ingest 重建）
+apps/knowledge-rag/data/
+
 # Node / 前端
 node_modules/
 dist/
