@@ -94,7 +94,7 @@ def test_upload_pdf_saves_file_and_triggers_ingest(monkeypatch, tmp_path):
 
     def fake_ingest(docs_dir, conn, persist_directory, **kwargs):
         calls["docs_dir"] = Path(docs_dir)
-        return {"ingested": ["new.pdf"], "skipped": [], "chunks_added": 7}
+        return {"ingested": ["new.pdf"], "skipped": [], "empty": [], "chunks_added": 7}
 
     monkeypatch.setattr(api, "ingest_directory", fake_ingest)
 
@@ -107,17 +107,35 @@ def test_upload_pdf_saves_file_and_triggers_ingest(monkeypatch, tmp_path):
         "filename": "new.pdf",
         "ingested": True,
         "skipped": False,
+        "empty": False,
         "chunks_added": 7,
     }
     # 文件真的落到 documents 目录里了，不是只回了个成功
     assert (api.DOCS_DIR / "new.pdf").read_bytes() == b"%PDF-1.4 fake"
 
 
+def test_upload_scanned_pdf_is_reported_as_empty(monkeypatch):
+    """一个字都没抽出来时不能伪装成入库成功。"""
+    monkeypatch.setattr(
+        api,
+        "ingest_directory",
+        lambda *a, **k: {"ingested": ["scan.pdf"], "skipped": [], "empty": ["scan.pdf"], "chunks_added": 0},
+    )
+
+    response = client.post(
+        "/kb/documents", files={"file": ("scan.pdf", b"%PDF-1.4 scanned", "application/pdf")}
+    )
+
+    assert response.status_code == 201
+    assert response.json()["empty"] is True
+    assert response.json()["chunks_added"] == 0
+
+
 def test_upload_strips_directory_from_filename(monkeypatch):
     monkeypatch.setattr(
         api,
         "ingest_directory",
-        lambda *a, **k: {"ingested": [], "skipped": ["passwd.pdf"], "chunks_added": 0},
+        lambda *a, **k: {"ingested": [], "skipped": ["passwd.pdf"], "empty": [], "chunks_added": 0},
     )
     response = client.post(
         "/kb/documents",
@@ -140,8 +158,8 @@ def test_ask_returns_answer_with_sources(monkeypatch):
     source = data["sources"][0]
     assert source["filename"] == "sample.pdf"
     assert source["page"] == 3
-    # 距离 0.6789 换算成相关度：1 / (1 + 0.6789)
-    assert source["relevance"] == 0.596
+    # 接口原样透出 Chroma 的向量距离，不做单调变换包装
+    assert source["distance"] == 0.679
     assert len(source["excerpt"]) == 300
 
 

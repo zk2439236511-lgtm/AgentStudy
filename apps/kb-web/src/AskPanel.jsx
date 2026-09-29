@@ -58,7 +58,8 @@ export default function AskPanel() {
               <li key={index} className="kb-source">
                 <details>
                   <summary>
-                    来源：{source.filename} · 第 {source.page} 页 · 相关度 {source.relevance}
+                    {/* 接口里的 page 是 PyPDFLoader 的 0-based 页号，给人看要 +1 */}
+                    来源：{source.filename} · 第 {source.page + 1} 页 · 距离 {source.distance}（越小越相关）
                   </summary>
                   <p className="kb-excerpt">{source.excerpt}</p>
                 </details>

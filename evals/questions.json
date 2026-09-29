@@ -2,49 +2,121 @@
   {
     "id": "multi_head_attention",
     "question": "What is multi-head attention?",
-    "expected_pages": [2, 3, 4],
-    "expected_keywords": ["multi-head", "heads", "concatenated", "subspaces"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      2,
+      3,
+      4
+    ],
+    "expected_keywords": [
+      "multi-head",
+      "heads",
+      "concatenated",
+      "subspaces"
+    ]
   },
   {
     "id": "self_attention",
     "question": "How does self-attention work?",
-    "expected_pages": [2, 3, 4],
-    "expected_keywords": ["self-attention", "sequence", "positions", "query"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      2,
+      3,
+      4
+    ],
+    "expected_keywords": [
+      "self-attention",
+      "sequence",
+      "positions",
+      "query"
+    ]
   },
   {
     "id": "scaled_dot_product",
     "question": "What is the scaled dot-product attention formula?",
-    "expected_pages": [2, 3],
-    "expected_keywords": ["softmax", "scale", "dot product", "dk"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      2,
+      3
+    ],
+    "expected_keywords": [
+      "softmax",
+      "scale",
+      "dot product",
+      "dk"
+    ]
   },
   {
     "id": "positional_encoding",
     "question": "What is positional encoding?",
-    "expected_pages": [5],
-    "expected_keywords": ["positional encoding", "sinusoid", "PE", "sequence"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      5
+    ],
+    "expected_keywords": [
+      "positional encoding",
+      "sinusoid",
+      "PE",
+      "sequence"
+    ]
   },
   {
     "id": "encoder_decoder_architecture",
     "question": "Describe the Transformer encoder-decoder architecture.",
-    "expected_pages": [1, 2],
-    "expected_keywords": ["encoder", "decoder", "stacked", "layer"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      1,
+      2
+    ],
+    "expected_keywords": [
+      "encoder",
+      "decoder",
+      "stacked",
+      "layer"
+    ]
   },
   {
     "id": "training_hardware",
     "question": "What hardware was used for training?",
-    "expected_pages": [6],
-    "expected_keywords": ["NVIDIA", "P100", "GPUs", "machine"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      6
+    ],
+    "expected_keywords": [
+      "NVIDIA",
+      "P100",
+      "GPUs",
+      "machine"
+    ]
   },
   {
     "id": "translation_datasets",
     "question": "What datasets were used for machine translation experiments?",
-    "expected_pages": [7, 8],
-    "expected_keywords": ["WMT", "2014", "sentence pairs", "Penn Treebank"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      7,
+      8
+    ],
+    "expected_keywords": [
+      "WMT",
+      "2014",
+      "sentence pairs",
+      "Penn Treebank"
+    ]
   },
   {
     "id": "key_contributions",
     "question": "What are the key contributions of the Transformer paper?",
-    "expected_pages": [0, 1],
-    "expected_keywords": ["Transformer", "recurrence", "attention", "parallel"]
+    "page_provenance": "retrieval_probe_then_read",
+    "expected_pages": [
+      0,
+      1
+    ],
+    "expected_keywords": [
+      "Transformer",
+      "recurrence",
+      "attention",
+      "parallel"
+    ]
   }
 ]

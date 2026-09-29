@@ -86,6 +86,8 @@ async def upload_document(file: UploadFile = File(...)):
         "filename": safe_name,
         "ingested": safe_name in result["ingested"],
         "skipped": safe_name in result["skipped"],
+        # empty=True 表示这个 PDF 一个字都没抽出来（常见于扫描件），别当成入库成功
+        "empty": safe_name in result["empty"],
         "chunks_added": result["chunks_added"],
     }
 
@@ -101,8 +103,9 @@ def ask(payload: AskRequest):
         {
             "filename": doc.metadata.get("source"),
             "page": doc.metadata.get("page"),
-            # Chroma 返回的 score 是距离（越小越相关），换算成 0~1 的相关度才好读
-            "relevance": round(1 / (1 + float(doc.metadata.get("score", 1))), 3),
+            # Chroma 的 score 是向量距离（越小越相关）。这里不做任何包装：
+            # 1/(1+d) 之类只是单调变换，没有校准过，不该对外称作"相关度"
+            "distance": round(float(doc.metadata.get("score", -1)), 3),
             "excerpt": doc.page_content[:300],
         }
         for doc in result["source_documents"]

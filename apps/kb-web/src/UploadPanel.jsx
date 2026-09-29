@@ -25,9 +25,11 @@ export default function UploadPanel({ onIngested }) {
       if (!response.ok) throw new Error(data.detail || `HTTP ${response.status}`);
 
       setMessage(
-        data.skipped
-          ? `${data.filename} 内容没变，沿用已有索引（没花钱重新嵌入）`
-          : `${data.filename} 已入库，新增 ${data.chunks_added} 个向量块`,
+        data.empty
+          ? `${data.filename} 没抽出任何文字（可能是扫描件），没有入库`
+          : data.skipped
+            ? `${data.filename} 内容没变，沿用已有索引（没花钱重新嵌入）`
+            : `${data.filename} 已入库，新增 ${data.chunks_added} 个向量块`,
       );
       inputRef.current.value = '';
       onIngested();

@@ -123,3 +123,17 @@ def test_same_bytes_same_hash_different_bytes_different_hash(tmp_path):
 
     b.write_bytes(b"changed")
     assert ingest.file_sha256(a) != ingest.file_sha256(b)
+
+
+def test_pdf_without_text_is_flagged_empty_and_not_registered(wired, fake_pdf, tmp_path, monkeypatch):
+    """扫描件一个文字都抽不出来：必须进 empty，且不写库、不进登记表。"""
+    store, conn = wired
+    monkeypatch.setattr(ingest, "load_and_chunk_pdf", lambda path, *a, **k: [])
+
+    result = run_ingest(fake_pdf, conn, tmp_path)
+
+    assert result["empty"] == ["fake.pdf"]
+    assert result["ingested"] == []
+    assert result["chunks_added"] == 0
+    assert store.added == []
+    assert conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0] == 0

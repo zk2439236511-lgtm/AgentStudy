@@ -83,7 +83,7 @@ def ingest_directory(
     A file is skipped when its SHA-256 matches the registry, so its existing
     vectors are reused instead of being paid for again.
     """
-    result = {"ingested": [], "skipped": [], "chunks_added": 0}
+    result = {"ingested": [], "skipped": [], "empty": [], "chunks_added": 0}
     store = None
 
     for pdf_path in sorted(Path(docs_dir).glob("*.pdf")):
@@ -99,6 +99,11 @@ def ingest_directory(
             store = load_vector_store(persist_directory, create_embeddings())
 
         chunks = load_and_chunk_pdf(pdf_path, chunk_size, chunk_overlap)
+        if not chunks:
+            # 扫描件 PDF 抽不出文字，入库 0 块会伪装成成功，必须显式告警
+            result["empty"].append(filename)
+            print(f"Warn {filename}: 没有抽出任何文字，跳过入库（可能是扫描件）")
+            continue
         # 文件内容变了：先删掉它的旧向量，避免新旧版本混在检索结果里
         store.delete(where={"source": filename})
         for start in range(0, len(chunks), EMBEDDING_BATCH_SIZE):

@@ -91,6 +91,7 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
 - [x] 5. 答案附引用出处（文件名 + 页码 + 相关度 + 原文块，点击展开）
       · 进阶待做：答案句子与来源块逐句对应、点击跳到 PDF 具体位置
 - [x] 6. evals/ 检索评测：Hit@K / Recall@K / MRR / 关键词覆盖，chunk_size × k 网格实验
-      · 用数据把 k 从 4 调到 8；推荐默认 chunk 1000 + k=8（三项指标全 1.0）
+      · 已把结论降级到数据能支撑的范围（k 增大天然抬高 Hit/Recall），并标注题源泄漏
+      · 待补：Precision@K、nDCG、答案层 Correctness / Faithfulness、拒答正确率
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够
