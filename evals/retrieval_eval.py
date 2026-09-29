@@ -69,12 +69,13 @@ def run_config(questions: list[dict], chunk_size: int, k: int) -> dict:
 
 def to_markdown(rows: list[dict]) -> str:
     header = (
-        "| chunk_size | k | 块数 | 建库耗时(s) | Hit@K | Recall@K | MRR | 关键词覆盖 |\n"
-        "|---|---|---|---|---|---|---|---|\n"
+        "| chunk_size | k | 块数 | 建库耗时(s) | Hit@K | Recall@K | Precision@K | nDCG@K | MRR | 关键词覆盖 |\n"
+        "|---|---|---|---|---|---|---|---|---|---|\n"
     )
     body = "".join(
         f"| {r['chunk_size']} | {r['k']} | {r['chunks']} | {r['build_seconds']} "
-        f"| {r['hit_rate']} | {r['recall']} | {r['mrr']} | {r['keyword_coverage']} |\n"
+        f"| {r['hit_rate']} | {r['recall']} | {r['precision']} | {r['ndcg']} "
+        f"| {r['mrr']} | {r['keyword_coverage']} |\n"
         for r in rows
     )
     return header + body

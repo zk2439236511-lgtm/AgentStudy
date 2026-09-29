@@ -3,12 +3,23 @@
 这些数字都是能手算验证的——评测脚本本身也得有人评测它。
 """
 
+import math
 import sys
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from metrics import evaluate, first_hit_rank, hit_rate, keyword_coverage, recall
+from metrics import (
+    evaluate,
+    first_hit_rank,
+    hit_rate,
+    keyword_coverage,
+    ndcg,
+    precision,
+    recall,
+)
 
 
 def test_first_hit_rank_counts_from_one():
@@ -73,6 +84,11 @@ def test_evaluate_aggregates_over_cases():
     assert result["n"] == 3
     assert result["hit_rate"] == round(2 / 3, 3)
     assert result["recall"] == round((1.0 + 0.5 + 0.0) / 3, 3)
+    # 三例的 precision：1/1、1/2、0/2
+    assert result["precision"] == round((1.0 + 0.5 + 0.0) / 3, 3)
+    # 三例的 nDCG：1.0、(1/log2(3))/(1+1/log2(3))=0.38685、0.0
+    second = (1 / math.log2(3)) / (1 + 1 / math.log2(3))
+    assert result["ndcg"] == round((1.0 + second + 0.0) / 3, 3)
     assert result["mrr"] == round((1.0 + 0.5 + 0.0) / 3, 3)
     assert result["keyword_coverage"] == round((1.0 + 0.5 + 0.0) / 3, 3)
 
@@ -82,6 +98,40 @@ def test_evaluate_on_empty_case_list():
         "n": 0,
         "hit_rate": 0.0,
         "recall": 0.0,
+        "precision": 0.0,
+        "ndcg": 0.0,
         "mrr": 0.0,
         "keyword_coverage": 0.0,
     }
+
+
+def test_precision_counts_every_retrieved_slot():
+    """4 个结果里只有 1 个对，就是 0.25——这就是调大 K 的代价。"""
+    assert precision([1, 2, 3, 4], [3]) == 0.25
+
+
+def test_precision_does_not_credit_duplicate_hits():
+    assert precision([3, 3, 3], [3]) == 1 / 3
+
+
+def test_ndcg_rewards_putting_the_hit_first():
+    assert ndcg([3, 1, 2], [3]) == 1.0
+    # 对的那篇排在第 3 位：折扣 1/log2(3+1) = 0.5，理想分母是 1/log2(2) = 1
+    assert ndcg([1, 2, 3], [3]) == pytest.approx(0.5)
+    assert ndcg([1, 2, 3], [3]) < ndcg([3, 1, 2], [3])
+
+
+def test_ndcg_does_not_double_count_the_same_document():
+    """同一篇重复命中只在第一次计分，所以 [3,9,3] 满分、[3,3,9] 不满分。"""
+    assert ndcg([3, 9, 3], [3, 9]) == 1.0
+    dcg = 1 / math.log2(2) + 0 / math.log2(3) + 1 / math.log2(4)
+    idcg = 1 / math.log2(2) + 1 / math.log2(3)
+    assert ndcg([3, 3, 9], [3, 9]) == pytest.approx(dcg / idcg)
+
+
+def test_precision_and_ndcg_are_undefined_without_relevant_docs():
+    """不可回答的负样本没有"相关文档"，这两个指标必须拒绝计算而不是悄悄给 0。"""
+    with pytest.raises(ValueError):
+        precision([1, 2], [])
+    with pytest.raises(ValueError):
+        ndcg([1, 2], [])

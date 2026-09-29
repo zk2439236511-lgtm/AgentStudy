@@ -595,3 +595,41 @@
 下一步：③ CMRC2018 抽 100 段 context / 200 问 + 30 道 unanswerable 做外部金标集，把 `expected_pages` 从"我自己检索出来的页"换成"数据集给的 span"，顺带解掉数据泄漏。
 
 对应提交：feat(rag): 知识库支持 txt/md（中文句末切块 + 每请求一个 sqlite 连接）
+
+#### 2026-09-29　外部金标集 CMRC2018：数据泄漏解掉了，但这份数据在检索层已经"饱和"
+
+背景：补课路线第 2、3 步。自造题的 `expected_pages` 是我自己盯着 PDF 挑页挑出来的，题和语料同源，之前 Hit@K=1.0 里有一半是"自己出题自己答"的功劳——外部评审点的"数据泄漏"正是这个。要判检索到底行不行，得换成人工标注的外部金标题集。
+
+改动：
+
+1.**抽取器** `evals/datasets/build_cmrc_golden.py`：从 CMRC2018 dev（848 段）按 context_id 排序、固定 seed 抽 100 段 / 200 问，再从"没入库"的段落里取 30 道题当负样本。产物 `corpus.jsonl` / `golden.jsonl` / `MANIFEST.json`（源 URL、license CC BY-SA 4.0、原始文件与产物的 sha256、抽样参数、caveats 全写进去）。原始 json 走 `.gitignore`，别人按 MANIFEST 自行下载重建。
+
+2.**负样本只能自己造，而且必须标注来源**：CMRC2018 公开的 dev / trial / test 三个 split 都没有原生 unanswerable 题。这 30 道是"问题来自真人标注、但其所属段落被排除在语料外"的构造式负样本（absent-context negatives），provenance 分别记 `cmrc2018_dev_human_annotated` 和 `constructed_absent_context`，不能含糊成"数据集原生就有不会答的题"。
+
+3.**指标补 Precision@K、nDCG@K**（`evals/metrics.py`）：nDCG 按二值相关性算，位置 i 的折扣是 1/log2(i+1)，同一篇重复命中只在第一次计分；`evaluate()` 里没有 gold 时会抛错，负样本不进这条路径，单独统计。
+
+4.**评测脚本** `evals/cmrc_retrieval_eval.py`：只给金标集建独立的内存索引，不进 `docs/`、不碰线上 Chroma；外层按 chunk_size 建库一次、内层只换 k（第一版写成每个 k 重建一次，等于同一批文本重复付 embedding）；除检索指标外还输出可回答题与负样本的 top1 相似度分布 + 阈值扫描。
+
+验证（与证据）：
+
+1.pytest：`evals` **24 passed**（原 8：+11 金标集构建用例、+5 precision/ndcg 用例），`apps/knowledge-rag` **38 passed, 5 skipped**。指标与抽取器全部离线跑，不打 API。
+
+2.真实评测 4 组配置（chunk_size 0 / 500 × k 4 / 8，两个索引共 242 块、25 次 embedding 请求，建库 5.0s / 5.3s）：Hit@K、Recall@K、答案在上下文率**全是 1.0**；Precision@K 0.25 / 0.125，nDCG@K 0.994，MRR 0.993。结果在 `evals/results/2026-09-29-cmrc.{json,md}`。
+
+3.真正有区分度的是相似度分布：可回答题 top1 相似度中位 0.7477（p25 0.6864、min 0.3912），构造负样本中位 0.3976（p75 0.4594、max 0.7885）。阈值扫描（chunk_size=0 组）：t=0.5 拒 24/30 负样本、误伤 3/200 可回答题；t=0.6 拒 27/30、误伤 19/200；t=0.7 拒 28/30、误伤 62/200。→ 这就是第 4 步阈值拒答的选点依据，不再是拍脑袋定距离阈值。
+
+踩坑：
+
+1.**CMRC 公开数据里有 27 道题的答案被 Excel 改坏了**：日期成了序列号（39764.0）、"147位"成了 147.0。抽取器第一次跑直接 `AttributeError: 'float' object has no attribute 'strip'`。可用的判据改成"每个答案必须是 str、且是原文里真实存在的字面 span"，含脏答案的段落整体排除（848 段里剩 683 段可用），数量记进 MANIFEST 的 `dirty_answer_items`。
+
+2.**Precision@K 在单 gold 数据下天花板恒等于 1/K**：每题只有一个正确段落，k=4 时最高就是 0.25。我第一版把 0.25 / 0.125 读成"精度不行"，那其实是恒等式，不携带任何质量信息。要让 Precision 有意义，得换带 qrels（每题多个相关性分级）的数据集，比如 DuRetrieval。
+
+3.**两组配置的指标一模一样，先怀疑脚本再下结论**：逐题比对发现 gold_rank 全同、但 200 道题里有 96 道的 top1 相似度不同、30 个负样本的分数也逐题不同——确认不是"k 没生效"的 bug，而是这份数据在检索层真的饱和了：100 段互不相干，干扰项太弱。结论要跟着改口：这份金标集**不能用来判 chunk_size 的优劣**，只能判"能不能找回来"和"查不到时能不能识别"。
+
+4.**分数口径不能混**：`InMemoryVectorStore.similarity_search_with_score` 给的是余弦相似度（越大越相关），线上 kb-web 的 Chroma 给的是距离（越小越相关）。刚才扫出来的 0.5 这条线搬到 Chroma 上完全是另一回事，第 4 步做阈值拒答时得在线上那套口径下重扫一遍。
+
+5.chunk_size=500 在中文段落上会切出碎尾块：142 块里有 7 块 ≤50 字、最短 33 字，overlap=0 时这种块基本没有上下文。上次"按句末下刀"解决的是切点自然，不解决短尾块——分块质量的判据得另加一条"块长分布"。
+
+下一步：④ 阈值拒答 + rerank 的单变量实验（相似度阈值先在 0.5~0.6 区间试，用 Chroma 口径重扫）；答案层补 EM/F1、简化 Faithfulness、拒答正确率。真要判 chunk_size，语料得扩到 300~800 段或者换带 qrels 的数据集。
+
+对应提交：feat(evals): CMRC2018 外部金标集 + Precision@K / nDCG@K 分层指标

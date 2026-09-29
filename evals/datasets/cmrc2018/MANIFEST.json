@@ -1,0 +1,41 @@
+{
+  "source": {
+    "name": "CMRC2018 (cmrc2018_dev)",
+    "repo": "https://github.com/ymcui/cmrc2018",
+    "url": "https://raw.githubusercontent.com/ymcui/cmrc2018/master/data/cmrc2018_dev.json",
+    "license": "CC BY-SA 4.0",
+    "sha256": "5cfe4414c28a8ecbb51670f78c0dc7d1049f286c2d5769b52f1f94bcc0752cf1"
+  },
+  "raw_file": "cmrc2018_dev.json",
+  "raw_sha256": "5cfe4414c28a8ecbb51670f78c0dc7d1049f286c2d5769b52f1f94bcc0752cf1",
+  "params": {
+    "seed": 20260929,
+    "n_contexts": 100,
+    "q_per_context": 2,
+    "n_unanswerable": 30
+  },
+  "stats": {
+    "paragraphs_in_split": 848,
+    "dirty_answer_items": 27,
+    "eligible_paragraphs": 683,
+    "corpus_docs": 100,
+    "dropped_duplicate_texts": 0,
+    "answerable_questions": 200,
+    "unanswerable_questions": 30,
+    "dropped_leaking_negatives": 1
+  },
+  "counts": {
+    "corpus": 100,
+    "golden": 230
+  },
+  "artifacts": {
+    "corpus.jsonl": "d1c7236010f1a7b0b5405d8b576c3cdb641b1bb360ffbb836d598f044e1a7de8",
+    "golden.jsonl": "eb4b373e5a7e92853dab175e06a43906d753ee25a1e693ddd950459739db0e71"
+  },
+  "built_at": "2026-09-29T07:55:45+00:00",
+  "caveats": [
+    "CMRC2018 公开数据不含 unanswerable 题；answerable=false 的 30 道是构造的（问题为真人标注，但其所属段落被排除在语料外），不是数据集原生负样本",
+    "gold_doc_ids 只标了标注来源段落；同一段答案字面出现在其他段落时不会追加 gold，构造负样本阶段已用答案字面泄漏检查过滤，可回答题未做该检查",
+    "有 27 道题的某个答案是 Excel 化的非字符串值（日期成序列号、数字丢单位），其所在段落整体排除在抽样池之外"
+  ]
+}

@@ -10,6 +10,9 @@ __pycache__/
 # Chroma 持久化向量索引（本地生成，可由 ingest 重建）
 apps/knowledge-rag/data/
 
+# 第三方原始语料（体积大且可由 evals/datasets/*/MANIFEST.json 里的 URL + sha256 重新下载）
+evals/datasets/raw/
+
 # Node / 前端
 node_modules/
 dist/

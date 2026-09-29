@@ -1,0 +1,230 @@
+{"question_id": "DEV_1646_QUERY_1", "question": "哪一因素决定游离能力？", "answerable": true, "gold_doc_ids": ["DEV_1646"], "gold_answers": ["射线（粒子或波）所带的能量"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_378_QUERY_0", "question": "香港冠军暨遮打杯是什么赛事的锦标赛？", "answerable": true, "gold_doc_ids": ["DEV_378"], "gold_answers": ["赛马"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_257_QUERY_1", "question": "邵伯温是在什么时候去世?", "answerable": true, "gold_doc_ids": ["DEV_257"], "gold_answers": ["高宗绍兴四年（1134年）"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_252_QUERY_1", "question": "嘉诺撒圣家学校的现任校长名字是什么？", "answerable": true, "gold_doc_ids": ["DEV_252"], "gold_answers": ["何佩芳"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_180_QUERY_0", "question": "赫哲语在什么地方比较通行？", "answerable": true, "gold_doc_ids": ["DEV_180"], "gold_answers": ["中国和俄罗斯接壤的黑龙江、松花江和乌苏里江流域一带", "中国和俄罗斯接壤的黑龙江、松花江和乌苏里江流域一带。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1156_QUERY_1", "question": "大雄宝殿实际上是佛寺的什么地方？", "answerable": true, "gold_doc_ids": ["DEV_1156"], "gold_answers": ["主殿"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_483_QUERY_1", "question": "毕加索的作品曾受到哪位好友自杀的影响？", "answerable": true, "gold_doc_ids": ["DEV_483"], "gold_answers": ["卡洛斯·卡萨吉马斯"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_157_QUERY_0", "question": "黄鳍雀鲷的俗名叫什么？", "answerable": true, "gold_doc_ids": ["DEV_157"], "gold_answers": ["菲律宾雀鲷"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_543_QUERY_1", "question": "《三遂平妖传》的作者是谁？", "answerable": true, "gold_doc_ids": ["DEV_543"], "gold_answers": ["罗贯中"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1175_QUERY_0", "question": "高氏前肛鳗属于什么科？", "answerable": true, "gold_doc_ids": ["DEV_1175"], "gold_answers": ["辐鳍鱼纲鳗鲡目糯鳗亚目通鳃鳗科", "通鳃鳗科"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_629_QUERY_0", "question": "装配线还可以叫什么？", "answerable": true, "gold_doc_ids": ["DEV_629"], "gold_answers": ["生产线"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_135_QUERY_0", "question": "杨群是哪里人？", "answerable": true, "gold_doc_ids": ["DEV_135"], "gold_answers": ["哈尔滨", "哈尔滨人"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1012_QUERY_1", "question": "格利泽518b的质量至少是地球的多少倍？", "answerable": true, "gold_doc_ids": ["DEV_1012"], "gold_answers": ["90倍"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_172_QUERY_1", "question": "皇后全氏是谁的妻子？", "answerable": true, "gold_doc_ids": ["DEV_172"], "gold_answers": ["孙亮"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_157_QUERY_1", "question": "黄鳍雀鲷分布于什么海域？", "answerable": true, "gold_doc_ids": ["DEV_157"], "gold_answers": ["印度西太平洋区"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_417_QUERY_1", "question": "谁演唱了《金刀情侠》的主题曲？", "answerable": true, "gold_doc_ids": ["DEV_417"], "gold_answers": ["黄韵诗"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_50_QUERY_1", "question": "文周王是哪年到哪年在位？", "answerable": true, "gold_doc_ids": ["DEV_50"], "gold_answers": ["475年至477年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_47_QUERY_1", "question": "底特律第二浸信会是由谁成立的？", "answerable": true, "gold_doc_ids": ["DEV_47"], "gold_answers": ["由于受歧视而离开第一浸信会的3名前奴隶", "第一浸信会的3名前奴隶"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_388_QUERY_0", "question": "田泽湖车站的具体地址是哪里？", "answerable": true, "gold_doc_ids": ["DEV_388"], "gold_answers": ["日本秋田县仙北市田泽湖生保内男坂"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_557_QUERY_0", "question": "增城挂绿的产地是哪里？", "answerable": true, "gold_doc_ids": ["DEV_557"], "gold_answers": ["中国广东省广州市增城区"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_179_QUERY_1", "question": "《我的暑假》是哪个公司制作的？", "answerable": true, "gold_doc_ids": ["DEV_179"], "gold_answers": ["Millennium Kitchen"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_200_QUERY_0", "question": "《无声狂啸》是谁的短篇小说？", "answerable": true, "gold_doc_ids": ["DEV_200"], "gold_answers": ["哈兰·艾里森"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1525_QUERY_1", "question": "零食物语创立于哪一年？", "answerable": true, "gold_doc_ids": ["DEV_1525"], "gold_answers": ["1997年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_13_QUERY_0", "question": "白岳峰是哪一个少数民族的？", "answerable": true, "gold_doc_ids": ["DEV_13"], "gold_answers": ["朝鲜族"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1024_QUERY_0", "question": "《白之春》在什么电视台上播放？", "answerable": true, "gold_doc_ids": ["DEV_1024"], "gold_answers": ["关西电视台"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_38_QUERY_1", "question": "河茂铁路共设置了几座车站？", "answerable": true, "gold_doc_ids": ["DEV_38"], "gold_answers": ["7座"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_66_QUERY_0", "question": "新角龙类生存于什么时期？", "answerable": true, "gold_doc_ids": ["DEV_66"], "gold_answers": ["白垩纪早到末期"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1505_QUERY_0", "question": "曾伟明的出生地在哪里？", "answerable": true, "gold_doc_ids": ["DEV_1505"], "gold_answers": ["马来西亚"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_153_QUERY_1", "question": "颊鳞雀鲷属于哪个科目？", "answerable": true, "gold_doc_ids": ["DEV_153"], "gold_answers": ["辐鳍鱼纲鲈形目隆头鱼亚目雀鲷科"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1065_QUERY_0", "question": "亚麻属于哪个属？", "answerable": true, "gold_doc_ids": ["DEV_1065"], "gold_answers": ["亚麻属", "亚麻科亚麻属"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_312_QUERY_0", "question": "加利福尼亚滑银汉鱼分布在哪个地区？", "answerable": true, "gold_doc_ids": ["DEV_312"], "gold_answers": ["美国加州的旧金山至圣地牙哥海岸边"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1008_QUERY_1", "question": "卒本扶余是哪个国家的一个延续？", "answerable": true, "gold_doc_ids": ["DEV_1008"], "gold_answers": ["北扶余国"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1157_QUERY_0", "question": "2007年亚足联冠军联赛是第多少届亚洲冠军联赛？", "answerable": true, "gold_doc_ids": ["DEV_1157"], "gold_answers": ["第 26 届"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_169_QUERY_0", "question": "胸斑眶锯雀鲷又可以叫作什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["蓝纹高身雀鲷、太平洋真雀鲷"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_169"}
+{"question_id": "DEV_69_QUERY_0", "question": "鑫诺一号通信卫星由什么公司制造？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["法国宇航公司"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_69"}
+{"question_id": "DEV_178_QUERY_0", "question": "伊芳·卡特菲的出生地在哪？", "answerable": true, "gold_doc_ids": ["DEV_178"], "gold_answers": ["德国图林根州埃尔福特"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_128_QUERY_0", "question": "硫醚的通式是什么？", "answerable": true, "gold_doc_ids": ["DEV_128"], "gold_answers": ["R-S-R"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_430_QUERY_0", "question": "佩维斯·埃里森在场上的位置是什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["中锋或大前锋"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_430"}
+{"question_id": "DEV_464_QUERY_1", "question": "亚历山大·罗迪奇在场上担任什么位置？", "answerable": true, "gold_doc_ids": ["DEV_464"], "gold_answers": ["前锋"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_586_QUERY_1", "question": "祭遵小时候喜欢读什么书？", "answerable": true, "gold_doc_ids": ["DEV_586"], "gold_answers": ["经书"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_152_QUERY_0", "question": "中国第一汽车集团有限公司简称叫什么？", "answerable": true, "gold_doc_ids": ["DEV_152"], "gold_answers": ["“中国一汽”、“一汽”、“第一汽车”"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_445_QUERY_1", "question": "女神响尾蛇分布在哪些地区？", "answerable": true, "gold_doc_ids": ["DEV_445"], "gold_answers": ["墨西哥西北部及邻近海岸与岛屿"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_483_QUERY_0", "question": "毕卡索的蓝色时期指的是哪些年？", "answerable": true, "gold_doc_ids": ["DEV_483"], "gold_answers": ["1900年至1904年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_462_QUERY_0", "question": "朱椿的母亲是谁？", "answerable": true, "gold_doc_ids": ["DEV_462"], "gold_answers": ["郭惠妃"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_578_QUERY_1", "question": "前独立成科的凤头鹦鹉为什么被降级为亚科？", "answerable": true, "gold_doc_ids": ["DEV_578"], "gold_answers": ["因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种", "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1111_QUERY_1", "question": "名侦探柯南：迷宫的十字路的剧场版在日本的票房是多少？", "answerable": true, "gold_doc_ids": ["DEV_1111"], "gold_answers": ["32亿日元"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_133_QUERY_0", "question": "《安般守意经》被收在什么作品中？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["《大正藏》"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_133"}
+{"question_id": "DEV_1066_QUERY_0", "question": "阿尔西比亚德斯是哪个国家的政治家？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["雅典"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1066"}
+{"question_id": "DEV_452_QUERY_1", "question": "环望1986年以什么笔名获得小学馆漫画大赏佳作入选？", "answerable": true, "gold_doc_ids": ["DEV_452"], "gold_answers": ["近畿魔王"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1008_QUERY_0", "question": "高豆莫是哪个部落的首领？", "answerable": true, "gold_doc_ids": ["DEV_1008"], "gold_answers": ["扶余人部落"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1536_QUERY_0", "question": "侏罗纪海岸位于哪个海峡？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["英吉利海峡"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1536"}
+{"question_id": "DEV_1155_QUERY_1", "question": "纽波特在什么地方？", "answerable": true, "gold_doc_ids": ["DEV_1155"], "gold_answers": ["美国罗得岛州南部"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_257_QUERY_0", "question": "邵伯温的父亲名字叫什么？", "answerable": true, "gold_doc_ids": ["DEV_257"], "gold_answers": ["邵雍"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1847_QUERY_0", "question": "十字园蛛又叫什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["园圃蜘蛛、花园十字蛛或园蛛"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1847"}
+{"question_id": "DEV_348_QUERY_0", "question": "上知令出现于哪个时期？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["1840年代到1870年代"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_348"}
+{"question_id": "DEV_1639_QUERY_0", "question": "川纹笛鲷有哪些俗名？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["嗑头、白点赤海、千年鲷、儋州红、打铁婆"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1639"}
+{"question_id": "DEV_1564_QUERY_1", "question": "单线天竺鲷分布在哪个洋区？", "answerable": true, "gold_doc_ids": ["DEV_1564"], "gold_answers": ["印度太平洋区"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_583_QUERY_1", "question": "在律令制度中，从四位相当于什么官职？", "answerable": true, "gold_doc_ids": ["DEV_583"], "gold_answers": ["左京大夫、右京大夫等管理朝廷内行政事务的长官、次官", "左京大夫、右京大夫等管理朝廷内行政事务的长官、次官。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_178_QUERY_1", "question": "伊芳·卡特菲的职业是什么？", "answerable": true, "gold_doc_ids": ["DEV_178"], "gold_answers": ["歌手", "歌手，演员和电视主持人"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_358_QUERY_0", "question": "《现代食品工程》的主编是谁？", "answerable": true, "gold_doc_ids": ["DEV_358"], "gold_answers": ["孙大文"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_290_QUERY_1", "question": "美安公司的主要业务是什么？", "answerable": true, "gold_doc_ids": ["DEV_290"], "gold_answers": ["开发和制造世界上主要汽车制造商的安全系统", "开发和制造世界上主要汽车制造商的安全系统。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_480_QUERY_0", "question": "鄂温人在过去被称为什么？", "answerable": true, "gold_doc_ids": ["DEV_480"], "gold_answers": ["拉穆特人"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1065_QUERY_1", "question": "亚麻可能原产于什么地方？", "answerable": true, "gold_doc_ids": ["DEV_1065"], "gold_answers": ["西亚"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_397_QUERY_0", "question": "九龙巴士32M线来往于哪些地方？", "answerable": true, "gold_doc_ids": ["DEV_397"], "gold_answers": ["葵芳站及象山", "葵芳站及象山邨"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1178_QUERY_0", "question": "黑尾前肛鳗分布在什么地区？", "answerable": true, "gold_doc_ids": ["DEV_1178"], "gold_answers": ["台湾西南海域"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1012_QUERY_0", "question": "格利泽581b围绕哪颗行星运转？", "answerable": true, "gold_doc_ids": ["DEV_1012"], "gold_answers": ["格利泽581"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_525_QUERY_0", "question": "雅芳河的发源地是哪里？", "answerable": true, "gold_doc_ids": ["DEV_525"], "gold_answers": ["英格兰格洛斯特郡南格洛斯特奇平索德伯里"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_567_QUERY_0", "question": "鲍林规则是什么时候总结归纳出来的？", "answerable": true, "gold_doc_ids": ["DEV_567"], "gold_answers": ["1982年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_377_QUERY_0", "question": "2007－08年全球粮食价格危机产生了怎样的影响？", "answerable": true, "gold_doc_ids": ["DEV_377"], "gold_answers": ["引起了世界范围的恐慌", "引起了世界范围的恐慌。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1161_QUERY_1", "question": "刘燕卿哪一年加入消委会成为研究主任？", "answerable": true, "gold_doc_ids": ["DEV_1161"], "gold_answers": ["1974年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1088_QUERY_0", "question": "吉格梅·多吉·旺楚克是哪个国家的前任国王？", "answerable": true, "gold_doc_ids": ["DEV_1088"], "gold_answers": ["不丹"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_102_QUERY_1", "question": "《停止！！ 云雀》在哪个杂志上连载？", "answerable": true, "gold_doc_ids": ["DEV_102"], "gold_answers": ["《周刊少年Jump》"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1106_QUERY_1", "question": "轻艇水球的目标是什么？", "answerable": true, "gold_doc_ids": ["DEV_1106"], "gold_answers": ["争取在对方的龙门入球"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_394_QUERY_0", "question": "徐陵的祖父是谁？", "answerable": true, "gold_doc_ids": ["DEV_394"], "gold_answers": ["徐超之"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1646_QUERY_0", "question": "辐射可分为哪两类？", "answerable": true, "gold_doc_ids": ["DEV_1646"], "gold_answers": ["游离辐射和非游离辐射"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_487_QUERY_0", "question": "巴吞他尼府是哪个国家中部的一个府？", "answerable": true, "gold_doc_ids": ["DEV_487"], "gold_answers": ["泰国"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_445_QUERY_0", "question": "女神响尾蛇是哪个科的有毒蛇种？", "answerable": true, "gold_doc_ids": ["DEV_445"], "gold_answers": ["蛇亚目蝰蛇科"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_107_QUERY_0", "question": "戴龙·罗伯斯是什么运动员？", "answerable": true, "gold_doc_ids": ["DEV_107"], "gold_answers": ["田径"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_153_QUERY_0", "question": "颊鳞雀鲷的俗名叫什么？", "answerable": true, "gold_doc_ids": ["DEV_153"], "gold_answers": ["厚壳仔"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_366_QUERY_1", "question": "谁随王僧辩驻巴陵？", "answerable": true, "gold_doc_ids": ["DEV_366"], "gold_answers": ["王琳"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_567_QUERY_1", "question": "氧化物晶体和硅酸盐晶体一般含有什么？", "answerable": true, "gold_doc_ids": ["DEV_567"], "gold_answers": ["一定成分的离子键", "离子键"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_634_QUERY_0", "question": "创新中心是什么时候正式启用的？", "answerable": true, "gold_doc_ids": ["DEV_634"], "gold_answers": ["1994年", "2006年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1111_QUERY_0", "question": "名侦探柯南：迷宫的十字路是柯南系列第几部剧场版？", "answerable": true, "gold_doc_ids": ["DEV_1111"], "gold_answers": ["第7部"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_566_QUERY_0", "question": "小行星序号适用于哪些行星？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["小行星和矮行星"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_566"}
+{"question_id": "DEV_115_QUERY_1", "question": "圣训学的目的是什么？", "answerable": true, "gold_doc_ids": ["DEV_115"], "gold_answers": ["研究传述世系与圣训正文的真伪", "研究传述世系与圣训正文的真伪，借以甄别出可靠的「正训」（sahih）"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_388_QUERY_1", "question": "田泽湖车站JR东日本所属的哪条地方交通线沿线的车站之一？", "answerable": true, "gold_doc_ids": ["DEV_388"], "gold_answers": ["田泽湖线"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_409_QUERY_0", "question": "鬣齿兽科出现于什么时期？", "answerable": true, "gold_doc_ids": ["DEV_409"], "gold_answers": ["古新世晚期"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_464_QUERY_0", "question": "亚历山大·罗迪奇是哪个国家的足球运动员？", "answerable": true, "gold_doc_ids": ["DEV_464"], "gold_answers": ["斯洛文尼亚"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1178_QUERY_1", "question": "黑尾前肛鳗有几枚前上颌骨齿？", "answerable": true, "gold_doc_ids": ["DEV_1178"], "gold_answers": ["2枚"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_433_QUERY_0", "question": "一吨碳挑战的目的是什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["每年减少一吨的温室气体排放量"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_433"}
+{"question_id": "DEV_519_QUERY_0", "question": "雅芳河的发源地是哪里？", "answerable": true, "gold_doc_ids": ["DEV_519"], "gold_answers": ["英格兰威尔特郡"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_47_QUERY_0", "question": "底特律第二浸信会教堂在哪里？", "answerable": true, "gold_doc_ids": ["DEV_47"], "gold_answers": ["底特律希腊城梦露街441号"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1106_QUERY_0", "question": "轻艇水球每队中有几名队员？", "answerable": true, "gold_doc_ids": ["DEV_1106"], "gold_answers": ["五名"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_485_QUERY_1", "question": "2010年决赛在哪里举行？", "answerable": true, "gold_doc_ids": ["DEV_485"], "gold_answers": ["日本"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1080_QUERY_1", "question": "莱索托在国际赛事上取得了什么成就？", "answerable": true, "gold_doc_ids": ["DEV_1080"], "gold_answers": ["2000年夺得COSAFA杯亚军", "COSAFA杯亚军"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_346_QUERY_0", "question": "九龙巴士86线是通往哪里的？", "answerable": true, "gold_doc_ids": ["DEV_346"], "gold_answers": ["来往黄泥头及美孚", "香港一条来往黄泥头及美孚的巴士路线"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_48_QUERY_1", "question": "广东广播电视台珠江频道以什么语言为主？", "answerable": true, "gold_doc_ids": ["DEV_48"], "gold_answers": ["粤语"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_593_QUERY_0", "question": "沈龙元在足球运动中最擅长的为甚是哪里？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["右前卫"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_593"}
+{"question_id": "DEV_1070_QUERY_1", "question": "《ONE PIECE 死亡尽头的冒险》中特别出演的嘉宾是谁？", "answerable": true, "gold_doc_ids": ["DEV_1070"], "gold_answers": ["酒井美纪"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_168_QUERY_0", "question": "英土战争发生在什么时候？", "answerable": true, "gold_doc_ids": ["DEV_168"], "gold_answers": ["1807－1809年", "1807－1809年间"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_159_QUERY_0", "question": "华北陆块又叫什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["华北克拉通"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_159"}
+{"question_id": "DEV_1144_QUERY_1", "question": "小孤岛大医生原作的作者是谁？", "answerable": true, "gold_doc_ids": ["DEV_1144"], "gold_answers": ["依山田贵敏", "山田贵敏"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_525_QUERY_1", "question": "由于英国还有其他名为雅芳河的河流，该河流还可以叫什么？", "answerable": true, "gold_doc_ids": ["DEV_525"], "gold_answers": ["「下雅芳河」或「布里斯托雅芳河」"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_583_QUERY_0", "question": "什么是从四位？", "answerable": true, "gold_doc_ids": ["DEV_583"], "gold_answers": ["日本品秩与神阶的一种，位于正四位之下正五位之上，勋等上相当于勋四等", "日本品秩与神阶的一种，位于正四位之下正五位之上，勋等上相当于勋四等，追赠时则称为赠从四位。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_487_QUERY_1", "question": "巴吞他尼府建于哪一年？", "answerable": true, "gold_doc_ids": ["DEV_487"], "gold_answers": ["1632年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_21_QUERY_0", "question": "津蓟铁路沿线设置了哪几个站点？", "answerable": true, "gold_doc_ids": ["DEV_21"], "gold_answers": ["汉沟镇、曹子里、崔黄口、大口屯、宝坻、下仓、上仓、蓟州"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1572_QUERY_0", "question": "半线天竺鲷有哪些俗名？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["目择仔、大目侧仔"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1572"}
+{"question_id": "DEV_463_QUERY_1", "question": "依法利珠单抗的作用机制是什么？", "answerable": true, "gold_doc_ids": ["DEV_463"], "gold_answers": ["辨识白血球上的CD11a抗原，使白血球与其他细胞附著的能力降低，抑制其免疫作用。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1054_QUERY_0", "question": "社会惰化又被叫做什么？", "answerable": true, "gold_doc_ids": ["DEV_1054"], "gold_answers": ["社会干扰、社会致弱、社会懈怠"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_150_QUERY_0", "question": "银花鲈鱼在大陆又被叫什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["条纹鲈"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_150"}
+{"question_id": "DEV_440_QUERY_0", "question": "斯瓦迪尔法利来自于什么神话？", "answerable": true, "gold_doc_ids": ["DEV_440"], "gold_answers": ["北欧神话"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_397_QUERY_1", "question": "九龙巴士32M线使用了多少辆斯堪尼亚K310UD12米？", "answerable": true, "gold_doc_ids": ["DEV_397"], "gold_answers": ["3辆"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_78_QUERY_0", "question": "西巴丹岛以什么闻名世界？", "answerable": true, "gold_doc_ids": ["DEV_78"], "gold_answers": ["优美的的自然景观及潜水环境"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_219_QUERY_0", "question": "甲醇钠、甲氧基钠的化学式是什么？", "answerable": true, "gold_doc_ids": ["DEV_219"], "gold_answers": ["CHONa"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_475_QUERY_0", "question": "曾志豪现在担任了什么职位？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["大宇资讯音乐音效课课长兼音序作业员", "高雄工学院电子音乐社创社社长"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_475"}
+{"question_id": "DEV_560_QUERY_1", "question": "纽康的太阳表的全称是什么？", "answerable": true, "gold_doc_ids": ["DEV_560"], "gold_answers": ["地球在自转轴上环绕太阳运动的表"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_358_QUERY_1", "question": "《现代食品工程》系列丛书为读者提供了哪些内容？", "answerable": true, "gold_doc_ids": ["DEV_358"], "gold_answers": ["食品工程领域的食品加工最新发展"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_219_QUERY_1", "question": "甲醇钠如何储存？", "answerable": true, "gold_doc_ids": ["DEV_219"], "gold_answers": ["以甲醇、乙醇等醇类溶剂的溶液储存", "通常以甲醇、乙醇等醇类溶剂的溶液储存"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_530_QUERY_1", "question": "比一号风球高一级的叫什么？", "answerable": true, "gold_doc_ids": ["DEV_530"], "gold_answers": ["三号风球"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_30_QUERY_1", "question": "在这次选举中处于领先地位的两位候选人分别是谁？", "answerable": true, "gold_doc_ids": ["DEV_30"], "gold_answers": ["格奥尔基·伊万诺夫，以及来自反对党马其顿社会民主联盟的前内政部长柳博米尔·弗尔奇科斯基。", "革命组织民族统一民主党的格奥尔基·伊万诺夫，以及来自反对党马其顿社会民主联盟的前内政部长柳博米尔·弗尔奇科斯基。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_180_QUERY_1", "question": "什么时候开始，中国和俄罗斯境内的赫哲族均受到了很大程度的汉化和俄化？", "answerable": true, "gold_doc_ids": ["DEV_180"], "gold_answers": ["20世纪中叶"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_568_QUERY_0", "question": "学习演算法的一些训练样本说明了什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["说明输入与输出之间的预期关系", "输入与输出之间的预期关系。"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_568"}
+{"question_id": "DEV_385_QUERY_1", "question": "专辑《醉迷情人》在2003年3月31日推出了什么版本的唱片？", "answerable": true, "gold_doc_ids": ["DEV_385"], "gold_answers": ["DSD", "DSD版"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_447_QUERY_1", "question": "Kellylicious在哪些地方发售？", "answerable": true, "gold_doc_ids": ["DEV_447"], "gold_answers": ["香港、马来西亚及新加坡"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_152_QUERY_1", "question": "中国第一汽车集团有限公司坐落于哪里？", "answerable": true, "gold_doc_ids": ["DEV_152"], "gold_answers": ["中国长春市西部", "长春市"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_417_QUERY_0", "question": "《金刀情侠》由谁导演？", "answerable": true, "gold_doc_ids": ["DEV_417"], "gold_answers": ["徐克"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1156_QUERY_0", "question": "大雄宝殿在日本被称为什么？", "answerable": true, "gold_doc_ids": ["DEV_1156"], "gold_answers": ["金堂、本堂"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1155_QUERY_0", "question": "纽波特又被译为什么？", "answerable": true, "gold_doc_ids": ["DEV_1155"], "gold_answers": ["新港"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_543_QUERY_0", "question": "《三遂平妖传》的全称是什么？", "answerable": true, "gold_doc_ids": ["DEV_543"], "gold_answers": ["《北宋三遂平妖传》"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_480_QUERY_1", "question": "鄂温人生活在什么地区？", "answerable": true, "gold_doc_ids": ["DEV_480"], "gold_answers": ["东西伯利亚"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_50_QUERY_0", "question": "文周王是百济第多少代国王？", "answerable": true, "gold_doc_ids": ["DEV_50"], "gold_answers": ["22代"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_385_QUERY_0", "question": "《醉迷情人》是哪位歌手的首张个人粤语大碟？", "answerable": true, "gold_doc_ids": ["DEV_385"], "gold_answers": ["陈慧琳"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_448_QUERY_0", "question": "楢崎龙是谁的妻子？", "answerable": true, "gold_doc_ids": ["DEV_448"], "gold_answers": ["坂本龙马"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_217_QUERY_0", "question": "《空想科学读本》是哪位日本作家写的科幻科学考据书？", "answerable": true, "gold_doc_ids": ["DEV_217"], "gold_answers": ["柳田理科雄"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_13_QUERY_1", "question": "白岳峰打什么位置？", "answerable": true, "gold_doc_ids": ["DEV_13"], "gold_answers": ["中场"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_400_QUERY_0", "question": "大曲车站的地址是哪里？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["日本秋田县大仙市大曲通町"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_400"}
+{"question_id": "DEV_1517_QUERY_0", "question": "谁曾鼓舞林双不积极去投稿？", "answerable": true, "gold_doc_ids": ["DEV_1517"], "gold_answers": ["张清海"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_394_QUERY_1", "question": "徐陵和庾信齐名，他们的文体合称为什么？", "answerable": true, "gold_doc_ids": ["DEV_394"], "gold_answers": ["徐庾体"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_530_QUERY_0", "question": "什么是一号风球？", "answerable": true, "gold_doc_ids": ["DEV_530"], "gold_answers": ["是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1157_QUERY_1", "question": "2007年亚足联冠军联赛这届首次有什么队参与？", "answerable": true, "gold_doc_ids": ["DEV_1157"], "gold_answers": ["澳洲球队"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_591_QUERY_1", "question": "新巴84M线的竞争线路是哪条？", "answerable": true, "gold_doc_ids": ["DEV_591"], "gold_answers": ["专线小巴 47M", "小巴 47M "], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_30_QUERY_0", "question": "这次选举被视为对马其顿共和国什么的考验？", "answerable": true, "gold_doc_ids": ["DEV_30"], "gold_answers": ["长期以来希望加入欧盟和北约的决心"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1022_QUERY_0", "question": "胜利纪念柱在哪里？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["德国柏林市区内"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1022"}
+{"question_id": "DEV_78_QUERY_1", "question": "西巴丹岛的岛屿面积为多少平方米？", "answerable": true, "gold_doc_ids": ["DEV_78"], "gold_answers": ["约4万平方米"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_452_QUERY_0", "question": "环望出生于什么地区？", "answerable": true, "gold_doc_ids": ["DEV_452"], "gold_answers": ["东京都世田谷区"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_216_QUERY_1", "question": "黑龙江龙属的模式种是什么？", "answerable": true, "gold_doc_ids": ["DEV_216"], "gold_answers": ["鄂伦春黑龙江龙"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1058_QUERY_0", "question": "河北省文物研究所位于什么地方？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["石家庄市建华南大街82号"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1058"}
+{"question_id": "DEV_1505_QUERY_1", "question": "曾伟明曾就读位于深井的哪所小学？", "answerable": true, "gold_doc_ids": ["DEV_1505"], "gold_answers": ["深井的灵光小学。", "灵光小学"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1080_QUERY_0", "question": "莱索托足球队代表哪个国家？", "answerable": true, "gold_doc_ids": ["DEV_1080"], "gold_answers": ["莱索托"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1172_QUERY_1", "question": "王江泾镇的南面毗邻什么地方？", "answerable": true, "gold_doc_ids": ["DEV_1172"], "gold_answers": ["嘉兴城区"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_301_QUERY_1", "question": "二户车站在1891年叫做什么名字？", "answerable": true, "gold_doc_ids": ["DEV_301"], "gold_answers": ["福冈车站"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_409_QUERY_1", "question": "牠们比相关的哪一科分布更为广泛及成功？", "answerable": true, "gold_doc_ids": ["DEV_409"], "gold_answers": ["牛鬣兽科"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_586_QUERY_0", "question": "祭遵的家庭经济状况怎么样？", "answerable": true, "gold_doc_ids": ["DEV_586"], "gold_answers": ["富给"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_115_QUERY_0", "question": "圣训学是一种什么样的学门？", "answerable": true, "gold_doc_ids": ["DEV_115"], "gold_answers": ["穆斯林学者用来甄别圣训真伪的学门"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_578_QUERY_0", "question": "鹦鹉科下的两个亚科，除了鹦鹉亚科还有一个叫什么？", "answerable": true, "gold_doc_ids": ["DEV_578"], "gold_answers": ["吸蜜鹦鹉亚科"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1122_QUERY_1", "question": "完全萨克斯-瓦福效应是由什么造成的？", "answerable": true, "gold_doc_ids": ["DEV_1122"], "gold_answers": ["重力红移"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1144_QUERY_0", "question": "小孤岛大医生又名什么？、", "answerable": true, "gold_doc_ids": ["DEV_1144"], "gold_answers": ["《离岛大夫日志》、《五岛医生诊疗所》"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_591_QUERY_0", "question": "新巴84M线是来往哪里的巴士路线？", "answerable": true, "gold_doc_ids": ["DEV_591"], "gold_answers": ["港岛东区内小西湾（蓝湾半岛）和柴湾站", "港岛东区内小西湾（蓝湾半岛）和柴湾站。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1136_QUERY_0", "question": "永平省属于哪个国家？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["越南共和国"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1136"}
+{"question_id": "DEV_226_QUERY_0", "question": "香港教育工作者联会黄楚标中学的地址是什么？", "answerable": true, "gold_doc_ids": ["DEV_226"], "gold_answers": ["香港离岛区东涌"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1088_QUERY_1", "question": "吉格梅·多吉·旺楚克鼓励使用什么来帮助本地农民？", "answerable": true, "gold_doc_ids": ["DEV_1088"], "gold_answers": ["现代工具"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_200_QUERY_1", "question": "《无声狂啸》在哪一年发表在《如果》3月刊上？", "answerable": true, "gold_doc_ids": ["DEV_200"], "gold_answers": ["1967年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_107_QUERY_1", "question": "戴龙·罗伯斯是哪国人？", "answerable": true, "gold_doc_ids": ["DEV_107"], "gold_answers": ["古巴"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_38_QUERY_0", "question": "河茂铁路全长有多少公里？", "answerable": true, "gold_doc_ids": ["DEV_38"], "gold_answers": ["61公里"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_379_QUERY_0", "question": "柴郡是哪个国家西北部的郡？", "answerable": true, "gold_doc_ids": ["DEV_379"], "gold_answers": ["英国", "英国英格兰"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_312_QUERY_1", "question": "加利福尼亚滑银汉鱼的体长是多少？", "answerable": true, "gold_doc_ids": ["DEV_312"], "gold_answers": ["15公分"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_485_QUERY_0", "question": "2010年东亚足球锦标赛由哪个机构举办？", "answerable": true, "gold_doc_ids": ["DEV_485"], "gold_answers": ["东亚足球协会"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_230_QUERY_1", "question": "曹文埴出任过什么书的总裁官？", "answerable": true, "gold_doc_ids": ["DEV_230"], "gold_answers": ["《四库全书》"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1555_QUERY_0", "question": "郭芝苑是台湾哪一种音乐类型的先驱？", "answerable": true, "gold_doc_ids": ["DEV_1555"], "gold_answers": ["现代民族音乐"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_168_QUERY_1", "question": "拿破仑曾以什么作为交换让土耳其政府取消他们在1805年给予俄罗斯的一切特权？", "answerable": true, "gold_doc_ids": ["DEV_168"], "gold_answers": ["协助苏丹镇压在塞尔维亚的一场叛乱及夺回土耳其失去的领土"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_216_QUERY_0", "question": "黑龙江龙属化石被发现的地点是哪里?", "answerable": true, "gold_doc_ids": ["DEV_216"], "gold_answers": ["中国黑龙江省", "黑龙江省渔亮子组的一个尸骨层"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_413_QUERY_0", "question": "大曲车站的位置在哪里？", "answerable": true, "gold_doc_ids": ["DEV_413"], "gold_answers": ["日本青森县上北郡六户町犬落濑"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_366_QUERY_0", "question": "侯景封了宋子仙什么职位？", "answerable": true, "gold_doc_ids": ["DEV_366"], "gold_answers": ["太保"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1525_QUERY_0", "question": "零食物语专门销售哪个国家的零食？", "answerable": true, "gold_doc_ids": ["DEV_1525"], "gold_answers": ["日本"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1172_QUERY_0", "question": "王江泾镇在哪里？", "answerable": true, "gold_doc_ids": ["DEV_1172"], "gold_answers": ["中国浙江省嘉兴市秀洲区"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1564_QUERY_0", "question": "单线天竺鲷的俗名是什么？", "answerable": true, "gold_doc_ids": ["DEV_1564"], "gold_answers": ["外斑天竺鲷、大目侧仔", "天竺鲷、大目侧仔"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_410_QUERY_0", "question": "魔弹理论在什么时期形成？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["20世纪20年代"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_410"}
+{"question_id": "DEV_379_QUERY_1", "question": "柴郡中的第一大镇叫什么?", "answerable": true, "gold_doc_ids": ["DEV_379"], "gold_answers": ["沃灵顿"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_447_QUERY_0", "question": "Kellylicious是陈慧琳的第几张个人粤语大碟？", "answerable": true, "gold_doc_ids": ["DEV_447"], "gold_answers": ["十八张", "第十八张"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_102_QUERY_0", "question": "《停止！！ 云雀》是谁的漫画作品？", "answerable": true, "gold_doc_ids": ["DEV_102"], "gold_answers": ["江口寿史"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1859_QUERY_1", "question": "许癸努斯生活在哪个时期？", "answerable": true, "gold_doc_ids": ["DEV_1859"], "gold_answers": ["公元1世纪的罗马帝国初期", "公元1世纪的罗马帝国初期。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1175_QUERY_1", "question": "高氏前肛鳗分布在什么地方？", "answerable": true, "gold_doc_ids": ["DEV_1175"], "gold_answers": ["印度西太平洋海域"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_290_QUERY_0", "question": "美安的总部设在哪里?", "answerable": true, "gold_doc_ids": ["DEV_290"], "gold_answers": ["瑞典斯德哥尔摩"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1122_QUERY_0", "question": "萨克斯-瓦福效应以谁为名？", "answerable": true, "gold_doc_ids": ["DEV_1122"], "gold_answers": ["雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1170_QUERY_1", "question": "历史上住在斯韦阿兰的原住民被称为什么？", "answerable": true, "gold_doc_ids": ["DEV_1170"], "gold_answers": ["「斯韦阿人」"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_161_QUERY_0", "question": "《战栗游戏》的作者是谁？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["史蒂芬·金"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_161"}
+{"question_id": "DEV_252_QUERY_0", "question": "嘉诺撒圣家学校的地址是哪里？", "answerable": true, "gold_doc_ids": ["DEV_252"], "gold_answers": ["九龙城联合道102号"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1634_QUERY_0", "question": "香港电台第六台的频率是什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["AM 675 kHz"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1634"}
+{"question_id": "DEV_301_QUERY_0", "question": "二户车站的地址是哪里?", "answerable": true, "gold_doc_ids": ["DEV_301"], "gold_answers": ["日本岩手县二户市石切所"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_328_QUERY_0", "question": "美国佛蒙特州总共拥有多少个县？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["14个", "14个县"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_328"}
+{"question_id": "DEV_377_QUERY_1", "question": "2008年，谁提出说全球食品储备仅够53天应急供应？", "answerable": true, "gold_doc_ids": ["DEV_377"], "gold_answers": ["希兰"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1170_QUERY_0", "question": "斯韦阿兰属于哪个国家？", "answerable": true, "gold_doc_ids": ["DEV_1170"], "gold_answers": ["瑞典"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_226_QUERY_1", "question": "香港教育工作者联会黄楚标中学2012年在任的校长叫什么名字？", "answerable": true, "gold_doc_ids": ["DEV_226"], "gold_answers": ["钟铣玲"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1024_QUERY_1", "question": "《白之春》的主演是谁？", "answerable": true, "gold_doc_ids": ["DEV_1024"], "gold_answers": ["阿部宽与大桥望美"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1169_QUERY_0", "question": "非洲猬目又名什么？", "answerable": true, "gold_doc_ids": ["DEV_1169"], "gold_answers": ["非洲鼩目"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_463_QUERY_0", "question": "依法利珠单抗是什么疾病的治疗用药？", "answerable": true, "gold_doc_ids": ["DEV_463"], "gold_answers": ["牛皮癣"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1146_QUERY_0", "question": "雷切尔·墨索里尼是哪个国家的人？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["意大利"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_1146"}
+{"question_id": "DEV_629_QUERY_1", "question": "装配线有着怎样的精神？", "answerable": true, "gold_doc_ids": ["DEV_629"], "gold_answers": ["“让某一个生产单位只专注处理某一个片段的工作”", "“让某一个生产单位只专注处理某一个片段的工作”，而非传统的让一个生产单位从上游到下游完整完成一个产品。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_48_QUERY_0", "question": "广东广播电视台珠江频道是一条什么性质的频道？", "answerable": true, "gold_doc_ids": ["DEV_48"], "gold_answers": ["综合娱乐"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_440_QUERY_1", "question": "斯瓦迪尔法利的后代叫什么名字？", "answerable": true, "gold_doc_ids": ["DEV_440"], "gold_answers": ["斯莱布尼尔", "斯莱布尼尔（Sleipnir）"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_448_QUERY_1", "question": "坂本龙马和阿龙前往什么地方享受蜜月旅行？", "answerable": true, "gold_doc_ids": ["DEV_448"], "gold_answers": ["萨摩藩"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_634_QUERY_1", "question": "香港创新中心成立有什么目的？", "answerable": true, "gold_doc_ids": ["DEV_634"], "gold_answers": ["推动香港创意工业，务求推动创意业务不断发展", "旨在推广设计与创意，同时鼓励业界及商界更广泛善用设计，从而让设计业务得以蓬勃发展。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1859_QUERY_0", "question": "许癸努斯的著作在哪个方面对现代学者研究具有重要意义？", "answerable": true, "gold_doc_ids": ["DEV_1859"], "gold_answers": ["古希腊神话", "现代学者研究古希腊神话"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_146_QUERY_0", "question": "黑褐新箭雀鲷又可以叫什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["黑褐副雀鲷、拟黑雀鲷"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_146"}
+{"question_id": "DEV_21_QUERY_1", "question": "津蓟铁路的线路是怎样的？", "answerable": true, "gold_doc_ids": ["DEV_21"], "gold_answers": ["由京沪铁路上的汉沟镇站引出，向北延伸，跨潮白新河，经宝坻，溯州河东岸北上，过下仓至蓟州区渔阳镇。", "线路由京沪铁路上的汉沟镇站引出，向北延伸，跨潮白新河，经宝坻，溯州河东岸北上，过下仓至蓟州区渔阳镇。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_230_QUERY_0", "question": "曹文埴的字是什么？", "answerable": true, "gold_doc_ids": ["DEV_230"], "gold_answers": ["近薇"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_370_QUERY_1", "question": "战乱四年的“靖难之变”带来了什么后果？", "answerable": true, "gold_doc_ids": ["DEV_370"], "gold_answers": ["造成河北、山东、河南、皖北、淮北等地的荒凉局面，严重破坏了社会经济。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_128_QUERY_1", "question": "挥发性的硫醚大多具有什么气味？", "answerable": true, "gold_doc_ids": ["DEV_128"], "gold_answers": ["腐烂的气味"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_66_QUERY_1", "question": "新角龙类分布在什么地方？", "answerable": true, "gold_doc_ids": ["DEV_66"], "gold_answers": ["现今的北美洲与东亚"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1054_QUERY_1", "question": "社会惰化有着什么样的内容？", "answerable": true, "gold_doc_ids": ["DEV_1054"], "gold_answers": ["群体一起完成一件工作时，每个成员所付出的努力会少于单独完成工作时的现象。"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_217_QUERY_1", "question": "日文出版是由哪个社发行的？", "answerable": true, "gold_doc_ids": ["DEV_217"], "gold_answers": ["宝岛社"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_370_QUERY_0", "question": "洪洞大槐树所在地的地址是什么？", "answerable": true, "gold_doc_ids": ["DEV_370"], "gold_answers": ["中国山西省洪洞县城西北二公里的贾村西侧的大槐树公园", "中国山西省洪洞县城西北二公里的贾村西侧的大槐树公园内"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_462_QUERY_1", "question": "朱椿的谥号是什么？", "answerable": true, "gold_doc_ids": ["DEV_462"], "gold_answers": ["蜀献王"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_155_QUERY_0", "question": "九命奇冤的作者是谁？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["吴沃尧"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_155"}
+{"question_id": "DEV_413_QUERY_1", "question": "大曲车站设站于几几年？", "answerable": true, "gold_doc_ids": ["DEV_413"], "gold_answers": ["1935年", "1935年初"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_172_QUERY_0", "question": "皇后全氏是哪里人？", "answerable": true, "gold_doc_ids": ["DEV_172"], "gold_answers": ["吴郡钱塘", "吴郡钱塘（今浙江省杭州市）"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1517_QUERY_1", "question": "林双不在读初级中学时曾以什么为笔名投稿赚零用钱？", "answerable": true, "gold_doc_ids": ["DEV_1517"], "gold_answers": ["碧竹"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1161_QUERY_0", "question": "刘燕卿毕业于什么学校？", "answerable": true, "gold_doc_ids": ["DEV_1161"], "gold_answers": ["香港中文大学"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1070_QUERY_0", "question": "《ONE PIECE 死亡尽头的冒险》在哪一年上映？", "answerable": true, "gold_doc_ids": ["DEV_1070"], "gold_answers": ["2003年"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_553_QUERY_0", "question": "过适现象在统计学中指什么？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["指在调适一个统计模型时，使用过多参数", "指在调适一个统计模型时，使用过多参数。"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_553"}
+{"question_id": "DEV_519_QUERY_1", "question": "雅芳河流经哪些地方？", "answerable": true, "gold_doc_ids": ["DEV_519"], "gold_answers": ["汉普郡、多塞特郡", "流经汉普郡、多塞特郡"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_179_QUERY_0", "question": "《我的暑假》是由哪个公司发售的游戏？", "answerable": true, "gold_doc_ids": ["DEV_179"], "gold_answers": ["索尼电脑娱乐"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_625_QUERY_0", "question": "《1997年郡尉职权法案》属于哪个机构？", "answerable": false, "gold_doc_ids": [], "gold_answers": ["英国国会"], "provenance": "constructed_absent_context", "withheld_doc_id": "DEV_625"}
+{"question_id": "DEV_135_QUERY_1", "question": "杨群的职业是什么？", "answerable": true, "gold_doc_ids": ["DEV_135"], "gold_answers": ["演员"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_560_QUERY_0", "question": "纽康的太阳表的作者是谁？", "answerable": true, "gold_doc_ids": ["DEV_560"], "gold_answers": ["西蒙·纽康"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_378_QUERY_1", "question": "香港冠军暨遮打杯的途程有多长？", "answerable": true, "gold_doc_ids": ["DEV_378"], "gold_answers": ["2400米"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_346_QUERY_1", "question": "为什么要改派一辆亚历山大丹尼士Enviro 500 12米超低地台巴士作指定用车啊？", "answerable": true, "gold_doc_ids": ["DEV_346"], "gold_answers": ["进一步提升本线水平"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1555_QUERY_1", "question": "郭芝苑曾多次在公开场合表示对哪一位前辈的景仰？", "answerable": true, "gold_doc_ids": ["DEV_1555"], "gold_answers": ["江文也"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_557_QUERY_1", "question": "增城挂绿是什么水果？", "answerable": true, "gold_doc_ids": ["DEV_557"], "gold_answers": ["荔枝"], "provenance": "cmrc2018_dev_human_annotated"}
+{"question_id": "DEV_1169_QUERY_1", "question": "科学家会使用什么来表示马岛猬／金毛鼹的分支？", "answerable": true, "gold_doc_ids": ["DEV_1169"], "gold_answers": ["Tenrecomorpha"], "provenance": "cmrc2018_dev_human_annotated"}
