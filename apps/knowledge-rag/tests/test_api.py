@@ -5,6 +5,7 @@
 """
 
 from pathlib import Path
+import threading
 
 import pytest
 from fastapi.testclient import TestClient
@@ -41,7 +42,6 @@ class FakeChain:
 @pytest.fixture(autouse=True)
 def isolated_state(tmp_path, monkeypatch):
     """每个用例都换一套干净的 globals / 登记表 / 上传目录 / 假依赖。"""
-    api._registry = None
     api._chain = None
 
     db_path = tmp_path / "registry.db"
@@ -51,7 +51,6 @@ def isolated_state(tmp_path, monkeypatch):
 
     yield db_path
 
-    api._registry = None
     api._chain = None
 
 
@@ -73,6 +72,29 @@ def test_status_returns_file_and_vector_counts(isolated_state):
     assert data == {"files": 1, "vectors": 52}
 
 
+def test_status_works_from_another_worker_thread(isolated_state):
+    """真机 uvicorn 会把同步接口丢进线程池，连接不能跨线程复用。
+
+    TestClient 始终在同一个线程里跑，所以它测不出这个 bug——
+    这里连开两个线程：第一个把连接建出来，第二个必须还能用。
+    """
+    seed_document(isolated_state)
+    errors = []
+
+    def call_from_new_thread():
+        try:
+            api.get_status()
+        except Exception as cause:
+            errors.append(cause)
+
+    for _ in range(2):
+        thread = threading.Thread(target=call_from_new_thread)
+        thread.start()
+        thread.join()
+
+    assert errors == [], f"跨线程调用失败：{errors[-1]!r}"
+
+
 def test_list_documents_reads_registry(isolated_state):
     seed_document(isolated_state, filename="attention.pdf", chunks=30)
     data = client.get("/kb/documents").json()
@@ -82,11 +104,30 @@ def test_list_documents_reads_registry(isolated_state):
     ]
 
 
-def test_upload_rejects_non_pdf():
-    response = client.post(
-        "/kb/documents", files={"file": ("notes.txt", b"hello", "text/plain")}
+def test_upload_accepts_txt(monkeypatch):
+    monkeypatch.setattr(
+        api,
+        "ingest_directory",
+        lambda *a, **k: {"ingested": ["notes.txt"], "skipped": [], "empty": [], "chunks_added": 3},
     )
+
+    response = client.post(
+        "/kb/documents",
+        files={"file": ("notes.txt", "中文笔记。".encode("utf-8"), "text/plain")},
+    )
+
+    assert response.status_code == 201
+    assert response.json()["filename"] == "notes.txt"
+    assert (api.DOCS_DIR / "notes.txt").read_text(encoding="utf-8") == "中文笔记。"
+
+
+def test_upload_rejects_unsupported_suffix():
+    response = client.post(
+        "/kb/documents", files={"file": ("resume.docx", b"data", "application/octet-stream")}
+    )
+
     assert response.status_code == 400
+    assert ".txt" in response.json()["detail"]
 
 
 def test_upload_pdf_saves_file_and_triggers_ingest(monkeypatch, tmp_path):

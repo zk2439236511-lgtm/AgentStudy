@@ -40,7 +40,7 @@ def wired(tmp_path, monkeypatch):
     monkeypatch.setattr(ingest, "create_embeddings", lambda: object())
     monkeypatch.setattr(
         ingest,
-        "load_and_chunk_pdf",
+        "load_and_chunk_document",
         lambda path, *args, **kwargs: [
             Document(
                 page_content=f"chunk of {Path(path).name}",
@@ -128,7 +128,7 @@ def test_same_bytes_same_hash_different_bytes_different_hash(tmp_path):
 def test_pdf_without_text_is_flagged_empty_and_not_registered(wired, fake_pdf, tmp_path, monkeypatch):
     """扫描件一个文字都抽不出来：必须进 empty，且不写库、不进登记表。"""
     store, conn = wired
-    monkeypatch.setattr(ingest, "load_and_chunk_pdf", lambda path, *a, **k: [])
+    monkeypatch.setattr(ingest, "load_and_chunk_document", lambda path, *a, **k: [])
 
     result = run_ingest(fake_pdf, conn, tmp_path)
 
@@ -137,3 +137,25 @@ def test_pdf_without_text_is_flagged_empty_and_not_registered(wired, fake_pdf, t
     assert result["chunks_added"] == 0
     assert store.added == []
     assert conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0] == 0
+
+
+def test_txt_and_md_are_ingested_alongside_pdf(wired, fake_pdf, tmp_path):
+    store, conn = wired
+    (tmp_path / "note.txt").write_text("中文笔记。", encoding="utf-8")
+
+    result = run_ingest(fake_pdf, conn, tmp_path)
+
+    assert sorted(result["ingested"]) == ["fake.pdf", "note.txt"]
+    rows = {r[0] for r in conn.execute("SELECT filename FROM documents").fetchall()}
+    assert rows == {"fake.pdf", "note.txt"}
+    assert len(store.added) == 2
+
+
+def test_unsupported_suffix_is_skipped_by_the_directory_scan(wired, fake_pdf, tmp_path):
+    store, conn = wired
+    (tmp_path / "resume.docx").write_text("不该被读到", encoding="utf-8")
+
+    result = run_ingest(fake_pdf, conn, tmp_path)
+
+    assert result["ingested"] == ["fake.pdf"]
+    assert conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0] == 1

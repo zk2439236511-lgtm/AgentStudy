@@ -4,17 +4,19 @@
 CLI 只能自己敲命令，这一层把它变成"能被网页调用的服务"：
 - GET  /kb/status      索引现状（几个文件、几个向量）
 - GET  /kb/documents   已入库文件列表（读登记表）
-- POST /kb/documents   上传 PDF → 解析入库
+- POST /kb/documents   上传 PDF / txt / md → 解析入库
 - POST /kb/ask         提问 → 答案 + 来源出处
 """
 
 import shutil
+from contextlib import closing
 from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
+from ragdemo.document_loader import SUPPORTED_SUFFIXES
 from ragdemo.ingest import (
     DEFAULT_DB_PATH,
     DEFAULT_PERSIST_DIR,
@@ -32,15 +34,17 @@ DOCS_DIR = APP_DIR / "documents"
 
 app = FastAPI(title="个人知识库")
 
-_registry = None
 _chain = None
 
 
-def get_registry():
-    global _registry
-    if _registry is None:
-        _registry = init_registry(DEFAULT_DB_PATH)
-    return _registry
+def open_registry():
+    """每个请求开一个自己的 sqlite 连接。
+
+    连接不能缓存复用：uvicorn 把同步接口丢进线程池，同一个连接换线程用会直接抛
+    ProgrammingError。单测原本测不到，是因为每个用例都重置缓存、通常只发一个请求，
+    "建在 A 线程、用在 B 线程"这条路径根本没出现过。
+    """
+    return closing(init_registry(DEFAULT_DB_PATH))
 
 
 def get_chain():
@@ -57,31 +61,40 @@ class AskRequest(BaseModel):
 
 @app.get("/kb/status")
 def get_status():
-    rows = get_registry().execute("SELECT COUNT(*) FROM documents").fetchone()
-    return {"files": rows[0], "vectors": count_vectors(load_vector_store(DEFAULT_PERSIST_DIR))}
+    with open_registry() as registry:
+        files = registry.execute("SELECT COUNT(*) FROM documents").fetchone()[0]
+    return {"files": files, "vectors": count_vectors(load_vector_store(DEFAULT_PERSIST_DIR))}
 
 
 @app.get("/kb/documents")
 def list_documents():
-    rows = get_registry().execute(
-        "SELECT filename, chunks, ingested_at FROM documents ORDER BY ingested_at DESC"
-    ).fetchall()
+    with open_registry() as registry:
+        rows = registry.execute(
+            "SELECT filename, chunks, ingested_at FROM documents ORDER BY ingested_at DESC"
+        ).fetchall()
     return [{"filename": r[0], "chunks": r[1], "ingested_at": r[2]} for r in rows]
 
 
 @app.post("/kb/documents", status_code=201)
-async def upload_document(file: UploadFile = File(...)):
+def upload_document(file: UploadFile = File(...)):
     # 只取文件名部分，挡掉 "../../etc/passwd" 这类带路径的文件名
     safe_name = Path(file.filename or "").name
-    if not safe_name.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="只接受 PDF 文件")
+    suffix = Path(safe_name).suffix.lower()
+    if suffix not in SUPPORTED_SUFFIXES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"只接受 {'、'.join(sorted(SUPPORTED_SUFFIXES))} 文件",
+        )
 
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
     target = DOCS_DIR / safe_name
     with target.open("wb") as handle:
         shutil.copyfileobj(file.file, handle)
 
-    result = ingest_directory(DOCS_DIR, get_registry(), DEFAULT_PERSIST_DIR)
+    # 这里是同步 def：入库要抽文本、调嵌入模型，是分钟级的阻塞活。
+    # 写成 async 会把整个事件循环卡住，服务期间其他请求全都在排队。
+    with open_registry() as registry:
+        result = ingest_directory(DOCS_DIR, registry, DEFAULT_PERSIST_DIR)
     return {
         "filename": safe_name,
         "ingested": safe_name in result["ingested"],

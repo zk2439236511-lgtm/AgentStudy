@@ -9,7 +9,7 @@ export default function UploadPanel({ onIngested }) {
   async function handleUpload() {
     const file = inputRef.current?.files?.[0];
     if (!file) {
-      setError('请先选一个 PDF 文件');
+      setError('请先选一个文件（PDF / txt / md）');
       return;
     }
 
@@ -44,7 +44,7 @@ export default function UploadPanel({ onIngested }) {
     <section className="kb-card" data-testid="kb-upload">
       <h2 className="kb-card-title">1 · 上传资料</h2>
       <div className="kb-upload-row">
-        <input ref={inputRef} type="file" accept="application/pdf" disabled={busy} />
+        <input ref={inputRef} type="file" accept="application/pdf,.txt,.md" disabled={busy} />
         <button className="kb-button" onClick={handleUpload} disabled={busy}>
           {busy ? '解析入库中…' : '上传并入库'}
         </button>

@@ -9,7 +9,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from ragdemo.document_loader import load_all_pdfs
+from ragdemo.document_loader import load_all_documents
 from ragdemo.rag_chain import create_rag_chain, create_rag_chain_with_sources, print_source_documents
 from ragdemo.vector_store import create_vector_store
 
@@ -36,11 +36,11 @@ def main():
         return
 
     # RAG Flow: Load → Chunk → Embed → Store
-    print("Loading and processing PDFs...")
-    chunks = load_all_pdfs(docs_dir)
+    print("Loading and processing documents (PDF / txt / md)...")
+    chunks = load_all_documents(docs_dir)
 
     if not chunks:
-        print("No documents loaded. Add PDF files to the documents/ directory.")
+        print("No documents loaded. Add PDF / txt / md files to the documents/ directory.")
         return
 
     vector_store = create_vector_store(chunks)

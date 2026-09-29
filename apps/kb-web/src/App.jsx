@@ -27,7 +27,7 @@ export default function App() {
       <header className="kb-header">
         <h1 className="kb-title">我的知识库</h1>
         <p className="kb-subtitle">
-          上传 PDF → 切块向量化 → 提问时先检索原文，再让通义千问照着原文回答
+          上传 PDF / txt / md → 切块向量化 → 提问时先检索原文，再让通义千问照着原文回答
         </p>
         <p className="kb-status" data-testid="kb-status">
           {statusError ||

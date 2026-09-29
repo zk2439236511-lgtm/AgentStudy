@@ -12,7 +12,7 @@ from pathlib import Path
 
 from langchain_chroma import Chroma
 
-from ragdemo.document_loader import load_and_chunk_pdf
+from ragdemo.document_loader import SUPPORTED_SUFFIXES, load_and_chunk_document
 from ragdemo.vector_store import EMBEDDING_BATCH_SIZE, create_embeddings
 
 COLLECTION = "pdf_chunks"
@@ -78,7 +78,7 @@ def ingest_directory(
     chunk_overlap: int = 200,
 ) -> dict:
     """
-    Embed PDFs that are new or changed since the last run.
+    Embed documents that are new or changed since the last run.
 
     A file is skipped when its SHA-256 matches the registry, so its existing
     vectors are reused instead of being paid for again.
@@ -86,9 +86,16 @@ def ingest_directory(
     result = {"ingested": [], "skipped": [], "empty": [], "chunks_added": 0}
     store = None
 
-    for pdf_path in sorted(Path(docs_dir).glob("*.pdf")):
-        filename = pdf_path.name
-        current_hash = file_sha256(pdf_path)
+    docs_dir = Path(docs_dir)
+    candidates = sorted(
+        p
+        for p in docs_dir.iterdir()
+        if p.is_file() and p.suffix.lower() in SUPPORTED_SUFFIXES
+    )
+
+    for doc_path in candidates:
+        filename = doc_path.name
+        current_hash = file_sha256(doc_path)
 
         if stored_hash(conn, filename) == current_hash:
             print(f"Skip {filename}: 内容未变，沿用磁盘上的索引")
@@ -98,7 +105,7 @@ def ingest_directory(
         if store is None:
             store = load_vector_store(persist_directory, create_embeddings())
 
-        chunks = load_and_chunk_pdf(pdf_path, chunk_size, chunk_overlap)
+        chunks = load_and_chunk_document(doc_path, chunk_size, chunk_overlap)
         if not chunks:
             # 扫描件 PDF 抽不出文字，入库 0 块会伪装成成功，必须显式告警
             result["empty"].append(filename)

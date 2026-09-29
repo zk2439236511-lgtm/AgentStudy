@@ -58,8 +58,10 @@ export default function AskPanel() {
               <li key={index} className="kb-source">
                 <details>
                   <summary>
-                    {/* 接口里的 page 是 PyPDFLoader 的 0-based 页号，给人看要 +1 */}
-                    来源：{source.filename} · 第 {source.page + 1} 页 · 距离 {source.distance}（越小越相关）
+                    {/* 接口里的 page 是 PyPDFLoader 的 0-based 页号，给人看要 +1；txt/md 没有页 */}
+                    来源：{source.filename} ·{' '}
+                    {source.page === null ? '纯文本资料' : `第 ${source.page + 1} 页`} ·{' '}
+                    距离 {source.distance}（越小越相关）
                   </summary>
                   <p className="kb-excerpt">{source.excerpt}</p>
                 </details>

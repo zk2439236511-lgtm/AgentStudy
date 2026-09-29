@@ -10,7 +10,7 @@
 ├── apps/idea-api/        # 灵感引擎后端：FastAPI + SQLite（待办 + 灵感接口 + 千问展开）
 ├── apps/idea-web/        # 灵感引擎前端：Vite + React 19（磨砂玻璃 Navbar、Loading 交互）
 ├── apps/knowledge-rag/   # 知识库 RAG：LangChain 四模块 + Chroma 持久化 + FastAPI 问答接口
-├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF、提问、答案 + 来源出处）
+├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF / txt / md、提问、答案 + 来源出处）
 ├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）
 ├── agent/                # Mini Agent（规划中：loop.py / tools.py / schema.py / memory.py / context.py）
 ├── evals/                # 检索评测：questions.json（8 问）+ metrics.py + chunk_size×k 网格实验
@@ -43,7 +43,7 @@ npm run dev                    # http://127.0.0.1:5173
 cd apps/knowledge-rag
 pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
-pytest                         # 当前 27 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
+pytest                         # 当前 38 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
 
 cd ../..                       # 示例与评测脚本在仓库根目录下运行
 python examples/rag_baseline_demo.py     # 内存版完整 RAG
@@ -87,11 +87,20 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
 - [x] 1. 原版 Python 跑通 + pytest（14 passed）
 - [x] 2. OpenAI → 百炼 Qwen：模型与端点全部环境变量化，真实问答联调成功
 - [x] 3. InMemoryVectorStore → 持久化向量库（Chroma 本地文件 + SHA-256 哈希去重，pytest 19 通过）
-- [x] 4. CLI → FastAPI + React 网页问答（上传 PDF、提问、Loading/错误态，浏览器端到端验证）
-- [x] 5. 答案附引用出处（文件名 + 页码 + 相关度 + 原文块，点击展开）
+- [x] 4. CLI → FastAPI + React 网页问答（上传 PDF / txt / md、提问、Loading/错误态，浏览器端到端验证）
+- [x] 5. 答案附引用出处（文件名 + 页码 + 向量距离 + 原文块，点击展开）
       · 进阶待做：答案句子与来源块逐句对应、点击跳到 PDF 具体位置
 - [x] 6. evals/ 检索评测：Hit@K / Recall@K / MRR / 关键词覆盖，chunk_size × k 网格实验
       · 已把结论降级到数据能支撑的范围（k 增大天然抬高 Hit/Recall），并标注题源泄漏
       · 待补：Precision@K、nDCG、答案层 Correctness / Faithfulness、拒答正确率
+
+外部评审（84/100）后的补课路线：
+
+- [x] 0. 诚实性修补：前端页码 off-by-one、`relevance` 改为原始 `distance`、题源标注、扫描件空文本不再伪装成功
+- [x] 1. 知识库支持 txt / md：`SUPPORTED_SUFFIXES` 统一白名单，中文按零宽后顾在句末下刀；顺带修 `/kb/status` 跨线程复用 sqlite 连接导致的 500
+- [ ] 2. 外部金标题集（CMRC2018 / DuRetrieval）替换自造 `expected_pages`，解掉数据泄漏
+- [ ] 3. 分层指标：检索层补 Precision@K、nDCG@K，答案层 EM/F1 + 简化 Faithfulness + 拒答正确率
+- [ ] 4. 距离阈值拒答 + rerank 单变量实验
+- [ ] 5. Mini Agent：裸写 OpenAI SDK `tool_calls` 循环，不套框架
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够

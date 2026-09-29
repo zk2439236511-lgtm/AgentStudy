@@ -557,3 +557,41 @@
 下一步：① 知识库支持 txt/md（外部金标集的前置）② CMRC2018 抽 100 context / 200 问 + 30 道 unanswerable 做 golden set，指标分层成 Retrieval / Context / Generation ③ 之后才谈 Mini Agent。
 
 对应提交：fix(rag): 页码 off-by-one + 撤掉人为相关度 + 评测结论降级（外部评审四条回调）
+
+#### 2026-09-29　知识库支持 txt / md：中文能问，还顺手逮到一个跨线程 500
+
+背景：补课路线第 1 步。之前只能上传 PDF，而下一步要用的 CMRC2018 金标集是纯文本；中文提问虽然一直能答（嵌入模型本身多语言），但切块是按英文"以空格为分隔符"的口径做的，中文没有空格，等于硬切。
+
+改动：
+
+1.**统一入口**：`document_loader` 新增 `SUPPORTED_SUFFIXES = {".pdf", ".txt", ".md"}`、`load_and_chunk_text`，以及按后缀分发的 `load_and_chunk_document`；`load_all_pdfs` 改名 `load_all_documents`。api 的上传白名单和 ingest 的目录扫描都 import 同一个常量，不再两边各写一份、迟早对不上。
+
+2.**中文切块口径**：`CJK_SEPARATORS` 用零宽后顾逐标点下刀（`"(?<=。)"`、`"(?<=！)"`、`"(?<=？)"`、`"(?<=；)"`、`"(?<=，)"`）+ `is_separator_regex=True`。PDF 那条分隔符口径原样不动，免得把已经评测过的东西顺手改掉。
+
+3.txt / md 没有"页"这个概念：`metadata["page"] = None`，前端按 null 分别显示「纯文本资料」和「第 N 页」。
+
+4.**跨线程 500（真实上传时才暴露）**：`get_registry()` 把 sqlite 连接缓存在模块全局，而 uvicorn 会把同步接口丢进线程池。上传接口原本是 `async def`，连接建在事件循环线程；随后 `GET /kb/status` 是同步接口，落到 worker 线程复用同一个连接 → `SQLite objects created in a thread can only be used in that same thread`。改成每个请求开一个自己的连接（`closing(init_registry(...))`），并把上传接口改回同步 `def`——入库是分钟级的阻塞活，写成 async 会把整个事件循环卡住。
+
+验证（物理证据）：
+
+1.pytest（apps/knowledge-rag）→ **38 passed, 5 skipped**（29 → 38，+9 条：document_loader +5、api +2、ingest +2）
+
+2.这条 500 先用用例锁住再修：新加的 `test_status_works_from_another_worker_thread` 在改代码**之前**跑，确实以 `created in thread id 39740 / this is thread id 34232` 失败；改完才变绿。
+
+3.真机上传：`documents/RAG与Agent学习笔记.txt`（约 600 字中文）→ HTTP 201、`chunks_added: 1`，`/kb/documents` 里能看到它；在浏览器里再传一次同一份 → 提示"内容没变，沿用已有索引（没花钱重新嵌入）"，说明 SHA-256 去重对 txt 同样生效。
+
+4.中文提问「RAG 和 Agent 的区别是什么？」→ 第一来源就是这份中文笔记，**distance 0.252**；同批召回的 7 块英文 PDF 全在 1.35 以上。中英文落在同一个向量空间是 text-embedding-v4 给的，不是我调出来的。
+
+5.浏览器实测：来源行显示「RAG与Agent学习笔记.txt · 纯文本资料 · 距离 0.252（越小越相关）」，同一屏里 PDF 来源仍正确显示「第 14 页」。
+
+踩坑：
+
+1.**分隔符不能直接写"。"**。`RecursiveCharacterTextSplitter` 是"按分隔符切开、把分隔符丢掉"，所以 `separators=["。"]` 会把句号甩到下一块开头。我是先真跑了一遍、看到第二块以"。"开头才发现的，不是推出来的；换成零宽后顾 `(?<=。)` 才做到"在句号后面下刀、标点留在前一块"。
+
+2.**Mock 测试全绿 ≠ 服务能跑**。TestClient 每个用例都从 `_registry = None` 重新开始，一个用例通常也只发一个请求，"连接建在一个线程、复用在另一个线程"这个组合在测试里从来没出现过；真实服务是长进程，先上传再查状态就必然踩到。所以补的用例断言的是"换个线程还能用"，而不是"返回 200"。
+
+3.chunk_size=1000 是当初按英文 PDF 定的，600 字中文只切出 1 块。同样 1000 字符，英文约 150~200 词，中文就是实打实 1000 个汉字，一整篇笔记被当成一块。做金标集时中文语料的 chunk_size 得重新标定，不能沿用这个默认值。
+
+下一步：③ CMRC2018 抽 100 段 context / 200 问 + 30 道 unanswerable 做外部金标集，把 `expected_pages` 从"我自己检索出来的页"换成"数据集给的 span"，顺带解掉数据泄漏。
+
+对应提交：feat(rag): 知识库支持 txt/md（中文句末切块 + 每请求一个 sqlite 连接）
