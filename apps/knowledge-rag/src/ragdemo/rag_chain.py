@@ -181,8 +181,12 @@ def create_rag_chain_with_sources(
             docs.append(doc)
         return docs
 
-    def invoke(question: str) -> dict:
-        """Run the RAG chain and return answer with sources."""
+    def invoke(question: str, config: dict | None = None) -> dict:
+        """Run the RAG chain and return answer with sources.
+
+        config 透传给 LCEL（evals/ 用它挂 callback 计量 token 与延迟）；拒答路径
+        不发生生成调用，所以不会用到它。
+        """
         hits = retrieve_with_scores(question)
         docs = attach_scores(hits)
 
@@ -195,14 +199,15 @@ def create_rag_chain_with_sources(
 
         # Build the prompt and get answer
         chain = prompt | llm | StrOutputParser()
-        answer = chain.invoke({"context": format_docs(docs), "question": question})
+        answer = chain.invoke({"context": format_docs(docs), "question": question},
+                              config=config)
 
         return {"answer": answer, "source_documents": docs, "refused": False}
 
     # Return a simple callable wrapper with invoke method
     class ChainWrapper:
-        def invoke(self, question: str) -> dict:
-            return invoke(question)
+        def invoke(self, question: str, config: dict | None = None) -> dict:
+            return invoke(question, config)
 
     return ChainWrapper()
 

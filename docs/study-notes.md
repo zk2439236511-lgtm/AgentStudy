@@ -736,3 +736,41 @@
 5. 记住这轮的盲区：两层拒答都拦不住"距离很近 + 模型敢答"（`DEV_400`）；构造负样本（"语料里根本没这个实体"）测不到生产里真正难的"语料里有相似但错的答案"。
 
 对应提交：feat(evals): 答案层指标 EM/char-F1/span 命中 + 阈值开关拒答对比
+
+#### 2026-09-30　给评测装上里程表：token 用量 + 每题延迟进成本列（"生成次数"从估算改成实测）
+
+背景：外部评审给的单变量实验矩阵里，必记列除了各种指标还有**平均 context tokens 与平均 latency**，而 ⑤ 的结果文件里 cost 只有调用次数、没有 token（日志第 11 条踩坑 9：跑完全量只收到一条扣额度短信，到底花了多少只能倒推）。这既是补实验表缺的两列，也是 Mini Agent 的前置——多轮循环没有计量就是盲飞。
+
+改动：
+
+1. **`evals/usage.py`**：`extract_usage(response)` 先读跨提供商标准的 `AIMessage.usage_metadata`，读不到再回退 OpenAI 口径的 `llm_output["token_usage"]`；`TokenUsageCollector(BaseCallbackHandler)` 在 `on_llm_end` 累加，并暴露 `snapshot()` / `usage_since(cursor)`——**按游标切片**才能拿到"这一题"的用量，共享累加器只能得到整组的数。
+
+2. **`evals/answer_eval.py`**：`run_condition` 逐题 `time.perf_counter()` 计时 + `chain.invoke(question, config={"callbacks": [collector]})`；新增纯函数 `build_cost(rows, seconds)` 出 `llm_calls/input/output/total`、`mean_*_tokens_per_generation`（**按生成次数平均**，一次生成都没有时为 `None`）、以及 `latency_all` / `latency_generated` 两套分位数（被阈值拦下的题不调模型，混在一起会低估生成延迟）；`fmt_cost` 负责渲染；新增 `--out-suffix`，冒烟产物不再覆盖已提交的全量结果。
+
+3. **`apps/knowledge-rag/src/ragdemo/rag_chain.py`**：闭包 `invoke` 与 `ChainWrapper.invoke` 加 `config: dict | None = None` 并透传给 `chain.invoke(inputs, config=config)`。这条不是设计出来的，是真机冒烟报错逼出来的（踩坑 1）。
+
+验证（与证据）：
+
+1. **pytest**：`pytest evals` **107 passed**（94 → 107：`test_usage.py` 6 条真 `AIMessage/LLMResult` 三种取值路径 + `test_answer_eval.py` 的 `TestCostWiring` 6 条接线（次数来自回调、多轮按次平均、无生成→None、缺延迟不显示 0.0）+ 1 条顶层重名守卫）；`apps/knowledge-rag` **51 passed, 5 skipped**（+3：作答路径 `on_llm_end` 恰好响 1 次且能读到 `usage_metadata`、拒答路径 0 次、不传 config 时行为不变）。
+
+2. **真机小冒烟**（`--limit 5 --probe 2 --out-suffix tokens`，只 8 次生成）：阈值开组 5 题**只发生成 3 次**（2 道被阈值拦下，计数来自回调不是推算），input 7835 / output 90 tok，每次生成平均输入 **2611.7 tok**；探针组 5 次生成 13540 / 415 tok，平均输入 2708.0 tok。延迟：生成题中位 1.164s，全部题中位 0.83s——**阈值那一层省的不只是 token，是一整个生成调用加它的等待时间**。
+
+3. **能外推了**：平均每次生成输入 ~2.6k tok 就是 k=8 上下文的原价 → 全量 203 次生成 ≈ **54 万 input token**，而 qwen-plus 剩余免费额度约 15.8 万 → **第二次全量跑不动**，后续实验只能走小样本 A/B。这个数字以前是猜的，现在有出处。
+
+踩坑：
+
+1. **`config` 到不了自写的包装类**：真机第一次跑直接 `TypeError: create_rag_chain_with_sources.<locals>.ChainWrapper.invoke() got an unexpected keyword argument 'config'`。裸 LCEL 链天然吃 `config`，而线上返回的是自己写的 `ChainWrapper`——回调挂在半空中，106 条离线用例全绿也照样发现不了（替身 `StubChain` 是按新签名写的，它当然接）。→ 闭包和包装类都加参数透传，并补"不传 config 行为不变"的用例盖住生产调用点。**被测对象到底是不是真 Runnable，只有真机告诉你。**
+
+2. **token 不在返回值里**：链尾是 `StrOutputParser()`，`invoke` 出来是纯字符串，`usage_metadata` 已经被削掉。→ 只能走 `config={"callbacks":[handler]}`；而且优先读 `usage_metadata`（LangChain 跨提供商标准字段），`llm_output["token_usage"]` 当兜底——换提供商时后者会没有。
+
+3. **同名函数写了两遍，静默 shadow**：加 `fmt_cost` 时把它整段粘贴重复，后一份盖掉前一份，当时 106 条用例全绿、`main` 里那一行还在打 `json.dumps` 原始 dict。→ 删重复，并加一条 `ast` 扫顶层重名的守卫用例；**先注入一份重复确认它会红**，否则这条断言毫无价值。
+
+4. **平均值不能拿题数当分母**：阈值拦下的题不调模型，按题平均会把"有没有生成"这件事糊掉。→ 分母用回调实测的 `llm_calls`，`calls == 0` 时返回 `None` 而不是 0（0 会被读成"每轮 0 个 token"，实际是没有样本）。
+
+下一步：
+
+1. Mini Agent 的预算口径现在能算了：**最大循环次数 × 每次平均输入** 先估再跑，别先跑再猜。
+2. 成本列真正的用法是**小样本 A/B**（改提示词、换 chunk_size 时同批题跑两组，同时看质量与 token/延迟），而不是再跑全量。
+3. 冒烟产物（`-tokens` 那份）不进仓：5 道题的报告会被误读成实验数据。
+
+对应提交：feat(evals): token 用量与每题延迟进成本列，生成次数改为回调实测

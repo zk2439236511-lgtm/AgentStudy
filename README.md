@@ -43,7 +43,7 @@ npm run dev                    # http://127.0.0.1:5173
 cd apps/knowledge-rag
 pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
-pytest                         # 当前 48 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
+pytest                         # 当前 51 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
 
 cd ../..                       # 示例与评测脚本在仓库根目录下运行
 python examples/rag_baseline_demo.py     # 内存版完整 RAG
@@ -60,7 +60,7 @@ PYTHONPATH=src uvicorn ragdemo.api:app --port 8001   # 知识库 HTTP 接口
 检索评测（evals/，指标计算是纯函数、离线免费；跑评测会真实调用百炼 embedding）：
 
 ```bash
-pytest evals                       # 当前 94 passed（指标 + 金标集构建 + 距离口径实验 + 答案层指标，全部离线）
+pytest evals                       # 当前 107 passed（指标 + 金标集构建 + 距离口径实验 + 答案层指标 + token 计量，全部离线）
 
 # A. 自造题：chunk_size × k 网格，判的是"相关页有没有进前 K"
 python evals/retrieval_eval.py --chunk-sizes 500,1000,2000 --ks 4,8
@@ -87,10 +87,13 @@ python evals/chroma_threshold_eval.py --chunk-size 0 --k 8 \
 
 # D. 答案层评测：把 C 段建好的真 Chroma 接上线上问答链，阈值开/关各跑一遍对比
 #    ⚠ 会真实调用 qwen-plus 生成（全量 230 题 ≈ 253 次生成），免费额度有限，先 --limit 冒烟
+#    ⚠ 实测每次生成平均输入 ~2.6k token（k=8 的上下文就这个价），全量一趟约 54 万 input token
 python evals/answer_eval.py                     # 全量：阈值开 230 题 + 阈值关探针 50 题
 python evals/answer_eval.py --limit 8 --probe 4 # 冒烟：走通拒答与作答两条路径即可
+                               # 加 --out-suffix tokens 写 {日期}-answer-tokens.*，别覆盖已提交的全量结果
                                # 结果写入 evals/results/{日期}-answer.{json,md}
                                # 指标：EM / char-F1 / span 命中 / 字面支撑(unigram+bigram) / 拒答分层
+                               #      + 成本列：token 用量（回调实测）与每题延迟分位数
                                # 结论：span 命中 0.9077 而 char-F1 只有 0.5163 → 瓶颈是答案啰嗦不是答错；
                                #        EM 0.0974 在整句答案下没有解释力，必须与 span 命中成对看；
                                #        负样本拒答 29/30（阈值拦 24 + 模型自拒 5），与 C 段纯检索层数字一致

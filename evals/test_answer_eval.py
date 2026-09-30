@@ -3,23 +3,60 @@
 建库和生成都要打百炼，这里一步都不去碰——这几步出错的话，真跑出来的数字会直接骗人。
 """
 
+import ast
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 from langchain_core.documents import Document
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "apps" / "knowledge-rag" / "src"))
 
+from usage import TokenUsageCollector
 from answer_eval import (
     _clip,
     _negative_hard_answer_line,
+    build_cost,
     condition_report,
+    fmt_cost,
     head_mixed,
     probe_items,
     row_from_result,
+    run_condition,
     to_markdown,
 )
+
+
+def llm_result(input_tokens: int, output_tokens: int):
+    """够用的替身：真实字段提取在 test_usage.py 里用真 AIMessage 测过了，这里只管接线。"""
+    message = SimpleNamespace(
+        usage_metadata={
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": input_tokens + output_tokens,
+        }
+    )
+    return SimpleNamespace(generations=[[SimpleNamespace(message=message)]], llm_output=None)
+
+
+class StubChain:
+    """替身链：作答路径通过 config 里的回调发一次 on_llm_end，拒答路径什么都不发。
+
+    这正是线上那条链的行为差别所在——拒答时不构建管道、不调模型，所以回调也不会响。
+    """
+
+    def __init__(self, results: dict):
+        self.results = results
+        self.seen_configs = []
+
+    def invoke(self, question, config=None):
+        self.seen_configs.append(config)
+        result = self.results[question]
+        if not result["refused"]:
+            for handler in (config or {}).get("callbacks", []):
+                handler.on_llm_end(llm_result(1500, 40))
+        return result
 
 
 def doc(text: str, score=None) -> Document:
@@ -222,3 +259,106 @@ class TestClip:
         assert _clip("a|b") == "a\\|b"
         assert _clip("一二三四五", 3) == "一二三…"
         assert _clip("") == ""
+
+class TestCostWiring:
+    """成本计量接线：token 从回调进来、延迟逐题记、平均按生成次数分母。"""
+
+    @staticmethod
+    def answered_row(qid="A1", calls=1, input_tokens=1500, output_tokens=40):
+        return row_from_result(
+            item(qid=qid),
+            {"answer": "北京", "source_documents": [doc("北京是首都", 0.2)], "refused": False},
+            latency=1.234,
+            usage={
+                "llm_calls": calls,
+                "input_tokens": input_tokens * calls,
+                "output_tokens": output_tokens * calls,
+                "total_tokens": (input_tokens + output_tokens) * calls,
+            },
+        )
+
+    @staticmethod
+    def refused_row(qid="N1"):
+        item_ = item(answerable=False, golds=(), qid=qid)
+        return row_from_result(
+            item_,
+            {"answer": "知识库里没有与这个问题足够相关的内容，不作答。", "source_documents": [doc("无关", 1.7)], "refused": True},
+            latency=0.11,
+        )
+
+    def test_row_defaults_cost_fields_to_zero(self):
+        """没传 usage/latency 时按 0 记：这两项「没测到」和「确实是 0」在数字上无法区分，
+        所以调用方（run_condition）必须传，缺省值只服务于不关心成本的旧用例。"""
+        row = row_from_result(item(), {"answer": "北京", "source_documents": [doc("北京", 0.2)], "refused": False})
+        assert row["llm_calls"] == 0 and row["input_tokens"] == 0 and row["latency_seconds"] is None
+
+    def test_run_condition_counts_generations_from_callbacks(self):
+        """生成次数来自实测回调，不再由「没被阈值拦下」推断——推断的数只证明我们以为调了。"""
+        answered = item(qid="A1")
+        refused = item(answerable=False, golds=(), qid="N1")
+        refused["question"] = "语料里根本没有的那个东西？"
+        chain = StubChain({
+            answered["question"]: {
+                "answer": "北京",
+                "source_documents": [doc("北京是首都", 0.2)],
+                "refused": False,
+            },
+            refused["question"]: {
+                "answer": "知识库里没有与这个问题足够相关的内容，不作答。",
+                "source_documents": [doc("无关", 1.7)],
+                "refused": True,
+            },
+        })
+
+        rows, cost = run_condition(chain, [answered, refused])
+
+        assert cost["questions"] == 2 and cost["llm_generations"] == 1
+        assert cost["input_tokens"] == 1500 and cost["output_tokens"] == 40
+        assert cost["mean_input_tokens_per_generation"] == 1500.0
+        assert rows[0]["llm_calls"] == 1 and rows[1]["llm_calls"] == 0
+        assert rows[1]["latency_seconds"] is not None, "拒答的题也要记延迟，那条路径只花检索的钱"
+        assert cost["latency_generated"]["n"] == 1 and cost["latency_all"]["n"] == 2
+        assert isinstance(chain.seen_configs[0]["callbacks"][0], TokenUsageCollector)
+
+    def test_multi_call_question_averages_per_call(self):
+        """一道题发几次生成时，平均值按「次」而不是按「题」算——以后 Mini Agent 多轮循环要用同一条口径。"""
+        cost = build_cost([self.answered_row(calls=3)], 9.9)
+        assert cost["llm_generations"] == 3
+        assert cost["mean_input_tokens_per_generation"] == 1500.0
+
+    def test_no_generation_gives_none_average_not_zero(self):
+        rows = [self.refused_row()]
+        cost = build_cost(rows, 0.3)
+
+        assert cost["llm_generations"] == 0
+        assert cost["mean_input_tokens_per_generation"] is None
+        assert cost["mean_output_tokens_per_generation"] is None
+        assert cost["latency_generated"]["n"] == 0, "没调模型就不该有「生成题延迟」"
+        assert cost["latency_all"]["n"] == 1
+
+    def test_fmt_cost_renders_tokens_latency_and_total(self):
+        line = fmt_cost(build_cost([self.answered_row()], 3.2))
+        assert "生成 1 次" in line and "合计 1540 tok" in line and "每次生成平均输入 1500.0 tok" in line
+        assert "生成题延迟 中位 1.234s" in line and "总耗时 3.2s" in line
+
+    def test_fmt_cost_drops_absent_latency_instead_of_showing_zero(self):
+        line = fmt_cost(build_cost([self.refused_row()], 0.3))
+        assert "没有发生生成" in line
+        assert "生成题延迟" not in line, "n=0 时渲染出「中位 0.0s」会被读成测得很准"
+
+
+class TestNoShadowedDefinitions:
+    """同名函数写两遍时，后一份会静默盖掉前一份，用例照样全绿、跑出来却是旧行为。
+
+    加成本列那轮就真的把 fmt_cost 粘贴重复了一次，靠这条用例兜住。
+    """
+
+    def test_answer_eval_has_no_duplicate_top_level_names(self):
+        tree = ast.parse((Path(__file__).resolve().parent / "answer_eval.py").read_text(encoding="utf-8"))
+        names = [
+            node.name
+            for node in tree.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
+        ]
+        dupes = sorted({name for name in names if names.count(name) > 1})
+        assert dupes == [], f"顶层重复定义会被后一份覆盖：{dupes}"

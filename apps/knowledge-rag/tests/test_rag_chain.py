@@ -1,6 +1,7 @@
 """Tests for RAG chain module."""
 
 from unittest.mock import patch
+from langchain_core.callbacks import BaseCallbackHandler
 from langchain_core.documents import Document
 from langchain_core.language_models import FakeMessagesListChatModel
 from langchain_core.messages import AIMessage
@@ -112,6 +113,68 @@ class TestDistanceThresholdRefusal:
         from ragdemo.rag_chain import DEFAULT_MAX_DISTANCE
 
         assert DEFAULT_MAX_DISTANCE == 1.0
+
+
+class CountingHandler(BaseCallbackHandler):
+    """只数 on_llm_end 响了几次的回调。真机评测靠它把「生成次数」从估计值变成实测值。"""
+
+    def __init__(self):
+        self.ends = 0
+        self.responses = []
+
+    def on_llm_end(self, response, **kwargs):
+        self.ends += 1
+        self.responses.append(response)
+
+
+class TestConfigPassthrough:
+    """invoke 要把 LangChain 的 config 透传到生成那一跳，否则评测挂不上回调。
+
+    StrOutputParser 会把 AIMessage 拆成纯字符串，usage_metadata 只有回调能拿到，
+    所以这几条用例守的是「token 计量到底能不能做」这件事。
+    """
+
+    def test_answering_path_fires_on_llm_end_once(self):
+        llm = FakeMessagesListChatModel(
+            responses=[
+                AIMessage(
+                    content="模型给的答案",
+                    usage_metadata={
+                        "input_tokens": 777,
+                        "output_tokens": 33,
+                        "total_tokens": 810,
+                    },
+                )
+            ]
+        )
+        chain = build_chain(FakeVectorStore([(make_doc(), 0.4)]), llm, max_distance=1.0)
+        handler = CountingHandler()
+
+        result = chain.invoke("能答的问题", config={"callbacks": [handler]})
+
+        assert result["refused"] is False
+        assert handler.ends == 1
+        message = handler.responses[0].generations[0][0].message
+        # 回调拿到的是带 usage_metadata 的 AIMessage，不是被 parser 削过的字符串
+        assert message.usage_metadata["input_tokens"] == 777
+        assert message.usage_metadata["total_tokens"] == 810
+
+    def test_refusing_path_never_fires_on_llm_end(self):
+        chain = build_chain(FakeVectorStore([(make_doc(), 1.35)]), tripwire_llm(), 1.0)
+        handler = CountingHandler()
+
+        result = chain.invoke("不该答的问题", config={"callbacks": [handler]})
+
+        assert result["refused"] is True
+        assert handler.ends == 0
+
+    def test_invoke_without_config_still_works(self):
+        """生产调用点（main.py / api.py）都是单参数调用，加参数不能把它们打挂。"""
+        chain = build_chain(FakeVectorStore([(make_doc(), 0.4)]), answering_llm(), 1.0)
+
+        result = chain.invoke("能答的问题")
+
+        assert result["answer"] == "模型给的答案"
 
 
 class TestRagChain:

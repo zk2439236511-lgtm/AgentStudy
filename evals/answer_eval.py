@@ -50,13 +50,17 @@ from answer_metrics import (
 from chroma_threshold_eval import build_store
 from cmrc_retrieval_eval import read_jsonl, summarize, to_documents
 from ragdemo.rag_chain import DEFAULT_K, DEFAULT_MAX_DISTANCE, create_rag_chain_with_sources
+from usage import TokenUsageCollector, sum_usage
 
 
-def row_from_result(item: dict, result: dict) -> dict:
+def row_from_result(item: dict, result: dict, *, latency: float | None = None, usage: dict | None = None) -> dict:
     """把一道题的链路输出整理成一行证据。
 
     检索层拒答时 answer 是我们自己写的文案，不是模型答案——EM/F1/Faithfulness 全部留 None，
     免得拿拒答文案去和金标 span 比出一个莫名其妙的分数。模型自拒只在没被阈值拦下时才判。
+
+    `latency` / `usage` 是这道题的成本计量，由调用方（run_condition）从计时和回调里填进来；
+    缺省按 0 记，因为"没测到"和"确实是 0"在这两个字段上一律是 0，没必要用 None 区分。
     """
     docs = result["source_documents"]
     distances = [doc.metadata.get("score") for doc in docs]
@@ -79,6 +83,8 @@ def row_from_result(item: dict, result: dict) -> dict:
         "negative_f1": None,
         "faithfulness_unigram": None,
         "faithfulness_bigram": None,
+        "latency_seconds": latency,
+        **{key: (usage or sum_usage([]))[key] for key in ("llm_calls", "input_tokens", "output_tokens", "total_tokens")},
     }
     if store_refused:
         return row
@@ -99,18 +105,49 @@ def row_from_result(item: dict, result: dict) -> dict:
     return row
 
 
-def run_condition(chain, items: list[dict]) -> tuple[list[dict], dict]:
-    rows, started = [], time.time()
-    for item in items:
-        rows.append(row_from_result(item, chain.invoke(item["question"])))
-    generations = sum(1 for row in rows if not row["store_refused"])
-    cost = {
+def build_cost(rows: list[dict], seconds: float) -> dict:
+    """把一组的行汇总成成本表。
+
+    生成次数改成直接数回调收到过几次 `on_llm_end`，不再用"没被阈值拦下"去推断：推断出来的
+    数只证明"我们以为调了"，实测的数才证明"确实调了"。
+    延迟分两栏——全部题（含只检索没生成的）与实际发生生成的题，混在一起会把拒答省下的时间
+    算进生成延迟里。
+    """
+    calls = sum(row["llm_calls"] for row in rows)
+    generated = [row["latency_seconds"] for row in rows if row["llm_calls"] and row["latency_seconds"] is not None]
+    measured = [row["latency_seconds"] for row in rows if row["latency_seconds"] is not None]
+    return {
         "questions": len(rows),
-        "llm_generations": generations,
+        "llm_generations": calls,
         "retrievals": len(rows),
-        "seconds": round(time.time() - started, 1),
+        "seconds": round(seconds, 1),
+        "input_tokens": sum(row["input_tokens"] for row in rows),
+        "output_tokens": sum(row["output_tokens"] for row in rows),
+        "total_tokens": sum(row["total_tokens"] for row in rows),
+        # 0 次生成时是 None 而不是 0.0：那是"没有样本"，不是"每次 0 个 token"
+        "mean_input_tokens_per_generation": round(sum(row["input_tokens"] for row in rows) / calls, 1) if calls else None,
+        "mean_output_tokens_per_generation": round(sum(row["output_tokens"] for row in rows) / calls, 1) if calls else None,
+        "latency_all": summarize(measured),
+        "latency_generated": summarize(generated),
     }
-    return rows, cost
+
+
+def run_condition(chain, items: list[dict]) -> tuple[list[dict], dict]:
+    rows, collector = [], TokenUsageCollector()
+    started = time.perf_counter()
+    for item in items:
+        cursor = collector.snapshot()
+        began = time.perf_counter()
+        result = chain.invoke(item["question"], config={"callbacks": [collector]})
+        rows.append(
+            row_from_result(
+                item,
+                result,
+                latency=round(time.perf_counter() - began, 3),
+                usage=collector.usage_since(cursor),
+            )
+        )
+    return rows, build_cost(rows, time.perf_counter() - started)
 
 
 def probe_items(golden: list[dict], n_answerable: int) -> list[dict]:
@@ -165,6 +202,34 @@ def fmt_group(group: dict) -> str:
     )
 
 
+def fmt_cost(cost: dict) -> str:
+    """把成本 dict 渲染成一行人话。
+
+    两个不"顺手补 0"的地方：没有生成时平均输入 token 是 None（那是没有样本，不是每轮 0 个
+    token）；延迟没实测过就整段不出现，免得渲染出 `中位 0.0s` 让人以为测得很准。
+    """
+    mean_input = cost.get("mean_input_tokens_per_generation")
+    parts = [
+        f"题数 {cost.get('questions', 0)}",
+        f"生成 {cost.get('llm_generations', 0)} 次",
+        f"输入 {cost.get('input_tokens', 0)} tok",
+        f"输出 {cost.get('output_tokens', 0)} tok",
+        f"合计 {cost.get('total_tokens', 0)} tok",
+        f"每次生成平均输入 {mean_input} tok" if mean_input is not None else "没有发生生成",
+    ]
+    generated = cost.get("latency_generated") or {}
+    if generated.get("n"):
+        parts.append(
+            f"生成题延迟 中位 {generated['median']}s / p75 {generated['p75']}s / max {generated['max']}s"
+        )
+    everything = cost.get("latency_all") or {}
+    if everything.get("n"):
+        parts.append(f"全部题延迟 中位 {everything['median']}s（含阈值拦下、没调模型的题）")
+    if cost.get("seconds") is not None:
+        parts.append(f"总耗时 {cost['seconds']}s")
+    return "｜".join(parts)
+
+
 def to_markdown(report: dict) -> str:
     thresholds = report["conditions"]
     on = thresholds["threshold_on"]
@@ -172,8 +237,8 @@ def to_markdown(report: dict) -> str:
         "## 1. 配置与调用量\n\n",
         f"- 模型 `{report['chat_model']}`，k={report['k']}，chunk_size={report['chunk_size']}，"
         f"拒答线 d ≤ {report['max_distance']}（口径见 2026-09-30-chroma-threshold.md）\n",
-        f"- 阈值开：{json.dumps(on['cost'], ensure_ascii=False)}\n",
-        f"- 阈值关（探针组）：{json.dumps(thresholds['no_threshold_probe']['cost'], ensure_ascii=False)}\n",
+        f"- 阈值开：{fmt_cost(on['cost'])}\n",
+        f"- 阈值关（探针组）：{fmt_cost(thresholds['no_threshold_probe']['cost'])}\n",
         "- 生产链路是 `temperature=1`，同配置重跑分数会抖，看量级别小数点较真\n",
         "\n## 2. 阈值开：拒答与答案质量（全量金标集）\n\n",
         f"- 可回答题：{fmt_group(on['answerable'])}\n",
@@ -249,6 +314,11 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=0, help="阈值开那组只跑前 N 题，冒烟用")
     parser.add_argument("--probe", type=int, default=20, help="阈值关组额外抽多少道可回答题")
     parser.add_argument("--keep", action="store_true", help="保留临时索引目录")
+    parser.add_argument(
+        "--out-suffix",
+        default="",
+        help="结果文件名后缀，如 --out-suffix smoke 写 {日期}-answer-smoke.*，别覆盖已提交的全量结果",
+    )
     args = parser.parse_args()
 
     corpus = read_jsonl(DATASET_DIR / "corpus.jsonl")
@@ -275,12 +345,12 @@ def main() -> None:
         store, k=args.k, max_distance=args.max_distance
     )
     on_rows, on_cost = run_condition(on_chain, on_items)
-    print(f"阈值开完成：{json.dumps(on_cost, ensure_ascii=False)}")
+    print(f"阈值开完成：{fmt_cost(on_cost)}")
 
     # 阈值关：同一批题把无关上下文照样塞给模型，看提示词层的出口够不够
     off_chain = create_rag_chain_with_sources(store, k=args.k, max_distance=None)
     off_rows, off_cost = run_condition(off_chain, off_items)
-    print(f"阈值关完成：{json.dumps(off_cost, ensure_ascii=False)}")
+    print(f"阈值关完成：{fmt_cost(off_cost)}")
 
     report = {
         "date": str(date.today()),
@@ -298,7 +368,8 @@ def main() -> None:
     }
 
     results_dir = EVALS_DIR / "results"
-    stem = f"{report['date']}-answer"
+    suffix = f"-{args.out_suffix}" if args.out_suffix else ""
+    stem = f"{report['date']}-answer{suffix}"
     (results_dir / f"{stem}.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
     )
