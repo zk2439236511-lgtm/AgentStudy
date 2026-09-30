@@ -60,7 +60,7 @@ PYTHONPATH=src uvicorn ragdemo.api:app --port 8001   # 知识库 HTTP 接口
 检索评测（evals/，指标计算是纯函数、离线免费；跑评测会真实调用百炼 embedding）：
 
 ```bash
-pytest evals                       # 当前 42 passed（指标 + 金标集构建 + 距离口径实验，全部离线）
+pytest evals                       # 当前 94 passed（指标 + 金标集构建 + 距离口径实验 + 答案层指标，全部离线）
 
 # A. 自造题：chunk_size × k 网格，判的是"相关页有没有进前 K"
 python evals/retrieval_eval.py --chunk-sizes 500,1000,2000 --ks 4,8
@@ -84,6 +84,16 @@ python evals/chroma_threshold_eval.py --chunk-size 0 --k 8 \
                                # 实测结论：collection 的 space=l2（平方欧氏），且百炼向量已归一化
                                # → cos = 1 - d/2；据此换算后与内存库逐题对齐（230 题 gold_rank 差异 0/200）
                                # 工作点 d ≤ 1.0：30 道负样本拒掉 24 道，200 道可回答题只误伤 3 道
+
+# D. 答案层评测：把 C 段建好的真 Chroma 接上线上问答链，阈值开/关各跑一遍对比
+#    ⚠ 会真实调用 qwen-plus 生成（全量 230 题 ≈ 253 次生成），免费额度有限，先 --limit 冒烟
+python evals/answer_eval.py                     # 全量：阈值开 230 题 + 阈值关探针 50 题
+python evals/answer_eval.py --limit 8 --probe 4 # 冒烟：走通拒答与作答两条路径即可
+                               # 结果写入 evals/results/{日期}-answer.{json,md}
+                               # 指标：EM / char-F1 / span 命中 / 字面支撑(unigram+bigram) / 拒答分层
+                               # 结论：span 命中 0.9077 而 char-F1 只有 0.5163 → 瓶颈是答案啰嗦不是答错；
+                               #        EM 0.0974 在整句答案下没有解释力，必须与 span 命中成对看；
+                               #        负样本拒答 29/30（阈值拦 24 + 模型自拒 5），与 C 段纯检索层数字一致
 ```
 
 > 分数口径注意：`InMemoryVectorStore` 的分数是**余弦相似度（越大越相关）**，线上 kb-web 走 Chroma，`score` 是
@@ -120,7 +130,8 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
       · 进阶待做：答案句子与来源块逐句对应、点击跳到 PDF 具体位置
 - [x] 6. evals/ 检索评测：Hit@K / Recall@K / MRR / 关键词覆盖，chunk_size × k 网格实验
       · 已把结论降级到数据能支撑的范围（k 增大天然抬高 Hit/Recall），并标注题源泄漏
-      · 待补：答案层 Correctness / Faithfulness、拒答正确率（Precision@K、nDCG@K 已补，见补课路线 3）
+      · 答案层已补简化指标（EM / char-F1 / span 命中 / 字面支撑 / 拒答正确率，见补课路线 3 与上面 D 段）；
+        语义级 Correctness（让模型判分）仍未做，那是下一步
 
 外部评审（84/100）后的补课路线：
 
@@ -129,12 +140,20 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
 - [x] 2. 外部金标集（CMRC2018 dev，人工标注）：抽取器 + 100 段 / 200 问 / 30 构造负样本，只建独立内存索引不进线上知识库，解掉自造 `expected_pages` 的数据泄漏
       · 结论要诚实：这份数据在检索层已饱和（四组配置 Hit/Recall 全 1.0），判不了 chunk_size 优劣；有区分度的是可回答题与负样本的 top1 相似度分离度（中位 0.748 vs 0.398），这是下一步阈值拒答的依据
       · 语料原始 json 不入仓，按 `evals/datasets/cmrc2018/MANIFEST.json` 的 URL + sha256 下载重建
-- [ ] 3. 分层指标：检索层补 Precision@K、nDCG@K，答案层 EM/F1 + 简化 Faithfulness + 拒答正确率
-      · 检索层已完成（Precision@K / nDCG@K / top1 相似度分布 / 阈值扫描）；答案层待做
+- [x] 3. 分层指标：检索层补 Precision@K、nDCG@K，答案层 EM/F1 + 简化 Faithfulness + 拒答正确率
+      · 检索层已完成（Precision@K / nDCG@K / top1 相似度分布 / 阈值扫描）；答案层也已完成，见上面 D 段与 `evals/results/2026-09-30-answer.md`
       · 注意单 gold 数据下 Precision@K 的天花板恒等于 1/K，0.25 / 0.125 是恒等式不是质量结论
+      · 同一类陷阱在答案层更凶：gold 是 2~10 字的原文 span，模型答成整句时 EM 结构性趋 0（实测 0.0974），
+        所以 EM 必须与 span 命中（0.9077）成对报；拒答的题不能进 EM 分母，否则"全拒答"能刷出漂亮的平均分，
+        因此质量出双口径（作答子集 / 全分母按 0 计）
+      · 字面支撑 unigram 已实测饱和（均值 0.9914、171/195 道等于 1.0），只有 bigram（0.8442）有区分度；
+        而且这两个都只证"字在上下文里出现过"，不证事实性——凭参数知识答对的题字面支撑同样高
 - [ ] 4. 距离阈值拒答 + rerank 单变量实验
       · 距离阈值拒答已完成：先在真 Chroma 上实测口径（`space=l2`、百炼向量已归一 → `cos = 1 - d/2`），再选工作点 `d ≤ 1.0`，落到 `/kb/ask` 的 `refused` 字段与前端拒答态；见 `evals/results/2026-09-30-chroma-threshold.md`
       · 已知限制：只看 top1 一根线，后 7 块不参与判定；换 embedding 模型或向量库要重扫
+      · 答案层对比跑出来的意外结论：把阈值关掉，提示词那句"没有依据就说不知道"在 30 道构造负样本上自拒 29 道，
+        拒答率与阈值开组同为 0.9667——所以阈值的价值在这份数据上不是"拒得更多"，而是省下 27/230 次生成调用、
+        以及不看内容的可预测性；两层共同的盲区是"距离很近 + 模型敢答"（`DEV_400` top1 仅 0.5016，被硬答）
       · 待做：rerank 单变量实验（一轮只动一个变量，避免和阈值结论混在一起）
 - [ ] 5. Mini Agent：裸写 OpenAI SDK `tool_calls` 循环，不套框架
 

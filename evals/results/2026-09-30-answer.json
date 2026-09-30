@@ -1,0 +1,5208 @@
+{
+  "date": "2026-09-30",
+  "chat_model": "qwen-plus",
+  "k": 8,
+  "chunk_size": 0,
+  "max_distance": 1.0,
+  "corpus_docs": 100,
+  "chunks": 100,
+  "conditions": {
+    "threshold_on": {
+      "answerable": {
+        "n": 200,
+        "store_refused": 3,
+        "model_self_refused": 2,
+        "either_refused": 5,
+        "both_refused": 0,
+        "answered": 195,
+        "refusal_rate": 0.025
+      },
+      "negative": {
+        "n": 30,
+        "store_refused": 24,
+        "model_self_refused": 5,
+        "either_refused": 29,
+        "both_refused": 0,
+        "answered": 1,
+        "refusal_rate": 0.9667
+      },
+      "quality_answered_subset": {
+        "n": 195,
+        "em": 0.0974,
+        "f1": 0.5163,
+        "containment": 0.9077,
+        "faithfulness_unigram": 0.9914,
+        "faithfulness_bigram": 0.8442
+      },
+      "quality_all_answerable_zero_refused": {
+        "n": 200,
+        "em": 0.095,
+        "f1": 0.5034,
+        "containment": 0.885
+      },
+      "negative_hard_answered_f1": 0.3529,
+      "negative_hard_answered_matches_gold": 0,
+      "f1_distribution": {
+        "n": 197,
+        "min": 0.0,
+        "p25": 0.3,
+        "median": 0.5,
+        "p75": 0.7111,
+        "max": 1.0,
+        "mean": 0.5127
+      },
+      "cost": {
+        "questions": 230,
+        "llm_generations": 203,
+        "retrievals": 230,
+        "seconds": 268.6
+      }
+    },
+    "no_threshold_probe": {
+      "answerable": {
+        "n": 20,
+        "store_refused": 0,
+        "model_self_refused": 0,
+        "either_refused": 0,
+        "both_refused": 0,
+        "answered": 20,
+        "refusal_rate": 0.0
+      },
+      "negative": {
+        "n": 30,
+        "store_refused": 0,
+        "model_self_refused": 29,
+        "either_refused": 29,
+        "both_refused": 0,
+        "answered": 1,
+        "refusal_rate": 0.9667
+      },
+      "quality_answered_subset": {
+        "n": 20,
+        "em": 0.2,
+        "f1": 0.5811,
+        "containment": 0.9,
+        "faithfulness_unigram": 0.9904,
+        "faithfulness_bigram": 0.8445
+      },
+      "quality_all_answerable_zero_refused": {
+        "n": 20,
+        "em": 0.2,
+        "f1": 0.5811,
+        "containment": 0.9
+      },
+      "negative_hard_answered_f1": 0.3529,
+      "negative_hard_answered_matches_gold": 0,
+      "f1_distribution": {
+        "n": 20,
+        "min": 0.1034,
+        "p25": 0.3333,
+        "median": 0.5328,
+        "p75": 0.7778,
+        "max": 1.0,
+        "mean": 0.5811
+      },
+      "cost": {
+        "questions": 50,
+        "llm_generations": 50,
+        "retrievals": 50,
+        "seconds": 68.0
+      }
+    }
+  },
+  "rows": {
+    "threshold_on": [
+      {
+        "question_id": "DEV_1646_QUERY_1",
+        "question": "哪一因素决定游离能力？",
+        "answerable": true,
+        "gold_answers": [
+          "射线（粒子或波）所带的能量"
+        ],
+        "top1_distance": 0.8124,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "决定游离能力的因素是射线（粒子或波）所带的能量，而不是射线的数量。",
+        "em": 0.0,
+        "f1": 0.55,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8214
+      },
+      {
+        "question_id": "DEV_378_QUERY_0",
+        "question": "香港冠军暨遮打杯是什么赛事的锦标赛？",
+        "answerable": true,
+        "gold_answers": [
+          "赛马"
+        ],
+        "top1_distance": 0.3149,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "香港冠军暨遮打杯是**香港赛马**的锦标赛。",
+        "em": 0.0,
+        "f1": 0.2105,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9375
+      },
+      {
+        "question_id": "DEV_257_QUERY_1",
+        "question": "邵伯温是在什么时候去世?",
+        "answerable": true,
+        "gold_answers": [
+          "高宗绍兴四年（1134年）"
+        ],
+        "top1_distance": 0.5053,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "邵伯温卒于高宗绍兴四年（1134年）。",
+        "em": 0.0,
+        "f1": 0.8148,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9333
+      },
+      {
+        "question_id": "DEV_252_QUERY_1",
+        "question": "嘉诺撒圣家学校的现任校长名字是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "何佩芳"
+        ],
+        "top1_distance": 0.4679,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "嘉诺撒圣家学校的现任校长是何佩芳女士。",
+        "em": 0.0,
+        "f1": 0.2857,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_180_QUERY_0",
+        "question": "赫哲语在什么地方比较通行？",
+        "answerable": true,
+        "gold_answers": [
+          "中国和俄罗斯接壤的黑龙江、松花江和乌苏里江流域一带",
+          "中国和俄罗斯接壤的黑龙江、松花江和乌苏里江流域一带。"
+        ],
+        "top1_distance": 0.451,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "赫哲语通行于中国和俄罗斯接壤的黑龙江、松花江和乌苏里江流域一带。",
+        "em": 0.0,
+        "f1": 0.8889,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9655
+      },
+      {
+        "question_id": "DEV_1156_QUERY_1",
+        "question": "大雄宝殿实际上是佛寺的什么地方？",
+        "answerable": true,
+        "gold_answers": [
+          "主殿"
+        ],
+        "top1_distance": 0.6248,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "大雄宝殿实际上是佛寺的主殿（或正殿）。",
+        "em": 0.0,
+        "f1": 0.2222,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9333
+      },
+      {
+        "question_id": "DEV_483_QUERY_1",
+        "question": "毕加索的作品曾受到哪位好友自杀的影响？",
+        "answerable": true,
+        "gold_answers": [
+          "卡洛斯·卡萨吉马斯"
+        ],
+        "top1_distance": 0.8701,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "毕加索的作品曾受到挚友卡洛斯·卡萨吉马斯（Carlos Casagemas）自杀的影响。",
+        "em": 0.0,
+        "f1": 0.3404,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6316
+      },
+      {
+        "question_id": "DEV_157_QUERY_0",
+        "question": "黄鳍雀鲷的俗名叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "菲律宾雀鲷"
+        ],
+        "top1_distance": 0.3484,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黄鳍雀鲷的俗名叫菲律宾雀鲷。",
+        "em": 0.0,
+        "f1": 0.5556,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9231,
+        "faithfulness_bigram": 0.6667
+      },
+      {
+        "question_id": "DEV_543_QUERY_1",
+        "question": "《三遂平妖传》的作者是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "罗贯中"
+        ],
+        "top1_distance": 0.3344,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《三遂平妖传》的作者是明朝罗贯中。  \n根据文段：“《三遂平妖传》全称《北宋三遂平妖传》，又名《新平妖传》，明朝罗贯中所著……”；以及末句明确指出：“《三遂平妖传》四十回本署名为：‘罗贯中编次，冯梦龙补改’”。  \n因此，原始作者（编次者）是罗贯中，冯梦龙是后来的增补改编者。",
+        "em": 0.0,
+        "f1": 0.0571,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.951,
+        "faithfulness_bigram": 0.6832
+      },
+      {
+        "question_id": "DEV_1175_QUERY_0",
+        "question": "高氏前肛鳗属于什么科？",
+        "answerable": true,
+        "gold_answers": [
+          "辐鳍鱼纲鳗鲡目糯鳗亚目通鳃鳗科",
+          "通鳃鳗科"
+        ],
+        "top1_distance": 0.2428,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "高氏前肛鳗属于通鳃鳗科。",
+        "em": 0.0,
+        "f1": 0.5333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8
+      },
+      {
+        "question_id": "DEV_629_QUERY_0",
+        "question": "装配线还可以叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "生产线"
+        ],
+        "top1_distance": 0.6862,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "装配线还可以叫“生产线”。",
+        "em": 0.0,
+        "f1": 0.4615,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9,
+        "faithfulness_bigram": 0.5556
+      },
+      {
+        "question_id": "DEV_135_QUERY_0",
+        "question": "杨群是哪里人？",
+        "answerable": true,
+        "gold_answers": [
+          "哈尔滨",
+          "哈尔滨人"
+        ],
+        "top1_distance": 0.6057,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "杨群是哈尔滨人。",
+        "em": 0.0,
+        "f1": 0.7273,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6667
+      },
+      {
+        "question_id": "DEV_1012_QUERY_1",
+        "question": "格利泽518b的质量至少是地球的多少倍？",
+        "answerable": true,
+        "gold_answers": [
+          "90倍"
+        ],
+        "top1_distance": 0.6595,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文提到的是“格利泽581b”，而非“格利泽518b”。文中没有关于“格利泽518b”的任何信息。\n\n因此，**无法回答该问题**，因为上下文中不存在“格利泽518b”这一行星的相关数据。",
+        "em": 0.0,
+        "f1": 0.0,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9351,
+        "faithfulness_bigram": 0.4737
+      },
+      {
+        "question_id": "DEV_172_QUERY_1",
+        "question": "皇后全氏是谁的妻子？",
+        "answerable": true,
+        "gold_answers": [
+          "孙亮"
+        ],
+        "top1_distance": 0.8434,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "皇后全氏是吴废帝孙亮的妻子。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.75
+      },
+      {
+        "question_id": "DEV_157_QUERY_1",
+        "question": "黄鳍雀鲷分布于什么海域？",
+        "answerable": true,
+        "gold_answers": [
+          "印度西太平洋区"
+        ],
+        "top1_distance": 0.2556,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黄鳍雀鲷分布于印度西太平洋区，包括马尔地夫、琉球群岛、马来西亚、台湾、菲律宾、印尼、澳洲、索罗门群岛、马绍尔群岛、新喀里多尼亚、东加、诺鲁等海域。",
+        "em": 0.0,
+        "f1": 0.209,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9831
+      },
+      {
+        "question_id": "DEV_417_QUERY_1",
+        "question": "谁演唱了《金刀情侠》的主题曲？",
+        "answerable": true,
+        "gold_answers": [
+          "黄韵诗"
+        ],
+        "top1_distance": 0.5434,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黄韵诗",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_50_QUERY_1",
+        "question": "文周王是哪年到哪年在位？",
+        "answerable": true,
+        "gold_answers": [
+          "475年至477年"
+        ],
+        "top1_distance": 0.7944,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "文周王于475年至477年在位。",
+        "em": 0.0,
+        "f1": 0.75,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9286
+      },
+      {
+        "question_id": "DEV_47_QUERY_1",
+        "question": "底特律第二浸信会是由谁成立的？",
+        "answerable": true,
+        "gold_answers": [
+          "由于受歧视而离开第一浸信会的3名前奴隶",
+          "第一浸信会的3名前奴隶"
+        ],
+        "top1_distance": 0.4253,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "底特律第二浸信会是由3名前奴隶成立的。",
+        "em": 0.0,
+        "f1": 0.6897,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8824
+      },
+      {
+        "question_id": "DEV_388_QUERY_0",
+        "question": "田泽湖车站的具体地址是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "日本秋田县仙北市田泽湖生保内男坂"
+        ],
+        "top1_distance": 0.4517,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "田泽湖车站的具体地址是：日本秋田县仙北市田泽湖生保内男坂。",
+        "em": 0.0,
+        "f1": 0.7442,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.8889,
+        "faithfulness_bigram": 0.7692
+      },
+      {
+        "question_id": "DEV_557_QUERY_0",
+        "question": "增城挂绿的产地是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "中国广东省广州市增城区"
+        ],
+        "top1_distance": 0.2852,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "增城挂绿的产地是中国广东省广州市增城区。",
+        "em": 0.0,
+        "f1": 0.7333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_179_QUERY_1",
+        "question": "《我的暑假》是哪个公司制作的？",
+        "answerable": true,
+        "gold_answers": [
+          "Millennium Kitchen"
+        ],
+        "top1_distance": 0.8782,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《我的暑假》是由Millennium Kitchen制作的。",
+        "em": 0.0,
+        "f1": 0.7907,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.88
+      },
+      {
+        "question_id": "DEV_200_QUERY_0",
+        "question": "《无声狂啸》是谁的短篇小说？",
+        "answerable": true,
+        "gold_answers": [
+          "哈兰·艾里森"
+        ],
+        "top1_distance": 0.5744,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《无声狂啸》是美国科幻小说大师哈兰·艾里森的短篇小说。",
+        "em": 0.0,
+        "f1": 0.3571,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9091
+      },
+      {
+        "question_id": "DEV_1525_QUERY_1",
+        "question": "零食物语创立于哪一年？",
+        "answerable": true,
+        "gold_answers": [
+          "1997年"
+        ],
+        "top1_distance": 0.4704,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "零食物语创立于1997年。",
+        "em": 0.0,
+        "f1": 0.5882,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8182
+      },
+      {
+        "question_id": "DEV_13_QUERY_0",
+        "question": "白岳峰是哪一个少数民族的？",
+        "answerable": true,
+        "gold_answers": [
+          "朝鲜族"
+        ],
+        "top1_distance": 0.9502,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "白岳峰是朝鲜族。",
+        "em": 0.0,
+        "f1": 0.6,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6667
+      },
+      {
+        "question_id": "DEV_1024_QUERY_0",
+        "question": "《白之春》在什么电视台上播放？",
+        "answerable": true,
+        "gold_answers": [
+          "关西电视台"
+        ],
+        "top1_distance": 0.4975,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《白之春》在关西电视台播放。",
+        "em": 0.0,
+        "f1": 0.625,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7
+      },
+      {
+        "question_id": "DEV_38_QUERY_1",
+        "question": "河茂铁路共设置了几座车站？",
+        "answerable": true,
+        "gold_answers": [
+          "7座"
+        ],
+        "top1_distance": 0.6536,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "河茂铁路共设7座车站。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8889
+      },
+      {
+        "question_id": "DEV_66_QUERY_0",
+        "question": "新角龙类生存于什么时期？",
+        "answerable": true,
+        "gold_answers": [
+          "白垩纪早到末期"
+        ],
+        "top1_distance": 0.4589,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "新角龙类生存于白垩纪早到末期。",
+        "em": 0.0,
+        "f1": 0.6667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9231
+      },
+      {
+        "question_id": "DEV_1505_QUERY_0",
+        "question": "曾伟明的出生地在哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "马来西亚"
+        ],
+        "top1_distance": 0.5477,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "曾伟明的出生地是马来西亚。",
+        "em": 0.0,
+        "f1": 0.5,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.4545
+      },
+      {
+        "question_id": "DEV_153_QUERY_1",
+        "question": "颊鳞雀鲷属于哪个科目？",
+        "answerable": true,
+        "gold_answers": [
+          "辐鳍鱼纲鲈形目隆头鱼亚目雀鲷科"
+        ],
+        "top1_distance": 0.5038,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "颊鳞雀鲷属于雀鲷科。",
+        "em": 0.0,
+        "f1": 0.25,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_1065_QUERY_0",
+        "question": "亚麻属于哪个属？",
+        "answerable": true,
+        "gold_answers": [
+          "亚麻属",
+          "亚麻科亚麻属"
+        ],
+        "top1_distance": 0.3917,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "亚麻属于亚麻属。",
+        "em": 0.0,
+        "f1": 0.7692,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_312_QUERY_0",
+        "question": "加利福尼亚滑银汉鱼分布在哪个地区？",
+        "answerable": true,
+        "gold_answers": [
+          "美国加州的旧金山至圣地牙哥海岸边"
+        ],
+        "top1_distance": 0.4712,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "加利福尼亚滑银汉鱼仅分布于美国加州的旧金山至圣地牙哥海岸边。",
+        "em": 0.0,
+        "f1": 0.7111,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1008_QUERY_1",
+        "question": "卒本扶余是哪个国家的一个延续？",
+        "answerable": true,
+        "gold_answers": [
+          "北扶余国"
+        ],
+        "top1_distance": 0.6742,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "卒本扶余是北扶余国的一个延续。",
+        "em": 0.0,
+        "f1": 0.4444,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1157_QUERY_0",
+        "question": "2007年亚足联冠军联赛是第多少届亚洲冠军联赛？",
+        "answerable": true,
+        "gold_answers": [
+          "第 26 届"
+        ],
+        "top1_distance": 0.3111,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "第26届",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_178_QUERY_0",
+        "question": "伊芳·卡特菲的出生地在哪？",
+        "answerable": true,
+        "gold_answers": [
+          "德国图林根州埃尔福特"
+        ],
+        "top1_distance": 0.5825,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "伊芳·卡特菲的出生地是德国图林根州埃尔福特。",
+        "em": 0.0,
+        "f1": 0.6667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7368
+      },
+      {
+        "question_id": "DEV_128_QUERY_0",
+        "question": "硫醚的通式是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "R-S-R"
+        ],
+        "top1_distance": 0.2862,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "硫醚的通式是 R-S-R，其中 R 是有机基团。",
+        "em": 0.0,
+        "f1": 0.3,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8125
+      },
+      {
+        "question_id": "DEV_464_QUERY_1",
+        "question": "亚历山大·罗迪奇在场上担任什么位置？",
+        "answerable": true,
+        "gold_answers": [
+          "前锋"
+        ],
+        "top1_distance": 0.659,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "亚历山大·罗迪奇在场上司职前锋，但曾担任过前锋、前腰、后腰等多个位置。",
+        "em": 0.0,
+        "f1": 0.125,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6897
+      },
+      {
+        "question_id": "DEV_586_QUERY_1",
+        "question": "祭遵小时候喜欢读什么书？",
+        "answerable": true,
+        "gold_answers": [
+          "经书"
+        ],
+        "top1_distance": 0.8066,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "祭遵小时候喜欢读经书。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.4444
+      },
+      {
+        "question_id": "DEV_152_QUERY_0",
+        "question": "中国第一汽车集团有限公司简称叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "“中国一汽”、“一汽”、“第一汽车”"
+        ],
+        "top1_distance": 0.7301,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "中国第一汽车集团有限公司简称“中国一汽”、“一汽”、“第一汽车”。",
+        "em": 0.0,
+        "f1": 0.5882,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_445_QUERY_1",
+        "question": "女神响尾蛇分布在哪些地区？",
+        "answerable": true,
+        "gold_answers": [
+          "墨西哥西北部及邻近海岸与岛屿"
+        ],
+        "top1_distance": 0.4233,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "女神响尾蛇主要分布于墨西哥西北部及邻近海岸与岛屿，具体包括：\n\n- 墨西哥西部  \n- 下加利福尼亚半岛一带  \n- 加利福尼亚湾一带（如圣马可斯、三藩市等地区）  \n\n此外，文中明确指出其分布范围涵盖墨西哥西北部的沙漠地带、松栎混交林和短期热带性丛林、岩石群地带、沙丘，甚至受人类居住地遗留的生理垃圾吸引而出现的区域。",
+        "em": 0.0,
+        "f1": 0.1854,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9343,
+        "faithfulness_bigram": 0.6912
+      },
+      {
+        "question_id": "DEV_483_QUERY_0",
+        "question": "毕卡索的蓝色时期指的是哪些年？",
+        "answerable": true,
+        "gold_answers": [
+          "1900年至1904年"
+        ],
+        "top1_distance": 0.3163,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "毕卡索的蓝色时期指的是1900年至1904年之间。",
+        "em": 0.0,
+        "f1": 0.6286,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.913
+      },
+      {
+        "question_id": "DEV_462_QUERY_0",
+        "question": "朱椿的母亲是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "郭惠妃"
+        ],
+        "top1_distance": 0.7682,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "朱椿的母亲是郭惠妃。",
+        "em": 0.0,
+        "f1": 0.5,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.375
+      },
+      {
+        "question_id": "DEV_578_QUERY_1",
+        "question": "前独立成科的凤头鹦鹉为什么被降级为亚科？",
+        "answerable": true,
+        "gold_answers": [
+          "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种",
+          "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。"
+        ],
+        "top1_distance": 0.3745,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉具有更多特性的品种，表明凤头鹦鹉并非如原先认为的那样高度特化或孤立，其系统发育位置更适宜降为亚科层级；同时，有研究提出，未来分类趋势将是将鹦鹉亚科中的各族提升至更高的亚科层级，而凤头鹦鹉则相应降为亚科。",
+        "em": 0.0,
+        "f1": 0.411,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9224,
+        "faithfulness_bigram": 0.6087
+      },
+      {
+        "question_id": "DEV_1111_QUERY_1",
+        "question": "名侦探柯南：迷宫的十字路的剧场版在日本的票房是多少？",
+        "answerable": true,
+        "gold_answers": [
+          "32亿日元"
+        ],
+        "top1_distance": 0.7854,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "32亿日元",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_452_QUERY_1",
+        "question": "环望1986年以什么笔名获得小学馆漫画大赏佳作入选？",
+        "answerable": true,
+        "gold_answers": [
+          "近畿魔王"
+        ],
+        "top1_distance": 0.3703,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "环望1986年以笔名「近畿魔王」获得小学馆漫画大赏佳作入选。",
+        "em": 0.0,
+        "f1": 0.2581,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9615
+      },
+      {
+        "question_id": "DEV_1008_QUERY_0",
+        "question": "高豆莫是哪个部落的首领？",
+        "answerable": true,
+        "gold_answers": [
+          "扶余人部落"
+        ],
+        "top1_distance": 0.6061,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "高豆莫是扶余人部落的首领。",
+        "em": 0.0,
+        "f1": 0.5882,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8182
+      },
+      {
+        "question_id": "DEV_1155_QUERY_1",
+        "question": "纽波特在什么地方？",
+        "answerable": true,
+        "gold_answers": [
+          "美国罗得岛州南部"
+        ],
+        "top1_distance": 0.4635,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "纽波特位于美国罗得岛州南部，是纽波特县的县治所在。",
+        "em": 0.0,
+        "f1": 0.5161,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9545
+      },
+      {
+        "question_id": "DEV_257_QUERY_0",
+        "question": "邵伯温的父亲名字叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "邵雍"
+        ],
+        "top1_distance": 0.4697,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "邵伯温的父亲名字叫邵雍。",
+        "em": 0.0,
+        "f1": 0.3077,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9091,
+        "faithfulness_bigram": 0.4
+      },
+      {
+        "question_id": "DEV_1564_QUERY_1",
+        "question": "单线天竺鲷分布在哪个洋区？",
+        "answerable": true,
+        "gold_answers": [
+          "印度太平洋区"
+        ],
+        "top1_distance": 0.4165,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "单线天竺鲷分布在印度太平洋区。",
+        "em": 0.0,
+        "f1": 0.6,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7692
+      },
+      {
+        "question_id": "DEV_583_QUERY_1",
+        "question": "在律令制度中，从四位相当于什么官职？",
+        "answerable": true,
+        "gold_answers": [
+          "左京大夫、右京大夫等管理朝廷内行政事务的长官、次官",
+          "左京大夫、右京大夫等管理朝廷内行政事务的长官、次官。"
+        ],
+        "top1_distance": 0.4891,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "在律令制度中，从四位相当于左京大夫、右京大夫等管理朝廷内行政事务的长官、次官。",
+        "em": 0.0,
+        "f1": 0.7931,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9706
+      },
+      {
+        "question_id": "DEV_178_QUERY_1",
+        "question": "伊芳·卡特菲的职业是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "歌手",
+          "歌手，演员和电视主持人"
+        ],
+        "top1_distance": 0.5376,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "伊芳·卡特菲的职业是德国歌手、演员和电视主持人。",
+        "em": 0.0,
+        "f1": 0.6452,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.75
+      },
+      {
+        "question_id": "DEV_358_QUERY_0",
+        "question": "《现代食品工程》的主编是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "孙大文"
+        ],
+        "top1_distance": 0.3199,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《现代食品工程》的主编是孙大文。",
+        "em": 0.0,
+        "f1": 0.375,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6667
+      },
+      {
+        "question_id": "DEV_290_QUERY_1",
+        "question": "美安公司的主要业务是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "开发和制造世界上主要汽车制造商的安全系统",
+          "开发和制造世界上主要汽车制造商的安全系统。"
+        ],
+        "top1_distance": 0.5922,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "美安公司的主要业务是开发和制造世界上主要汽车制造商的安全系统，包括安全气囊系统和安全带系统。",
+        "em": 0.0,
+        "f1": 0.625,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7907
+      },
+      {
+        "question_id": "DEV_480_QUERY_0",
+        "question": "鄂温人在过去被称为什么？",
+        "answerable": true,
+        "gold_answers": [
+          "拉穆特人"
+        ],
+        "top1_distance": 0.4129,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "鄂温人在过去被称为拉穆特人（鄂温语，意为海洋的人）。",
+        "em": 0.0,
+        "f1": 0.3077,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8571
+      },
+      {
+        "question_id": "DEV_1065_QUERY_1",
+        "question": "亚麻可能原产于什么地方？",
+        "answerable": true,
+        "gold_answers": [
+          "西亚"
+        ],
+        "top1_distance": 0.3482,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "亚麻可能原产于西亚。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_397_QUERY_0",
+        "question": "九龙巴士32M线来往于哪些地方？",
+        "answerable": true,
+        "gold_answers": [
+          "葵芳站及象山",
+          "葵芳站及象山邨"
+        ],
+        "top1_distance": 0.3118,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "九龙巴士32M线来往于葵芳站及象山邨。",
+        "em": 0.0,
+        "f1": 0.56,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8824
+      },
+      {
+        "question_id": "DEV_1178_QUERY_0",
+        "question": "黑尾前肛鳗分布在什么地区？",
+        "answerable": true,
+        "gold_answers": [
+          "台湾西南海域"
+        ],
+        "top1_distance": 0.3224,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黑尾前肛鳗分布于台湾西南海域。",
+        "em": 0.0,
+        "f1": 0.6,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9231
+      },
+      {
+        "question_id": "DEV_1012_QUERY_0",
+        "question": "格利泽581b围绕哪颗行星运转？",
+        "answerable": true,
+        "gold_answers": [
+          "格利泽581"
+        ],
+        "top1_distance": 0.4166,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "格利泽581b不围绕任何行星运转，而是围绕红矮星**格利泽581**（一颗恒星）运转。\n\n文中明确指出：“格利泽581b是一颗围绕**红矮星格利泽581**运转的太阳系外行星。”  \n行星只能围绕恒星（或褐矮星等天体）运转，不能围绕其他行星运转；格利泽581是恒星，不是行星。",
+        "em": 0.0,
+        "f1": 0.1,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9561,
+        "faithfulness_bigram": 0.646
+      },
+      {
+        "question_id": "DEV_525_QUERY_0",
+        "question": "雅芳河的发源地是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "英格兰格洛斯特郡南格洛斯特奇平索德伯里"
+        ],
+        "top1_distance": 0.4611,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "根据提供的信息，存在两条名为“雅芳河”的河流，发源地不同：\n\n1. 第一条雅芳河（又称“索尔兹伯里的雅芳河”“汉普郡的雅芳河”）：**发源于英格兰威尔特郡肯尼特区（Kennet）迪韦齐斯（Devizes）**。\n\n2. 第二条雅芳河（又称“下雅芳河”或“布里斯托雅芳河”）：**发源于英格兰格洛斯特郡南格洛斯特奇平索德伯里（Chipping Sodbury）**。\n\n由于问题未指明是哪一条雅芳河，而上下文明确提到了两条同名但不同源的河流，因此需指出存在两个发源地。\n\n答案：  \n雅芳河有两条，分别发源于：  \n- 英格兰威尔特郡迪韦齐斯；  \n- 英格兰格洛斯特郡奇平索德伯里。",
+        "em": 0.0,
+        "f1": 0.1508,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.897,
+        "faithfulness_bigram": 0.6466
+      },
+      {
+        "question_id": "DEV_567_QUERY_0",
+        "question": "鲍林规则是什么时候总结归纳出来的？",
+        "answerable": true,
+        "gold_answers": [
+          "1982年"
+        ],
+        "top1_distance": 0.4114,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "鲍林规则是于1982年总结归纳出来的。",
+        "em": 0.0,
+        "f1": 0.4348,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8235
+      },
+      {
+        "question_id": "DEV_377_QUERY_0",
+        "question": "2007－08年全球粮食价格危机产生了怎样的影响？",
+        "answerable": true,
+        "gold_answers": [
+          "引起了世界范围的恐慌",
+          "引起了世界范围的恐慌。"
+        ],
+        "top1_distance": 0.3427,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2007－08年全球粮食价格危机产生了以下多方面影响：\n\n1. **全球性恐慌与社会动荡风险**：粮食价格迅速上涨引发世界范围的恐慌；IMF总裁斯特劳斯卡恩于2008年4月严厉警告，食品价格急剧上涨“可能引发战争”。\n\n2. **各国紧急政策调整**：\n   - 中国于2007年12月20日取消粮食及其制粉出口退税，并于2008年对小麦、玉米、稻谷、大米、大豆等57种原粮及制粉产品征收5%–25%的出口暂定关税；\n   - 摩洛哥大幅下调小麦进口关税（由130%降至2.5%）；\n   - 欧盟暂停征收大部分谷物进口关税；\n   - 柬埔寨和埃及于2008年3月27日公布大米出口禁令；\n   - 越南（全球第二大稻米出口国）和印度（第三大）纷纷提价、限制出口或减产。\n\n3. **全球粮食储备严重不足**：据世界粮食计划署，截至2008年3月，全球食品储备仅够53天应急供应。\n\n4. **加剧粮食不安全状况**：联合国粮农组织2008年5月报告指出，共22个国家被列为“严重受粮食危机影响”，包括非洲18国（如厄立特里亚、尼日尔、科摩罗、利比里亚）、亚洲3国（朝鲜、柬埔寨、塔吉克斯坦）及美洲1国（海地）。\n\n5. **暴露结构性矛盾**：危机并非源于粮食减产（国际谷物理事会报告显示2007/08年度全球谷物产量达16.62亿吨，增长5.7%），而是由多重因素驱动，包括：\n   - 粮食能源化（生物燃料扩张，如美国2007年12月通过新能源法案，大规模将粮食转为乙醇）；\n   - 出口限制引发的恶性循环（大国因天灾限出，小国因无法进口而跟进限出）；\n   - 气候变化威胁长期粮食安全（全球变暖导致水旱灾害频发，高温（>30℃）直接降低稻米产量）。\n\n综上，该危机不仅造成短期市场失衡与人道危机，更暴露出全球粮食治理体系、能源政策与气候适应能力的深层脆弱性。",
+        "em": 0.0,
+        "f1": 0.028,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9226,
+        "faithfulness_bigram": 0.5823
+      },
+      {
+        "question_id": "DEV_1161_QUERY_1",
+        "question": "刘燕卿哪一年加入消委会成为研究主任？",
+        "answerable": true,
+        "gold_answers": [
+          "1974年"
+        ],
+        "top1_distance": 0.4207,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "1974年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1088_QUERY_0",
+        "question": "吉格梅·多吉·旺楚克是哪个国家的前任国王？",
+        "answerable": true,
+        "gold_answers": [
+          "不丹"
+        ],
+        "top1_distance": 0.371,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "吉格梅·多吉·旺楚克是不丹的前任国王。",
+        "em": 0.0,
+        "f1": 0.2222,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7333
+      },
+      {
+        "question_id": "DEV_102_QUERY_1",
+        "question": "《停止！！ 云雀》在哪个杂志上连载？",
+        "answerable": true,
+        "gold_answers": [
+          "《周刊少年Jump》"
+        ],
+        "top1_distance": 0.5028,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《停止！！ 云雀》在《周刊少年Jump》（WJ，集英社）杂志上连载。",
+        "em": 0.0,
+        "f1": 0.5161,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9545
+      },
+      {
+        "question_id": "DEV_1106_QUERY_1",
+        "question": "轻艇水球的目标是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "争取在对方的龙门入球"
+        ],
+        "top1_distance": 0.4269,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "轻艇水球的目标是争取在对方的龙门入球。",
+        "em": 0.0,
+        "f1": 0.7143,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7647
+      },
+      {
+        "question_id": "DEV_394_QUERY_0",
+        "question": "徐陵的祖父是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "徐超之"
+        ],
+        "top1_distance": 0.6548,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "徐陵的祖父是徐超之。",
+        "em": 0.0,
+        "f1": 0.5,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.5
+      },
+      {
+        "question_id": "DEV_1646_QUERY_0",
+        "question": "辐射可分为哪两类？",
+        "answerable": true,
+        "gold_answers": [
+          "游离辐射和非游离辐射"
+        ],
+        "top1_distance": 0.5751,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "辐射可分为游离辐射和非游离辐射两类。",
+        "em": 0.0,
+        "f1": 0.7407,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_487_QUERY_0",
+        "question": "巴吞他尼府是哪个国家中部的一个府？",
+        "answerable": true,
+        "gold_answers": [
+          "泰国"
+        ],
+        "top1_distance": 0.4032,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "泰国",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_445_QUERY_0",
+        "question": "女神响尾蛇是哪个科的有毒蛇种？",
+        "answerable": true,
+        "gold_answers": [
+          "蛇亚目蝰蛇科"
+        ],
+        "top1_distance": 0.4634,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "女神响尾蛇是蝰蛇科的有毒蛇种。",
+        "em": 0.0,
+        "f1": 0.4,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8462
+      },
+      {
+        "question_id": "DEV_107_QUERY_0",
+        "question": "戴龙·罗伯斯是什么运动员？",
+        "answerable": true,
+        "gold_answers": [
+          "田径"
+        ],
+        "top1_distance": 0.6138,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "戴龙·罗伯斯是古巴田径运动员，专攻男子110米栏项目。",
+        "em": 0.0,
+        "f1": 0.1538,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8696
+      },
+      {
+        "question_id": "DEV_153_QUERY_0",
+        "question": "颊鳞雀鲷的俗名叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "厚壳仔"
+        ],
+        "top1_distance": 0.4381,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "颊鳞雀鲷的俗名叫厚壳仔。",
+        "em": 0.0,
+        "f1": 0.4286,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9091,
+        "faithfulness_bigram": 0.6
+      },
+      {
+        "question_id": "DEV_366_QUERY_1",
+        "question": "谁随王僧辩驻巴陵？",
+        "answerable": true,
+        "gold_answers": [
+          "王琳"
+        ],
+        "top1_distance": 0.7944,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "宜州刺史王琳随王僧辩驻巴陵。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_567_QUERY_1",
+        "question": "氧化物晶体和硅酸盐晶体一般含有什么？",
+        "answerable": true,
+        "gold_answers": [
+          "一定成分的离子键",
+          "离子键"
+        ],
+        "top1_distance": 0.832,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "氧化物晶体和硅酸盐晶体大都含有一定成分的离子键。",
+        "em": 0.0,
+        "f1": 0.5161,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9091
+      },
+      {
+        "question_id": "DEV_634_QUERY_0",
+        "question": "创新中心是什么时候正式启用的？",
+        "answerable": true,
+        "gold_answers": [
+          "1994年",
+          "2006年"
+        ],
+        "top1_distance": 0.8031,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "创新中心于2006年正式启用。",
+        "em": 0.0,
+        "f1": 0.5263,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1111_QUERY_0",
+        "question": "名侦探柯南：迷宫的十字路是柯南系列第几部剧场版？",
+        "answerable": true,
+        "gold_answers": [
+          "第7部"
+        ],
+        "top1_distance": 0.7353,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "第7部",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_115_QUERY_1",
+        "question": "圣训学的目的是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "研究传述世系与圣训正文的真伪",
+          "研究传述世系与圣训正文的真伪，借以甄别出可靠的「正训」（sahih）"
+        ],
+        "top1_distance": 0.5521,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "圣训学的目的是研究传述世系（sanad）与圣训正文（matn）的真伪，借以甄别出可靠的「正训」（sahih）。",
+        "em": 0.0,
+        "f1": 0.7838,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8864
+      },
+      {
+        "question_id": "DEV_388_QUERY_1",
+        "question": "田泽湖车站JR东日本所属的哪条地方交通线沿线的车站之一？",
+        "answerable": true,
+        "gold_answers": [
+          "田泽湖线"
+        ],
+        "top1_distance": 0.5127,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "田泽湖车站是JR东日本所属的地方交通线──田泽湖线──沿线的车站之一。",
+        "em": 0.0,
+        "f1": 0.2105,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_409_QUERY_0",
+        "question": "鬣齿兽科出现于什么时期？",
+        "answerable": true,
+        "gold_answers": [
+          "古新世晚期"
+        ],
+        "top1_distance": 0.4106,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "鬣齿兽科出现于古新世晚期。",
+        "em": 0.0,
+        "f1": 0.5882,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9091
+      },
+      {
+        "question_id": "DEV_464_QUERY_0",
+        "question": "亚历山大·罗迪奇是哪个国家的足球运动员？",
+        "answerable": true,
+        "gold_answers": [
+          "斯洛文尼亚"
+        ],
+        "top1_distance": 0.5142,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "亚历山大·罗迪奇是斯洛文尼亚足球运动员。",
+        "em": 0.0,
+        "f1": 0.4348,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8824
+      },
+      {
+        "question_id": "DEV_1178_QUERY_1",
+        "question": "黑尾前肛鳗有几枚前上颌骨齿？",
+        "answerable": true,
+        "gold_answers": [
+          "2枚"
+        ],
+        "top1_distance": 0.3322,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黑尾前肛鳗有2枚前上颌骨齿。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_519_QUERY_0",
+        "question": "雅芳河的发源地是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "英格兰威尔特郡"
+        ],
+        "top1_distance": 0.4611,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "根据提供的信息，存在两条名为“雅芳河”的河流，发源地不同：\n\n1. 第一条雅芳河（又称“索尔兹伯里的雅芳河”“汉普郡的雅芳河”）：**发源于英格兰威尔特郡肯尼特区（Kennet）迪韦齐斯（Devizes）**。\n\n2. 第二条雅芳河（又称“下雅芳河”或“布里斯托雅芳河”）：**发源于英格兰格洛斯特郡南格洛斯特奇平索德伯里（Chipping Sodbury）**。\n\n因此，问题“雅芳河的发源地是哪里？”需明确指哪一条。由于上下文列出了两条同名河流且未指定具体所指，而问题未加限定，故答案应指出存在两个发源地。\n\n但题目要求“回答问题”，且基于所提供文本，最直接、首次出现的雅芳河描述中明确写道：  \n**“雅芳河发源于英国英格兰威尔特郡肯尼特区（Kennet）迪韦齐斯（Devizes）”**。\n\n所以，依据文本顺序与主次（第一条详细描述为先），答案为：\n\n**英格兰威尔特郡肯尼特区迪韦齐斯**。",
+        "em": 0.0,
+        "f1": 0.0424,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.8266,
+        "faithfulness_bigram": 0.5621
+      },
+      {
+        "question_id": "DEV_47_QUERY_0",
+        "question": "底特律第二浸信会教堂在哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "底特律希腊城梦露街441号"
+        ],
+        "top1_distance": 0.4139,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "底特律第二浸信会教堂位于底特律希腊城梦露街441号。",
+        "em": 0.0,
+        "f1": 0.6842,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9583
+      },
+      {
+        "question_id": "DEV_1106_QUERY_0",
+        "question": "轻艇水球每队中有几名队员？",
+        "answerable": true,
+        "gold_answers": [
+          "五名"
+        ],
+        "top1_distance": 0.4291,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "轻艇水球每队中有5名队员。",
+        "em": 0.0,
+        "f1": 0.1429,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.4545
+      },
+      {
+        "question_id": "DEV_485_QUERY_1",
+        "question": "2010年决赛在哪里举行？",
+        "answerable": true,
+        "gold_answers": [
+          "日本"
+        ],
+        "top1_distance": 0.6643,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2010年决赛在日本举行。",
+        "em": 0.0,
+        "f1": 0.2857,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1080_QUERY_1",
+        "question": "莱索托在国际赛事上取得了什么成就？",
+        "answerable": true,
+        "gold_answers": [
+          "2000年夺得COSAFA杯亚军",
+          "COSAFA杯亚军"
+        ],
+        "top1_distance": 0.3795,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "莱索托在国际赛事上取得的唯一成就是2000年夺得COSAFA杯亚军。",
+        "em": 0.0,
+        "f1": 0.6531,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_346_QUERY_0",
+        "question": "九龙巴士86线是通往哪里的？",
+        "answerable": true,
+        "gold_answers": [
+          "来往黄泥头及美孚",
+          "香港一条来往黄泥头及美孚的巴士路线"
+        ],
+        "top1_distance": 0.5228,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "九龙巴士86线是来往黄泥头及美孚的巴士路线。",
+        "em": 0.0,
+        "f1": 0.6842,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.95
+      },
+      {
+        "question_id": "DEV_48_QUERY_1",
+        "question": "广东广播电视台珠江频道以什么语言为主？",
+        "answerable": true,
+        "gold_answers": [
+          "粤语"
+        ],
+        "top1_distance": 0.591,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "粤语",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1070_QUERY_1",
+        "question": "《ONE PIECE 死亡尽头的冒险》中特别出演的嘉宾是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "酒井美纪"
+        ],
+        "top1_distance": 0.5795,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《ONE PIECE 死亡尽头的冒险》中特别出演的嘉宾是酒井美纪。",
+        "em": 0.0,
+        "f1": 0.25,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7778
+      },
+      {
+        "question_id": "DEV_168_QUERY_0",
+        "question": "英土战争发生在什么时候？",
+        "answerable": true,
+        "gold_answers": [
+          "1807－1809年",
+          "1807－1809年间"
+        ],
+        "top1_distance": 0.4998,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "英土战争发生在1807－1809年间。",
+        "em": 0.0,
+        "f1": 0.7407,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_1144_QUERY_1",
+        "question": "小孤岛大医生原作的作者是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "依山田贵敏",
+          "山田贵敏"
+        ],
+        "top1_distance": 0.9082,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "小孤岛大医生原作的作者是山田贵敏。",
+        "em": 0.0,
+        "f1": 0.4,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6
+      },
+      {
+        "question_id": "DEV_525_QUERY_1",
+        "question": "由于英国还有其他名为雅芳河的河流，该河流还可以叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "「下雅芳河」或「布里斯托雅芳河」"
+        ],
+        "top1_distance": 0.4205,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "由于英国还有其他名为雅芳河的河流，该河流（源于威尔特郡、流经汉普郡和多塞特郡的那条）又称为「索尔兹伯里的雅芳河」或「汉普郡的雅芳河」。",
+        "em": 0.0,
+        "f1": 0.2286,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9828,
+        "faithfulness_bigram": 0.6842
+      },
+      {
+        "question_id": "DEV_583_QUERY_0",
+        "question": "什么是从四位？",
+        "answerable": true,
+        "gold_answers": [
+          "日本品秩与神阶的一种，位于正四位之下正五位之上，勋等上相当于勋四等",
+          "日本品秩与神阶的一种，位于正四位之下正五位之上，勋等上相当于勋四等，追赠时则称为赠从四位。"
+        ],
+        "top1_distance": 0.7061,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "从四位是日本品秩与神阶的一种，位于正四位之下、正五位之上；勋等上相当于勋四等；追赠时称为“赠从四位”。在律令制度中，从四位相当于左京大夫、右京大夫等管理朝廷内行政事务的长官或次官。三位以上为公卿，而四位者（包括从四位）一般不属于公卿，故敬称方式为在姓氏与名讳后加官位及“朝臣”之称（如「细川右京大夫从四位下源胜元朝臣」）。历史上，从四位多由藤原氏旁系或非藤原氏的中级贵族担任；武家如清和源氏、桓武平氏初叙多为从五位下，升至从四位需嫡子身份或显著武勋；镰仓时代起北条氏一门及重臣获授此位；室町时代后各地有力大名（如足利一门、三管领四职守护、名门守护家柄）亦可获授；战国时代甚至出现家臣（如松永久秀）与主家同列从四位下的情况；江户时代则授予亲藩与谱代大名中的老中、高家旗本、10万石以上外样大名等；明治维新后，从四位相当于华族中的男爵位，及陆海军中将；现代则主要授予有显著功绩的公务员、以及在艺术、文化、学术研究领域成就卓著的大学教授等。",
+        "em": 0.0,
+        "f1": 0.1985,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9651,
+        "faithfulness_bigram": 0.6658
+      },
+      {
+        "question_id": "DEV_487_QUERY_1",
+        "question": "巴吞他尼府建于哪一年？",
+        "answerable": true,
+        "gold_answers": [
+          "1632年"
+        ],
+        "top1_distance": 0.3998,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "巴吞他尼府原名为「三柯城」，建于1632年。",
+        "em": 0.0,
+        "f1": 0.4348,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_21_QUERY_0",
+        "question": "津蓟铁路沿线设置了哪几个站点？",
+        "answerable": true,
+        "gold_answers": [
+          "汉沟镇、曹子里、崔黄口、大口屯、宝坻、下仓、上仓、蓟州"
+        ],
+        "top1_distance": 0.5301,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "津蓟铁路沿线设置了汉沟镇、曹子里、崔黄口、大口屯、宝坻、下仓、上仓、蓟州8个车站。",
+        "em": 0.0,
+        "f1": 0.7547,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_463_QUERY_1",
+        "question": "依法利珠单抗的作用机制是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "辨识白血球上的CD11a抗原，使白血球与其他细胞附著的能力降低，抑制其免疫作用。"
+        ],
+        "top1_distance": 0.4697,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "依法利珠单抗的作用机制是辨识白血球上的CD11a抗原，使白血球与其他细胞附著的能力降低，从而抑制其免疫作用。",
+        "em": 0.0,
+        "f1": 0.8409,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.92
+      },
+      {
+        "question_id": "DEV_1054_QUERY_0",
+        "question": "社会惰化又被叫做什么？",
+        "answerable": true,
+        "gold_answers": [
+          "社会干扰、社会致弱、社会懈怠"
+        ],
+        "top1_distance": 0.3208,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "社会惰化又被叫做社会干扰、社会致弱、社会懈怠。",
+        "em": 0.0,
+        "f1": 0.75,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7368
+      },
+      {
+        "question_id": "DEV_440_QUERY_0",
+        "question": "斯瓦迪尔法利来自于什么神话？",
+        "answerable": true,
+        "gold_answers": [
+          "北欧神话"
+        ],
+        "top1_distance": 0.5177,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "斯瓦迪尔法利来自于北欧神话。",
+        "em": 0.0,
+        "f1": 0.4706,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.75
+      },
+      {
+        "question_id": "DEV_397_QUERY_1",
+        "question": "九龙巴士32M线使用了多少辆斯堪尼亚K310UD12米？",
+        "answerable": true,
+        "gold_answers": [
+          "3辆"
+        ],
+        "top1_distance": 0.5394,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "九龙巴士32M线使用了3辆斯堪尼亚K310UD12米。",
+        "em": 0.0,
+        "f1": 0.1429,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.92
+      },
+      {
+        "question_id": "DEV_78_QUERY_0",
+        "question": "西巴丹岛以什么闻名世界？",
+        "answerable": true,
+        "gold_answers": [
+          "优美的的自然景观及潜水环境"
+        ],
+        "top1_distance": 0.4094,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "西巴丹岛以优美的自然景观及潜水环境闻名世界。",
+        "em": 0.0,
+        "f1": 0.7059,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.95
+      },
+      {
+        "question_id": "DEV_219_QUERY_0",
+        "question": "甲醇钠、甲氧基钠的化学式是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "CHONa"
+        ],
+        "top1_distance": 0.2429,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "甲醇钠、甲氧基钠的化学式是 CH₃ONa（或写作 CHONa，按上下文中的简写形式）。  \n\n文中明确指出：“甲醇钠、甲氧基钠（英文：Sodium methoxide）……化学式为CHONa”。  \n虽然标准化学式通常写作 CH₃ONa（强调甲基），但上下文给出的表示是 CHONa，且符合其组成（C、H、O、Na 各一原子），故依据所给信息，答案为 **CHONa**。",
+        "em": 0.0,
+        "f1": 0.0671,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9167,
+        "faithfulness_bigram": 0.5105
+      },
+      {
+        "question_id": "DEV_560_QUERY_1",
+        "question": "纽康的太阳表的全称是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "地球在自转轴上环绕太阳运动的表"
+        ],
+        "top1_distance": 0.4283,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "纽康的太阳表的全称是“地球在自转轴上环绕太阳运动的表”。",
+        "em": 0.0,
+        "f1": 0.75,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_358_QUERY_1",
+        "question": "《现代食品工程》系列丛书为读者提供了哪些内容？",
+        "answerable": true,
+        "gold_answers": [
+          "食品工程领域的食品加工最新发展"
+        ],
+        "top1_distance": 0.2346,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《现代食品工程》系列丛书为读者提供了食品工程领域的最新发展内容，具体包括：\n\n- 经典单元操作在食品加工中的应用；  \n- 液态或固态食品的运输与储存研究进展；  \n- 食品加热、冷却或冷冻技术；  \n- 食品传质过程；  \n- 食品工程中的化学和生物化学问题及动力学分析的应用；  \n- 脱水、热加工、非热加工、挤出、液态食品浓缩、膜分离及膜在食品加工中的应用；  \n- 食品货架期、电子标签与电子标签库存管理；  \n- 可持续食品加工技术；  \n- 食品包装、清洗及食品卫生。\n\n此外，丛书各卷均由国际杰出专家编著，每章作者均为世界著名专家，内容严谨、全面且易于理解，并附有最新、完整的参考文献，旨在为食品加工领域的科技工作者、大学教师、研究生及科研机构的研究者提供重要参考。",
+        "em": 0.0,
+        "f1": 0.1034,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9455,
+        "faithfulness_bigram": 0.7007
+      },
+      {
+        "question_id": "DEV_219_QUERY_1",
+        "question": "甲醇钠如何储存？",
+        "answerable": true,
+        "gold_answers": [
+          "以甲醇、乙醇等醇类溶剂的溶液储存",
+          "通常以甲醇、乙醇等醇类溶剂的溶液储存"
+        ],
+        "top1_distance": 0.4181,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "甲醇钠通常以甲醇、乙醇等醇类溶剂的溶液形式储存；储存时需注意防止接触空气中的水分，因其会逐渐被水分分解变质。",
+        "em": 0.0,
+        "f1": 0.5075,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.94,
+        "faithfulness_bigram": 0.7347
+      },
+      {
+        "question_id": "DEV_530_QUERY_1",
+        "question": "比一号风球高一级的叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "三号风球"
+        ],
+        "top1_distance": 0.5881,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "三号风球",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_30_QUERY_1",
+        "question": "在这次选举中处于领先地位的两位候选人分别是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "格奥尔基·伊万诺夫，以及来自反对党马其顿社会民主联盟的前内政部长柳博米尔·弗尔奇科斯基。",
+          "革命组织民族统一民主党的格奥尔基·伊万诺夫，以及来自反对党马其顿社会民主联盟的前内政部长柳博米尔·弗尔奇科斯基。"
+        ],
+        "top1_distance": 1.0279,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.03，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_180_QUERY_1",
+        "question": "什么时候开始，中国和俄罗斯境内的赫哲族均受到了很大程度的汉化和俄化？",
+        "answerable": true,
+        "gold_answers": [
+          "20世纪中叶"
+        ],
+        "top1_distance": 0.5603,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "从20世纪中叶起。",
+        "em": 0.0,
+        "f1": 0.8571,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_385_QUERY_1",
+        "question": "专辑《醉迷情人》在2003年3月31日推出了什么版本的唱片？",
+        "answerable": true,
+        "gold_answers": [
+          "DSD",
+          "DSD版"
+        ],
+        "top1_distance": 0.6553,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "DSD版本唱片",
+        "em": 0.0,
+        "f1": 0.7273,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_447_QUERY_1",
+        "question": "Kellylicious在哪些地方发售？",
+        "answerable": true,
+        "gold_answers": [
+          "香港、马来西亚及新加坡"
+        ],
+        "top1_distance": 0.7336,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "Kellylicious只于香港、马来西亚及新加坡发售，并未于中国内地发售。",
+        "em": 0.0,
+        "f1": 0.4444,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9706
+      },
+      {
+        "question_id": "DEV_152_QUERY_1",
+        "question": "中国第一汽车集团有限公司坐落于哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "中国长春市西部",
+          "长春市"
+        ],
+        "top1_distance": 0.6964,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "中国第一汽车集团有限公司坐落于有“汽车城”之称的中国长春市西部。",
+        "em": 0.0,
+        "f1": 0.3889,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9643
+      },
+      {
+        "question_id": "DEV_417_QUERY_0",
+        "question": "《金刀情侠》由谁导演？",
+        "answerable": true,
+        "gold_answers": [
+          "徐克"
+        ],
+        "top1_distance": 0.5238,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《金刀情侠》由徐克导演。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_1156_QUERY_0",
+        "question": "大雄宝殿在日本被称为什么？",
+        "answerable": true,
+        "gold_answers": [
+          "金堂、本堂"
+        ],
+        "top1_distance": 0.6072,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "大雄宝殿在日本被称为“金堂”或“本堂”。",
+        "em": 0.0,
+        "f1": 0.4211,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7143
+      },
+      {
+        "question_id": "DEV_1155_QUERY_0",
+        "question": "纽波特又被译为什么？",
+        "answerable": true,
+        "gold_answers": [
+          "新港"
+        ],
+        "top1_distance": 0.5701,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "纽波特又被译为新港。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.75
+      },
+      {
+        "question_id": "DEV_543_QUERY_0",
+        "question": "《三遂平妖传》的全称是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "《北宋三遂平妖传》"
+        ],
+        "top1_distance": 0.3453,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《三遂平妖传》的全称是《北宋三遂平妖传》。",
+        "em": 0.0,
+        "f1": 0.6087,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8
+      },
+      {
+        "question_id": "DEV_480_QUERY_1",
+        "question": "鄂温人生活在什么地区？",
+        "answerable": true,
+        "gold_answers": [
+          "东西伯利亚"
+        ],
+        "top1_distance": 0.3952,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "鄂温人生活在东西伯利亚的地区，在俄罗斯联邦马加丹州、堪察加边疆区以及萨哈共和国北部勒拿河以东的地区都有分布。",
+        "em": 0.0,
+        "f1": 0.1786,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.98
+      },
+      {
+        "question_id": "DEV_50_QUERY_0",
+        "question": "文周王是百济第多少代国王？",
+        "answerable": true,
+        "gold_answers": [
+          "22代"
+        ],
+        "top1_distance": 0.3446,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "文周王是百济第22代国王。",
+        "em": 0.0,
+        "f1": 0.4,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8182
+      },
+      {
+        "question_id": "DEV_385_QUERY_0",
+        "question": "《醉迷情人》是哪位歌手的首张个人粤语大碟？",
+        "answerable": true,
+        "gold_answers": [
+          "陈慧琳"
+        ],
+        "top1_distance": 0.5263,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《醉迷情人》是陈慧琳的首张个人粤语大碟。",
+        "em": 0.0,
+        "f1": 0.3,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9375
+      },
+      {
+        "question_id": "DEV_448_QUERY_0",
+        "question": "楢崎龙是谁的妻子？",
+        "answerable": true,
+        "gold_answers": [
+          "坂本龙马"
+        ],
+        "top1_distance": 0.5231,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "楢崎龙是坂本龙马的妻子。",
+        "em": 0.0,
+        "f1": 0.5333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8
+      },
+      {
+        "question_id": "DEV_217_QUERY_0",
+        "question": "《空想科学读本》是哪位日本作家写的科幻科学考据书？",
+        "answerable": true,
+        "gold_answers": [
+          "柳田理科雄"
+        ],
+        "top1_distance": 0.3697,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《空想科学读本》是日本作家柳田理科雄写的科幻科学考据书。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_13_QUERY_1",
+        "question": "白岳峰打什么位置？",
+        "answerable": true,
+        "gold_answers": [
+          "中场"
+        ],
+        "top1_distance": 0.8997,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "白岳峰司职中场。",
+        "em": 0.0,
+        "f1": 0.4444,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_1517_QUERY_0",
+        "question": "谁曾鼓舞林双不积极去投稿？",
+        "answerable": true,
+        "gold_answers": [
+          "张清海"
+        ],
+        "top1_distance": 0.6103,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "林双不小学五年级时受教师张清海鼓励，开始投稿。因此，曾鼓舞林双不积极去投稿的是**张清海**。",
+        "em": 0.0,
+        "f1": 0.1429,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6316
+      },
+      {
+        "question_id": "DEV_394_QUERY_1",
+        "question": "徐陵和庾信齐名，他们的文体合称为什么？",
+        "answerable": true,
+        "gold_answers": [
+          "徐庾体"
+        ],
+        "top1_distance": 0.7188,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "徐陵和庾信齐名，他们的文体合称为“徐庾体”。",
+        "em": 0.0,
+        "f1": 0.2857,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.4706
+      },
+      {
+        "question_id": "DEV_530_QUERY_0",
+        "question": "什么是一号风球？",
+        "answerable": true,
+        "gold_answers": [
+          "是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号"
+        ],
+        "top1_distance": 0.356,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "一号风球是澳门特别行政区的热带气旋警告信号，是该系列警告信号中最低级别的信号，高一级为三号风球。它属于戒备信号，表示有热带气旋中心集结在澳门特别行政区800公里范围内，且其情况足以在稍后可能影响澳门。",
+        "em": 0.0,
+        "f1": 0.5156,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8065
+      },
+      {
+        "question_id": "DEV_1157_QUERY_1",
+        "question": "2007年亚足联冠军联赛这届首次有什么队参与？",
+        "answerable": true,
+        "gold_answers": [
+          "澳洲球队"
+        ],
+        "top1_distance": 0.3393,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2007年亚足联冠军联赛这届首次有澳洲球队参与，分别是：FC悉尼及阿德莱德联。",
+        "em": 0.0,
+        "f1": 0.2,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9714
+      },
+      {
+        "question_id": "DEV_591_QUERY_1",
+        "question": "新巴84M线的竞争线路是哪条？",
+        "answerable": true,
+        "gold_answers": [
+          "专线小巴 47M",
+          "小巴 47M "
+        ],
+        "top1_distance": 0.3806,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "新巴84M线的竞争线路是专线小巴47M线。",
+        "em": 0.0,
+        "f1": 0.5185,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8947
+      },
+      {
+        "question_id": "DEV_30_QUERY_0",
+        "question": "这次选举被视为对马其顿共和国什么的考验？",
+        "answerable": true,
+        "gold_answers": [
+          "长期以来希望加入欧盟和北约的决心"
+        ],
+        "top1_distance": 0.6524,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "这次选举被视为是对马其顿共和国长期以来希望加入欧盟和北约的决心的一次重要考验。",
+        "em": 0.0,
+        "f1": 0.5926,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_78_QUERY_1",
+        "question": "西巴丹岛的岛屿面积为多少平方米？",
+        "answerable": true,
+        "gold_answers": [
+          "约4万平方米"
+        ],
+        "top1_distance": 0.4323,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "西巴丹岛的岛屿面积为4万平方米。",
+        "em": 0.0,
+        "f1": 0.4762,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7143
+      },
+      {
+        "question_id": "DEV_452_QUERY_0",
+        "question": "环望出生于什么地区？",
+        "answerable": true,
+        "gold_answers": [
+          "东京都世田谷区"
+        ],
+        "top1_distance": 0.6272,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "环望出生于东京都世田谷区。",
+        "em": 0.0,
+        "f1": 0.7368,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9091
+      },
+      {
+        "question_id": "DEV_216_QUERY_1",
+        "question": "黑龙江龙属的模式种是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "鄂伦春黑龙江龙"
+        ],
+        "top1_distance": 0.4471,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黑龙江龙属的模式种是鄂伦春黑龙江龙（*Sahaliyania elunchunorum*）。",
+        "em": 0.0,
+        "f1": 0.2979,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9744
+      },
+      {
+        "question_id": "DEV_1505_QUERY_1",
+        "question": "曾伟明曾就读位于深井的哪所小学？",
+        "answerable": true,
+        "gold_answers": [
+          "深井的灵光小学。",
+          "灵光小学"
+        ],
+        "top1_distance": 0.6407,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "曾伟明曾就读位于深井的灵光小学。",
+        "em": 0.0,
+        "f1": 0.6364,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1080_QUERY_0",
+        "question": "莱索托足球队代表哪个国家？",
+        "answerable": true,
+        "gold_answers": [
+          "莱索托"
+        ],
+        "top1_distance": 0.3715,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "莱索托足球队代表莱索托。",
+        "em": 0.0,
+        "f1": 0.4286,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8
+      },
+      {
+        "question_id": "DEV_1172_QUERY_1",
+        "question": "王江泾镇的南面毗邻什么地方？",
+        "answerable": true,
+        "gold_answers": [
+          "嘉兴城区"
+        ],
+        "top1_distance": 0.2716,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "王江泾镇的南面毗邻嘉兴城区。",
+        "em": 0.0,
+        "f1": 0.4706,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_301_QUERY_1",
+        "question": "二户车站在1891年叫做什么名字？",
+        "answerable": true,
+        "gold_answers": [
+          "福冈车站"
+        ],
+        "top1_distance": 0.7745,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "二户车站在1891年设置之初原名福冈车站。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_409_QUERY_1",
+        "question": "牠们比相关的哪一科分布更为广泛及成功？",
+        "answerable": true,
+        "gold_answers": [
+          "牛鬣兽科"
+        ],
+        "top1_distance": 0.9283,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "牠们比相关的牛鬣兽科分布更为广泛及成功。",
+        "em": 0.0,
+        "f1": 0.3478,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_586_QUERY_0",
+        "question": "祭遵的家庭经济状况怎么样？",
+        "answerable": true,
+        "gold_answers": [
+          "富给"
+        ],
+        "top1_distance": 0.7058,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "祭遵的家庭经济状况是“家富给”，即家庭富裕、经济宽裕。",
+        "em": 0.0,
+        "f1": 0.1667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.7727,
+        "faithfulness_bigram": 0.1905
+      },
+      {
+        "question_id": "DEV_115_QUERY_0",
+        "question": "圣训学是一种什么样的学门？",
+        "answerable": true,
+        "gold_answers": [
+          "穆斯林学者用来甄别圣训真伪的学门"
+        ],
+        "top1_distance": 0.5214,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "圣训学是穆斯林学者用来甄别圣训真伪的学门。它研究传述世系（sanad）与圣训正文（matn）两者的真伪，借以甄别出可靠的「正训」（sahih）。该学科强调传述者与传述内容都必须确认无误。",
+        "em": 0.0,
+        "f1": 0.3299,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9753,
+        "faithfulness_bigram": 0.9
+      },
+      {
+        "question_id": "DEV_578_QUERY_0",
+        "question": "鹦鹉科下的两个亚科，除了鹦鹉亚科还有一个叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "吸蜜鹦鹉亚科"
+        ],
+        "top1_distance": 0.3744,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "吸蜜鹦鹉亚科",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1122_QUERY_1",
+        "question": "完全萨克斯-瓦福效应是由什么造成的？",
+        "answerable": true,
+        "gold_answers": [
+          "重力红移"
+        ],
+        "top1_distance": 0.3997,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "完全萨克斯-瓦福效应是由重力红移造成的。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1144_QUERY_0",
+        "question": "小孤岛大医生又名什么？、",
+        "answerable": true,
+        "gold_answers": [
+          "《离岛大夫日志》、《五岛医生诊疗所》"
+        ],
+        "top1_distance": 0.8005,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "小孤岛大医生又名《离岛大夫日志》、《五岛医生诊疗所》。",
+        "em": 0.0,
+        "f1": 0.7647,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.85
+      },
+      {
+        "question_id": "DEV_591_QUERY_0",
+        "question": "新巴84M线是来往哪里的巴士路线？",
+        "answerable": true,
+        "gold_answers": [
+          "港岛东区内小西湾（蓝湾半岛）和柴湾站",
+          "港岛东区内小西湾（蓝湾半岛）和柴湾站。"
+        ],
+        "top1_distance": 0.3496,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "新巴84M线是来往港岛东区内小西湾（蓝湾半岛）和柴湾站的巴士路线。",
+        "em": 0.0,
+        "f1": 0.6957,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9655
+      },
+      {
+        "question_id": "DEV_226_QUERY_0",
+        "question": "香港教育工作者联会黄楚标中学的地址是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "香港离岛区东涌"
+        ],
+        "top1_distance": 0.5013,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及香港教育工作者联会黄楚标中学的具体地址，仅说明其位于“香港离岛区东涌”。",
+        "em": 0.0,
+        "f1": 0.3182,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9459,
+        "faithfulness_bigram": 0.5833
+      },
+      {
+        "question_id": "DEV_1088_QUERY_1",
+        "question": "吉格梅·多吉·旺楚克鼓励使用什么来帮助本地农民？",
+        "answerable": true,
+        "gold_answers": [
+          "现代工具"
+        ],
+        "top1_distance": 0.6772,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "吉格梅·多吉·旺楚克鼓励使用现代工具来帮助本地农民。",
+        "em": 0.0,
+        "f1": 0.2963,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9545
+      },
+      {
+        "question_id": "DEV_200_QUERY_1",
+        "question": "《无声狂啸》在哪一年发表在《如果》3月刊上？",
+        "answerable": true,
+        "gold_answers": [
+          "1967年"
+        ],
+        "top1_distance": 0.6876,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "1967年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_107_QUERY_1",
+        "question": "戴龙·罗伯斯是哪国人？",
+        "answerable": true,
+        "gold_answers": [
+          "古巴"
+        ],
+        "top1_distance": 0.8399,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "戴龙·罗伯斯是古巴人。  \n文中明确提到：“戴龙·罗伯斯（……），古巴田径运动员。”以及“8月21日罗伯斯代表古巴队在北京出赛男子110米栏……”",
+        "em": 0.0,
+        "f1": 0.0702,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9818,
+        "faithfulness_bigram": 0.7778
+      },
+      {
+        "question_id": "DEV_38_QUERY_0",
+        "question": "河茂铁路全长有多少公里？",
+        "answerable": true,
+        "gold_answers": [
+          "61公里"
+        ],
+        "top1_distance": 0.6175,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "河茂铁路全长61公里。",
+        "em": 0.0,
+        "f1": 0.5714,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_379_QUERY_0",
+        "question": "柴郡是哪个国家西北部的郡？",
+        "answerable": true,
+        "gold_answers": [
+          "英国",
+          "英国英格兰"
+        ],
+        "top1_distance": 0.4549,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "柴郡是英国英格兰西北部的郡。",
+        "em": 0.0,
+        "f1": 0.5556,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9167
+      },
+      {
+        "question_id": "DEV_312_QUERY_1",
+        "question": "加利福尼亚滑银汉鱼的体长是多少？",
+        "answerable": true,
+        "gold_answers": [
+          "15公分"
+        ],
+        "top1_distance": 0.3566,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "加利福尼亚滑银汉鱼的体长可达15公分。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8824
+      },
+      {
+        "question_id": "DEV_485_QUERY_0",
+        "question": "2010年东亚足球锦标赛由哪个机构举办？",
+        "answerable": true,
+        "gold_answers": [
+          "东亚足球协会"
+        ],
+        "top1_distance": 0.476,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2010年东亚足球锦标赛由东亚足球协会举办。",
+        "em": 0.0,
+        "f1": 0.4444,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9
+      },
+      {
+        "question_id": "DEV_230_QUERY_1",
+        "question": "曹文埴出任过什么书的总裁官？",
+        "answerable": true,
+        "gold_answers": [
+          "《四库全书》"
+        ],
+        "top1_distance": 0.5752,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "曹文埴出任过《四库全书》的总裁官。",
+        "em": 0.0,
+        "f1": 0.4444,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6923
+      },
+      {
+        "question_id": "DEV_1555_QUERY_0",
+        "question": "郭芝苑是台湾哪一种音乐类型的先驱？",
+        "answerable": true,
+        "gold_answers": [
+          "现代民族音乐"
+        ],
+        "top1_distance": 0.338,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "郭芝苑是台湾现代民族音乐的先驱。",
+        "em": 0.0,
+        "f1": 0.5714,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9286
+      },
+      {
+        "question_id": "DEV_168_QUERY_1",
+        "question": "拿破仑曾以什么作为交换让土耳其政府取消他们在1805年给予俄罗斯的一切特权？",
+        "answerable": true,
+        "gold_answers": [
+          "协助苏丹镇压在塞尔维亚的一场叛乱及夺回土耳其失去的领土"
+        ],
+        "top1_distance": 0.796,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "拿破仑承诺会协助苏丹镇压在塞尔维亚的一场叛乱及夺回土耳其失去的领土作为交换。",
+        "em": 0.0,
+        "f1": 0.8437,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9722
+      },
+      {
+        "question_id": "DEV_216_QUERY_0",
+        "question": "黑龙江龙属化石被发现的地点是哪里?",
+        "answerable": true,
+        "gold_answers": [
+          "中国黑龙江省",
+          "黑龙江省渔亮子组的一个尸骨层"
+        ],
+        "top1_distance": 0.4913,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "黑龙江龙属化石被发现的地点是**中国黑龙江省**，具体发现于黑龙江省的**渔亮子组**的一个尸骨层。",
+        "em": 0.0,
+        "f1": 0.5185,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.975,
+        "faithfulness_bigram": 0.7436
+      },
+      {
+        "question_id": "DEV_413_QUERY_0",
+        "question": "大曲车站的位置在哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "日本青森县上北郡六户町犬落濑"
+        ],
+        "top1_distance": 0.5116,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "大曲车站的位置在日本青森县上北郡六户町犬落濑。",
+        "em": 0.0,
+        "f1": 0.7778,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8571
+      },
+      {
+        "question_id": "DEV_366_QUERY_0",
+        "question": "侯景封了宋子仙什么职位？",
+        "answerable": true,
+        "gold_answers": [
+          "太保"
+        ],
+        "top1_distance": 0.3493,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "侯景封宋子仙为太保。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.75
+      },
+      {
+        "question_id": "DEV_1525_QUERY_0",
+        "question": "零食物语专门销售哪个国家的零食？",
+        "answerable": true,
+        "gold_answers": [
+          "日本"
+        ],
+        "top1_distance": 0.3616,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "零食物语专门销售日本的零食。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_1172_QUERY_0",
+        "question": "王江泾镇在哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "中国浙江省嘉兴市秀洲区"
+        ],
+        "top1_distance": 0.2532,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "王江泾镇位于中国浙江省嘉兴市秀洲区，地处江、浙两省交界处，南面毗邻嘉兴城区，北面毗邻江苏省吴江市盛泽镇。",
+        "em": 0.0,
+        "f1": 0.3793,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8913
+      },
+      {
+        "question_id": "DEV_1564_QUERY_0",
+        "question": "单线天竺鲷的俗名是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "外斑天竺鲷、大目侧仔",
+          "天竺鲷、大目侧仔"
+        ],
+        "top1_distance": 0.3299,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "单线天竺鲷的俗名是外斑天竺鲷、大目侧仔。",
+        "em": 0.0,
+        "f1": 0.6667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8235
+      },
+      {
+        "question_id": "DEV_379_QUERY_1",
+        "question": "柴郡中的第一大镇叫什么?",
+        "answerable": true,
+        "gold_answers": [
+          "沃灵顿"
+        ],
+        "top1_distance": 0.6104,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "沃灵顿",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_447_QUERY_0",
+        "question": "Kellylicious是陈慧琳的第几张个人粤语大碟？",
+        "answerable": true,
+        "gold_answers": [
+          "十八张",
+          "第十八张"
+        ],
+        "top1_distance": 0.4001,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "Kellylicious是陈慧琳的第十八张个人粤语大碟。",
+        "em": 0.0,
+        "f1": 0.2581,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_102_QUERY_0",
+        "question": "《停止！！ 云雀》是谁的漫画作品？",
+        "answerable": true,
+        "gold_answers": [
+          "江口寿史"
+        ],
+        "top1_distance": 0.4337,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《停止！！ 云雀》是日本漫画家江口寿史的漫画作品。",
+        "em": 0.0,
+        "f1": 0.3478,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9444
+      },
+      {
+        "question_id": "DEV_1859_QUERY_1",
+        "question": "许癸努斯生活在哪个时期？",
+        "answerable": true,
+        "gold_answers": [
+          "公元1世纪的罗马帝国初期",
+          "公元1世纪的罗马帝国初期。"
+        ],
+        "top1_distance": 0.6082,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "许癸努斯生活在公元1世纪的罗马帝国初期。",
+        "em": 0.0,
+        "f1": 0.7742,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1175_QUERY_1",
+        "question": "高氏前肛鳗分布在什么地方？",
+        "answerable": true,
+        "gold_answers": [
+          "印度西太平洋海域"
+        ],
+        "top1_distance": 0.2429,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "高氏前肛鳗分布于印度西太平洋海域。",
+        "em": 0.0,
+        "f1": 0.6667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9333
+      },
+      {
+        "question_id": "DEV_290_QUERY_0",
+        "question": "美安的总部设在哪里?",
+        "answerable": true,
+        "gold_answers": [
+          "瑞典斯德哥尔摩"
+        ],
+        "top1_distance": 0.5744,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "美安的总部设在瑞典斯德哥尔摩。",
+        "em": 0.0,
+        "f1": 0.6667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8462
+      },
+      {
+        "question_id": "DEV_1122_QUERY_0",
+        "question": "萨克斯-瓦福效应以谁为名？",
+        "answerable": true,
+        "gold_answers": [
+          "雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福"
+        ],
+        "top1_distance": 0.4448,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "萨克斯-瓦福效应以雷纳·库尔特·萨克斯（Rainer Kurt Sachs）和亚瑟·迈克尔·瓦福（Arthur Michael Wolfe）为名。",
+        "em": 0.0,
+        "f1": 0.4267,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6207
+      },
+      {
+        "question_id": "DEV_1170_QUERY_1",
+        "question": "历史上住在斯韦阿兰的原住民被称为什么？",
+        "answerable": true,
+        "gold_answers": [
+          "「斯韦阿人」"
+        ],
+        "top1_distance": 0.6099,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "历史上住在斯韦阿兰的原住民被称为「斯韦阿人」。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_252_QUERY_0",
+        "question": "嘉诺撒圣家学校的地址是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "九龙城联合道102号"
+        ],
+        "top1_distance": 0.4085,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "嘉诺撒圣家学校的地址是九龙城联合道102号。",
+        "em": 0.0,
+        "f1": 0.6452,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8
+      },
+      {
+        "question_id": "DEV_301_QUERY_0",
+        "question": "二户车站的地址是哪里?",
+        "answerable": true,
+        "gold_answers": [
+          "日本岩手县二户市石切所"
+        ],
+        "top1_distance": 0.7121,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "二户车站的地址是日本岩手县二户市石切所。",
+        "em": 0.0,
+        "f1": 0.7333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_377_QUERY_1",
+        "question": "2008年，谁提出说全球食品储备仅够53天应急供应？",
+        "answerable": true,
+        "gold_answers": [
+          "希兰"
+        ],
+        "top1_distance": 0.7995,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2008年3月，世界粮食计划署执行干事希兰说，全球食品储备仅够53天应急供应。",
+        "em": 0.0,
+        "f1": 0.1053,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9714
+      },
+      {
+        "question_id": "DEV_1170_QUERY_0",
+        "question": "斯韦阿兰属于哪个国家？",
+        "answerable": true,
+        "gold_answers": [
+          "瑞典"
+        ],
+        "top1_distance": 0.457,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "瑞典",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_226_QUERY_1",
+        "question": "香港教育工作者联会黄楚标中学2012年在任的校长叫什么名字？",
+        "answerable": true,
+        "gold_answers": [
+          "钟铣玲"
+        ],
+        "top1_distance": 0.5121,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "钟铣玲",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1024_QUERY_1",
+        "question": "《白之春》的主演是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "阿部宽与大桥望美"
+        ],
+        "top1_distance": 0.5443,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《白之春》的主演是阿部宽与大桥望美。",
+        "em": 0.0,
+        "f1": 0.6957,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7143
+      },
+      {
+        "question_id": "DEV_1169_QUERY_0",
+        "question": "非洲猬目又名什么？",
+        "answerable": true,
+        "gold_answers": [
+          "非洲鼩目"
+        ],
+        "top1_distance": 0.5415,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "非洲猬目又名非洲鼩目。",
+        "em": 0.0,
+        "f1": 0.5714,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8889
+      },
+      {
+        "question_id": "DEV_463_QUERY_0",
+        "question": "依法利珠单抗是什么疾病的治疗用药？",
+        "answerable": true,
+        "gold_answers": [
+          "牛皮癣"
+        ],
+        "top1_distance": 0.4331,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "依法利珠单抗是牛皮癣的治疗用药。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9286
+      },
+      {
+        "question_id": "DEV_629_QUERY_1",
+        "question": "装配线有着怎样的精神？",
+        "answerable": true,
+        "gold_answers": [
+          "“让某一个生产单位只专注处理某一个片段的工作”",
+          "“让某一个生产单位只专注处理某一个片段的工作”，而非传统的让一个生产单位从上游到下游完整完成一个产品。"
+        ],
+        "top1_distance": 0.647,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "装配线最主要的精神在于“让某一个生产单位只专注处理某一个片段的工作”。",
+        "em": 0.0,
+        "f1": 0.7925,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9355
+      },
+      {
+        "question_id": "DEV_48_QUERY_0",
+        "question": "广东广播电视台珠江频道是一条什么性质的频道？",
+        "answerable": true,
+        "gold_answers": [
+          "综合娱乐"
+        ],
+        "top1_distance": 0.4626,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "广东广播电视台珠江频道是一条以粤语广播为主的综合娱乐频道，也是中国大陆第一条以粤语播出的频道。",
+        "em": 0.0,
+        "f1": 0.1633,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_440_QUERY_1",
+        "question": "斯瓦迪尔法利的后代叫什么名字？",
+        "answerable": true,
+        "gold_answers": [
+          "斯莱布尼尔",
+          "斯莱布尼尔（Sleipnir）"
+        ],
+        "top1_distance": 0.7306,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "斯莱布尼尔（Sleipnir）",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_448_QUERY_1",
+        "question": "坂本龙马和阿龙前往什么地方享受蜜月旅行？",
+        "answerable": true,
+        "gold_answers": [
+          "萨摩藩"
+        ],
+        "top1_distance": 0.5886,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "萨摩藩",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_634_QUERY_1",
+        "question": "香港创新中心成立有什么目的？",
+        "answerable": true,
+        "gold_answers": [
+          "推动香港创意工业，务求推动创意业务不断发展",
+          "旨在推广设计与创意，同时鼓励业界及商界更广泛善用设计，从而让设计业务得以蓬勃发展。"
+        ],
+        "top1_distance": 0.5194,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "香港创新中心成立的目的旨在推广设计与创意，同时鼓励业界及商界更广泛善用设计，从而让设计业务得以蓬勃发展。",
+        "em": 0.0,
+        "f1": 0.8736,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9583
+      },
+      {
+        "question_id": "DEV_1859_QUERY_0",
+        "question": "许癸努斯的著作在哪个方面对现代学者研究具有重要意义？",
+        "answerable": true,
+        "gold_answers": [
+          "古希腊神话",
+          "现代学者研究古希腊神话"
+        ],
+        "top1_distance": 0.5241,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "许癸努斯的著作对于现代学者研究古希腊神话具有重要意义。",
+        "em": 0.0,
+        "f1": 0.5946,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_21_QUERY_1",
+        "question": "津蓟铁路的线路是怎样的？",
+        "answerable": true,
+        "gold_answers": [
+          "由京沪铁路上的汉沟镇站引出，向北延伸，跨潮白新河，经宝坻，溯州河东岸北上，过下仓至蓟州区渔阳镇。",
+          "线路由京沪铁路上的汉沟镇站引出，向北延伸，跨潮白新河，经宝坻，溯州河东岸北上，过下仓至蓟州区渔阳镇。"
+        ],
+        "top1_distance": 0.5413,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "津蓟铁路的线路由京沪铁路上的汉沟镇站引出，向北延伸，跨潮白新河，经宝坻，溯州河东岸北上，过下仓至蓟州区渔阳镇。",
+        "em": 0.0,
+        "f1": 0.9462,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9583
+      },
+      {
+        "question_id": "DEV_230_QUERY_0",
+        "question": "曹文埴的字是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "近薇"
+        ],
+        "top1_distance": 0.4286,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "曹文埴的字是近薇。",
+        "em": 0.0,
+        "f1": 0.4,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.4286
+      },
+      {
+        "question_id": "DEV_370_QUERY_1",
+        "question": "战乱四年的“靖难之变”带来了什么后果？",
+        "answerable": true,
+        "gold_answers": [
+          "造成河北、山东、河南、皖北、淮北等地的荒凉局面，严重破坏了社会经济。"
+        ],
+        "top1_distance": 1.2176,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.22，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_128_QUERY_1",
+        "question": "挥发性的硫醚大多具有什么气味？",
+        "answerable": true,
+        "gold_answers": [
+          "腐烂的气味"
+        ],
+        "top1_distance": 0.3345,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "腐烂的气味",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_66_QUERY_1",
+        "question": "新角龙类分布在什么地方？",
+        "answerable": true,
+        "gold_answers": [
+          "现今的北美洲与东亚"
+        ],
+        "top1_distance": 0.5036,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "新角龙类分布于现今的北美洲与东亚，南半球曾发现可疑的新角龙类化石。",
+        "em": 0.0,
+        "f1": 0.45,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1054_QUERY_1",
+        "question": "社会惰化有着什么样的内容？",
+        "answerable": true,
+        "gold_answers": [
+          "群体一起完成一件工作时，每个成员所付出的努力会少于单独完成工作时的现象。"
+        ],
+        "top1_distance": 0.4067,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "社会惰化（也叫社会干扰、社会致弱、社会懈怠）是一个社会心理学术语，指群体一起完成一件工作时，每个成员所付出的努力会少于单独完成工作时的现象。其经典实验证据来自法国人马克斯·瑞格曼（Ringelman）的拔河实验：随着被试人数增加，每个被试平均使出的拉力反而减少，即被试人数与平均拉力成反比。\n\n社会惰化的主要解释是：个体认为自己的贡献在群体中不会被单独评核或重视，因而失去积极性。元分析研究（Karau & Williams, 1993）表明该现象具有普遍性，但存在重要调节因素——当群体成员认为工作本身或群体具有重要意义时，社会惰化就不会发生；反之，当个体感到自己在团队中未得到充分赏识时，则易出现该现象。",
+        "em": 0.0,
+        "f1": 0.2222,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.989,
+        "faithfulness_bigram": 0.738
+      },
+      {
+        "question_id": "DEV_217_QUERY_1",
+        "question": "日文出版是由哪个社发行的？",
+        "answerable": true,
+        "gold_answers": [
+          "宝岛社"
+        ],
+        "top1_distance": 1.0802,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.08，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_370_QUERY_0",
+        "question": "洪洞大槐树所在地的地址是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "中国山西省洪洞县城西北二公里的贾村西侧的大槐树公园",
+          "中国山西省洪洞县城西北二公里的贾村西侧的大槐树公园内"
+        ],
+        "top1_distance": 0.497,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "洪洞大槐树位于中国山西省洪洞县城西北二公里的贾村西侧的大槐树公园内。",
+        "em": 0.0,
+        "f1": 0.8814,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_462_QUERY_1",
+        "question": "朱椿的谥号是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "蜀献王"
+        ],
+        "top1_distance": 0.7559,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "蜀献王",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_413_QUERY_1",
+        "question": "大曲车站设站于几几年？",
+        "answerable": true,
+        "gold_answers": [
+          "1935年",
+          "1935年初"
+        ],
+        "top1_distance": 0.545,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "1935年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_172_QUERY_0",
+        "question": "皇后全氏是哪里人？",
+        "answerable": true,
+        "gold_answers": [
+          "吴郡钱塘",
+          "吴郡钱塘（今浙江省杭州市）"
+        ],
+        "top1_distance": 0.8934,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "皇后全氏是吴郡钱塘人，即今浙江省杭州市人。",
+        "em": 0.0,
+        "f1": 0.7333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7222
+      },
+      {
+        "question_id": "DEV_1517_QUERY_1",
+        "question": "林双不在读初级中学时曾以什么为笔名投稿赚零用钱？",
+        "answerable": true,
+        "gold_answers": [
+          "碧竹"
+        ],
+        "top1_distance": 0.4782,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "林双不在读初级中学时曾以「碧竹」为笔名投稿赚零用钱。",
+        "em": 0.0,
+        "f1": 0.16,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7273
+      },
+      {
+        "question_id": "DEV_1161_QUERY_0",
+        "question": "刘燕卿毕业于什么学校？",
+        "answerable": true,
+        "gold_answers": [
+          "香港中文大学"
+        ],
+        "top1_distance": 0.8036,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "刘燕卿毕业于香港中文大学社会学系。",
+        "em": 0.0,
+        "f1": 0.5455,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9333
+      },
+      {
+        "question_id": "DEV_1070_QUERY_0",
+        "question": "《ONE PIECE 死亡尽头的冒险》在哪一年上映？",
+        "answerable": true,
+        "gold_answers": [
+          "2003年"
+        ],
+        "top1_distance": 0.5527,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2003年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_519_QUERY_1",
+        "question": "雅芳河流经哪些地方？",
+        "answerable": true,
+        "gold_answers": [
+          "汉普郡、多塞特郡",
+          "流经汉普郡、多塞特郡"
+        ],
+        "top1_distance": 0.4891,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "根据提供的信息，雅芳河（又译埃文河、艾芬河）有两条同名河流，需分别说明：\n\n1. **「索尔兹伯里的雅芳河」（又称「汉普郡的雅芳河」）**：  \n   发源于英格兰威尔特郡肯尼特区迪韦齐斯（Devizes），流经皮尤西河谷（Vale of Pewsey）、索尔兹伯里平原，途经埃姆斯伯里（Amesbury）、索尔兹伯里（Salisbury）、汉普郡盆地、新福里斯特（New Forest）、福丁布里奇（Fordingbridge）、灵伍德（Ringwood），最终在多塞特郡的基督城与斯陶尔河（Stour）汇流，注入英伦海峡。\n\n2. **「下雅芳河」或「布里斯托雅芳河」**：  \n   发源于英格兰格洛斯特郡南格洛斯特奇平索德伯里（Chipping Sodbury），流经马姆斯伯里（Malmesbury）、奇彭纳姆（Chippenham）、梅尔克舍姆（Melksham）、雅芳河畔布拉德福德（Bradford on Avon）、巴斯（Bath）、凯恩舍姆（Keynsham），在布里斯托埃文茅斯（Avonmouth）与塞文河汇合，注入爱尔兰海。\n\n因此，雅芳河（依具体所指）流经的地方包括：  \n**威尔特郡（迪韦齐斯、埃姆斯伯里、索尔兹伯里）、汉普郡（福丁布里奇、灵伍德等）、多塞特郡（基督城）；或格洛斯特郡（奇平索德伯里、马姆斯伯里）、萨默塞特郡（巴斯、凯恩舍姆）、布里斯托。**",
+        "em": 0.0,
+        "f1": 0.0379,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9678,
+        "faithfulness_bigram": 0.8366
+      },
+      {
+        "question_id": "DEV_179_QUERY_0",
+        "question": "《我的暑假》是由哪个公司发售的游戏？",
+        "answerable": true,
+        "gold_answers": [
+          "索尼电脑娱乐"
+        ],
+        "top1_distance": 0.5507,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《我的暑假》是由索尼电脑娱乐（Sony Computer Entertainment）发售的游戏。",
+        "em": 0.0,
+        "f1": 0.25,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7073
+      },
+      {
+        "question_id": "DEV_135_QUERY_1",
+        "question": "杨群的职业是什么？",
+        "answerable": true,
+        "gold_answers": [
+          "演员"
+        ],
+        "top1_distance": 0.608,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "杨群的职业是演员（香港知名老牌演员），此外他还曾担任电影监制和导演，并参与电视剧演出。",
+        "em": 0.0,
+        "f1": 0.1,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.5946
+      },
+      {
+        "question_id": "DEV_560_QUERY_0",
+        "question": "纽康的太阳表的作者是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "西蒙·纽康"
+        ],
+        "top1_distance": 0.3612,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "纽康的太阳表的作者是西蒙·纽康（Simon Newcomb）。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9615,
+        "faithfulness_bigram": 0.64
+      },
+      {
+        "question_id": "DEV_378_QUERY_1",
+        "question": "香港冠军暨遮打杯的途程有多长？",
+        "answerable": true,
+        "gold_answers": [
+          "2400米"
+        ],
+        "top1_distance": 0.2987,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "香港冠军暨遮打杯的途程为2400米。",
+        "em": 0.0,
+        "f1": 0.4545,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.875
+      },
+      {
+        "question_id": "DEV_346_QUERY_1",
+        "question": "为什么要改派一辆亚历山大丹尼士Enviro 500 12米超低地台巴士作指定用车啊？",
+        "answerable": true,
+        "gold_answers": [
+          "进一步提升本线水平"
+        ],
+        "top1_distance": 0.8569,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "为了进一步提升九龙巴士86线的服务水平。",
+        "em": 0.0,
+        "f1": 0.5714,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.7222
+      },
+      {
+        "question_id": "DEV_1555_QUERY_1",
+        "question": "郭芝苑曾多次在公开场合表示对哪一位前辈的景仰？",
+        "answerable": true,
+        "gold_answers": [
+          "江文也"
+        ],
+        "top1_distance": 0.623,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "郭芝苑曾多次在公开场合表示对前辈江文也的景仰。",
+        "em": 0.0,
+        "f1": 0.24,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9048
+      },
+      {
+        "question_id": "DEV_557_QUERY_1",
+        "question": "增城挂绿是什么水果？",
+        "answerable": true,
+        "gold_answers": [
+          "荔枝"
+        ],
+        "top1_distance": 0.3296,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "增城挂绿是荔枝中的名贵品种。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8333
+      },
+      {
+        "question_id": "DEV_1169_QUERY_1",
+        "question": "科学家会使用什么来表示马岛猬／金毛鼹的分支？",
+        "answerable": true,
+        "gold_answers": [
+          "Tenrecomorpha"
+        ],
+        "top1_distance": 0.5528,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "科学家会使用 **Tenrecomorpha** 来表示马岛猬／金毛鼹的分支。",
+        "em": 0.0,
+        "f1": 0.5909,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_169_QUERY_0",
+        "question": "胸斑眶锯雀鲷又可以叫作什么？",
+        "answerable": false,
+        "gold_answers": [
+          "蓝纹高身雀鲷、太平洋真雀鲷"
+        ],
+        "top1_distance": 0.8177,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "根据提供的上下文，没有提到“胸斑眶锯雀鲷”这一名称，也没有任何别名与之对应。因此，无法从给定信息中确定“胸斑眶锯雀鲷”的俗称或其他名称。\n\n答案：上下文中未提供相关信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.093,
+        "faithfulness_unigram": 0.7973,
+        "faithfulness_bigram": 0.1233
+      },
+      {
+        "question_id": "DEV_69_QUERY_0",
+        "question": "鑫诺一号通信卫星由什么公司制造？",
+        "answerable": false,
+        "gold_answers": [
+          "法国宇航公司"
+        ],
+        "top1_distance": 1.2478,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.25，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_430_QUERY_0",
+        "question": "佩维斯·埃里森在场上的位置是什么？",
+        "answerable": false,
+        "gold_answers": [
+          "中锋或大前锋"
+        ],
+        "top1_distance": 1.4529,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.45，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_133_QUERY_0",
+        "question": "《安般守意经》被收在什么作品中？",
+        "answerable": false,
+        "gold_answers": [
+          "《大正藏》"
+        ],
+        "top1_distance": 1.3112,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.31，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1066_QUERY_0",
+        "question": "阿尔西比亚德斯是哪个国家的政治家？",
+        "answerable": false,
+        "gold_answers": [
+          "雅典"
+        ],
+        "top1_distance": 1.2755,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.28，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1536_QUERY_0",
+        "question": "侏罗纪海岸位于哪个海峡？",
+        "answerable": false,
+        "gold_answers": [
+          "英吉利海峡"
+        ],
+        "top1_distance": 1.1681,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.17，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1847_QUERY_0",
+        "question": "十字园蛛又叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "园圃蜘蛛、花园十字蛛或园蛛"
+        ],
+        "top1_distance": 1.3387,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.34，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_348_QUERY_0",
+        "question": "上知令出现于哪个时期？",
+        "answerable": false,
+        "gold_answers": [
+          "1840年代到1870年代"
+        ],
+        "top1_distance": 1.2709,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.27，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1639_QUERY_0",
+        "question": "川纹笛鲷有哪些俗名？",
+        "answerable": false,
+        "gold_answers": [
+          "嗑头、白点赤海、千年鲷、儋州红、打铁婆"
+        ],
+        "top1_distance": 0.89,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及“川纹笛鲷”及其俗名。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0714,
+        "faithfulness_unigram": 0.6923,
+        "faithfulness_bigram": 0.0833
+      },
+      {
+        "question_id": "DEV_566_QUERY_0",
+        "question": "小行星序号适用于哪些行星？",
+        "answerable": false,
+        "gold_answers": [
+          "小行星和矮行星"
+        ],
+        "top1_distance": 1.1462,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.15，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_433_QUERY_0",
+        "question": "一吨碳挑战的目的是什么？",
+        "answerable": false,
+        "gold_answers": [
+          "每年减少一吨的温室气体排放量"
+        ],
+        "top1_distance": 1.3311,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.33，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_593_QUERY_0",
+        "question": "沈龙元在足球运动中最擅长的为甚是哪里？",
+        "answerable": false,
+        "gold_answers": [
+          "右前卫"
+        ],
+        "top1_distance": 1.2031,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.20，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_159_QUERY_0",
+        "question": "华北陆块又叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "华北克拉通"
+        ],
+        "top1_distance": 1.2728,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.27，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1572_QUERY_0",
+        "question": "半线天竺鲷有哪些俗名？",
+        "answerable": false,
+        "gold_answers": [
+          "目择仔、大目侧仔"
+        ],
+        "top1_distance": 0.4229,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "根据提供的文段，没有提到“半线天竺鲷”，只提到了“单线天竺鲷”，其俗名为**外斑天竺鲷、大目侧仔**。\n\n文中无“半线天竺鲷”的相关信息，因此无法回答关于“半线天竺鲷”的俗名。\n\n答案：**文中未提及“半线天竺鲷”，仅提及“单线天竺鲷”，其俗名为外斑天竺鲷、大目侧仔。**",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.1081,
+        "faithfulness_unigram": 0.875,
+        "faithfulness_bigram": 0.4175
+      },
+      {
+        "question_id": "DEV_150_QUERY_0",
+        "question": "银花鲈鱼在大陆又被叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "条纹鲈"
+        ],
+        "top1_distance": 1.011,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.01，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_475_QUERY_0",
+        "question": "曾志豪现在担任了什么职位？",
+        "answerable": false,
+        "gold_answers": [
+          "大宇资讯音乐音效课课长兼音序作业员",
+          "高雄工学院电子音乐社创社社长"
+        ],
+        "top1_distance": 1.0812,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.08，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_568_QUERY_0",
+        "question": "学习演算法的一些训练样本说明了什么？",
+        "answerable": false,
+        "gold_answers": [
+          "说明输入与输出之间的预期关系",
+          "输入与输出之间的预期关系。"
+        ],
+        "top1_distance": 1.2815,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.28，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_400_QUERY_0",
+        "question": "大曲车站的地址是哪里？",
+        "answerable": false,
+        "gold_answers": [
+          "日本秋田县大仙市大曲通町"
+        ],
+        "top1_distance": 0.5016,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "大曲车站的地址是日本青森县上北郡六户町犬落濑。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.3529,
+        "faithfulness_unigram": 0.9545,
+        "faithfulness_bigram": 0.8571
+      },
+      {
+        "question_id": "DEV_1022_QUERY_0",
+        "question": "胜利纪念柱在哪里？",
+        "answerable": false,
+        "gold_answers": [
+          "德国柏林市区内"
+        ],
+        "top1_distance": 1.3083,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.31，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1058_QUERY_0",
+        "question": "河北省文物研究所位于什么地方？",
+        "answerable": false,
+        "gold_answers": [
+          "石家庄市建华南大街82号"
+        ],
+        "top1_distance": 1.2065,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.21，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1136_QUERY_0",
+        "question": "永平省属于哪个国家？",
+        "answerable": false,
+        "gold_answers": [
+          "越南共和国"
+        ],
+        "top1_distance": 1.2356,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.24，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_410_QUERY_0",
+        "question": "魔弹理论在什么时期形成？",
+        "answerable": false,
+        "gold_answers": [
+          "20世纪20年代"
+        ],
+        "top1_distance": 1.2909,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.29，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_161_QUERY_0",
+        "question": "《战栗游戏》的作者是谁？",
+        "answerable": false,
+        "gold_answers": [
+          "史蒂芬·金"
+        ],
+        "top1_distance": 1.0637,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.06，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1634_QUERY_0",
+        "question": "香港电台第六台的频率是什么？",
+        "answerable": false,
+        "gold_answers": [
+          "AM 675 kHz"
+        ],
+        "top1_distance": 1.1102,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.11，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_328_QUERY_0",
+        "question": "美国佛蒙特州总共拥有多少个县？",
+        "answerable": false,
+        "gold_answers": [
+          "14个",
+          "14个县"
+        ],
+        "top1_distance": 1.1623,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.16，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_1146_QUERY_0",
+        "question": "雷切尔·墨索里尼是哪个国家的人？",
+        "answerable": false,
+        "gold_answers": [
+          "意大利"
+        ],
+        "top1_distance": 1.3529,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.35，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_146_QUERY_0",
+        "question": "黑褐新箭雀鲷又可以叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "黑褐副雀鲷、拟黑雀鲷"
+        ],
+        "top1_distance": 0.7954,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "根据提供的上下文，没有提到“黑褐新箭雀鲷”这一名称，也未给出其任何别名或俗名。文中提及的雀鲷种类包括：\n\n- 黄鳍雀鲷（俗名：菲律宾雀鲷）  \n- 颊鳞雀鲷（俗名：厚壳仔）  \n\n但**没有出现“黑褐新箭雀鲷”**，也无任何信息表明该名称与文中任一物种存在同物异名关系。\n\n因此，**无法从给定上下文中回答该问题**。\n\nAnswer: 文中未提供相关信息，无法确定。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0903,
+        "faithfulness_unigram": 0.7877,
+        "faithfulness_bigram": 0.2345
+      },
+      {
+        "question_id": "DEV_155_QUERY_0",
+        "question": "九命奇冤的作者是谁？",
+        "answerable": false,
+        "gold_answers": [
+          "吴沃尧"
+        ],
+        "top1_distance": 0.9925,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及《九命奇冤》及其作者，因此无法根据所提供信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8966,
+        "faithfulness_bigram": 0.0714
+      },
+      {
+        "question_id": "DEV_553_QUERY_0",
+        "question": "过适现象在统计学中指什么？",
+        "answerable": false,
+        "gold_answers": [
+          "指在调适一个统计模型时，使用过多参数",
+          "指在调适一个统计模型时，使用过多参数。"
+        ],
+        "top1_distance": 1.1627,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.16，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      },
+      {
+        "question_id": "DEV_625_QUERY_0",
+        "question": "《1997年郡尉职权法案》属于哪个机构？",
+        "answerable": false,
+        "gold_answers": [
+          "英国国会"
+        ],
+        "top1_distance": 1.2694,
+        "store_refused": true,
+        "model_self_refused": false,
+        "predicted": "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.27，拒答阈值 1.00）",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": null,
+        "faithfulness_unigram": null,
+        "faithfulness_bigram": null
+      }
+    ],
+    "no_threshold_probe": [
+      {
+        "question_id": "DEV_169_QUERY_0",
+        "question": "胸斑眶锯雀鲷又可以叫作什么？",
+        "answerable": false,
+        "gold_answers": [
+          "蓝纹高身雀鲷、太平洋真雀鲷"
+        ],
+        "top1_distance": 0.8177,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "根据提供的上下文，没有提到“胸斑眶锯雀鲷”这一名称，也未给出其任何别名或俗名。文中提及的雀鲷种类包括：\n\n- 颊鳞雀鲷（俗名：厚壳仔）  \n- 黄鳍雀鲷（俗名：菲律宾雀鲷）  \n\n但均无“胸斑眶锯雀鲷”的相关信息。\n\n因此，**无法从给定上下文中确定“胸斑眶锯雀鲷”的别名**。\n\n答案：**文中未提供相关信息**。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0602,
+        "faithfulness_unigram": 0.8264,
+        "faithfulness_bigram": 0.2417
+      },
+      {
+        "question_id": "DEV_69_QUERY_0",
+        "question": "鑫诺一号通信卫星由什么公司制造？",
+        "answerable": false,
+        "gold_answers": [
+          "法国宇航公司"
+        ],
+        "top1_distance": 1.2478,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中没有提及“鑫诺一号通信卫星”及其制造商的信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8636,
+        "faithfulness_bigram": 0.2857
+      },
+      {
+        "question_id": "DEV_430_QUERY_0",
+        "question": "佩维斯·埃里森在场上的位置是什么？",
+        "answerable": false,
+        "gold_answers": [
+          "中锋或大前锋"
+        ],
+        "top1_distance": 1.4529,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提供关于佩维斯·埃里森（Pervis Ellison）的任何信息，因此无法回答他在场上的位置。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8889,
+        "faithfulness_bigram": 0.4091
+      },
+      {
+        "question_id": "DEV_133_QUERY_0",
+        "question": "《安般守意经》被收在什么作品中？",
+        "answerable": false,
+        "gold_answers": [
+          "《大正藏》"
+        ],
+        "top1_distance": 1.3112,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及《安般守意经》及其被收录的作品，因此无法根据所给的 context 回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.9487,
+        "faithfulness_bigram": 0.2632
+      },
+      {
+        "question_id": "DEV_1066_QUERY_0",
+        "question": "阿尔西比亚德斯是哪个国家的政治家？",
+        "answerable": false,
+        "gold_answers": [
+          "雅典"
+        ],
+        "top1_distance": 1.2755,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及阿尔西比亚德斯，因此无法根据所提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.9655,
+        "faithfulness_bigram": 0.1429
+      },
+      {
+        "question_id": "DEV_1536_QUERY_0",
+        "question": "侏罗纪海岸位于哪个海峡？",
+        "answerable": false,
+        "gold_answers": [
+          "英吉利海峡"
+        ],
+        "top1_distance": 1.1681,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“侏罗纪海岸”及其所在海峡的信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.16,
+        "faithfulness_unigram": 0.75,
+        "faithfulness_bigram": 0.1053
+      },
+      {
+        "question_id": "DEV_1847_QUERY_0",
+        "question": "十字园蛛又叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "园圃蜘蛛、花园十字蛛或园蛛"
+        ],
+        "top1_distance": 1.3387,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中没有提到“十字园蛛”及其别名，因此无法根据提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.1905,
+        "faithfulness_unigram": 0.7,
+        "faithfulness_bigram": 0.1034
+      },
+      {
+        "question_id": "DEV_348_QUERY_0",
+        "question": "上知令出现于哪个时期？",
+        "answerable": false,
+        "gold_answers": [
+          "1840年代到1870年代"
+        ],
+        "top1_distance": 1.2709,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及“上知令”，因此无法根据提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.75,
+        "faithfulness_bigram": 0.087
+      },
+      {
+        "question_id": "DEV_1639_QUERY_0",
+        "question": "川纹笛鲷有哪些俗名？",
+        "answerable": false,
+        "gold_answers": [
+          "嗑头、白点赤海、千年鲷、儋州红、打铁婆"
+        ],
+        "top1_distance": 0.89,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中没有提到“川纹笛鲷”及其俗名。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.069,
+        "faithfulness_unigram": 0.6429,
+        "faithfulness_bigram": 0.0769
+      },
+      {
+        "question_id": "DEV_566_QUERY_0",
+        "question": "小行星序号适用于哪些行星？",
+        "answerable": false,
+        "gold_answers": [
+          "小行星和矮行星"
+        ],
+        "top1_distance": 1.1462,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“小行星序号”或其适用的行星范围，因此无法根据所提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.2273,
+        "faithfulness_unigram": 0.8649,
+        "faithfulness_bigram": 0.2778
+      },
+      {
+        "question_id": "DEV_433_QUERY_0",
+        "question": "一吨碳挑战的目的是什么？",
+        "answerable": false,
+        "gold_answers": [
+          "每年减少一吨的温室气体排放量"
+        ],
+        "top1_distance": 1.3311,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“一吨碳挑战”，因此无法根据所提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.1429,
+        "faithfulness_unigram": 0.8214,
+        "faithfulness_bigram": 0.1852
+      },
+      {
+        "question_id": "DEV_593_QUERY_0",
+        "question": "沈龙元在足球运动中最擅长的为甚是哪里？",
+        "answerable": false,
+        "gold_answers": [
+          "右前卫"
+        ],
+        "top1_distance": 1.2031,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“沈龙元”此人，因此无法回答其在足球运动中最擅长的位置。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.9,
+        "faithfulness_bigram": 0.2414
+      },
+      {
+        "question_id": "DEV_159_QUERY_0",
+        "question": "华北陆块又叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "华北克拉通"
+        ],
+        "top1_distance": 1.2728,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及“华北陆块”及其别名，因此无法根据提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.1176,
+        "faithfulness_unigram": 0.7931,
+        "faithfulness_bigram": 0.1071
+      },
+      {
+        "question_id": "DEV_1572_QUERY_0",
+        "question": "半线天竺鲷有哪些俗名？",
+        "answerable": false,
+        "gold_answers": [
+          "目择仔、大目侧仔"
+        ],
+        "top1_distance": 0.4229,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文提到的是“单线天竺鲷”，而非“半线天竺鲷”。  \n文中明确写道：“单线天竺鲷（学名：），俗名外斑天竺鲷、大目侧仔……”\n\n但问题询问的是“半线天竺鲷”的俗名，而**上下文中完全没有出现“半线天竺鲷”这一名称**，也未提供任何关于该物种的信息。\n\n因此，基于所给上下文，**无法回答关于“半线天竺鲷”的俗名**。\n\n答案：上下文未提及“半线天竺鲷”，信息不足。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0548,
+        "faithfulness_unigram": 0.7842,
+        "faithfulness_bigram": 0.3406
+      },
+      {
+        "question_id": "DEV_150_QUERY_0",
+        "question": "银花鲈鱼在大陆又被叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "条纹鲈"
+        ],
+        "top1_distance": 1.011,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及“银花鲈鱼”及其别名，因此无法根据提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0625,
+        "faithfulness_unigram": 0.6897,
+        "faithfulness_bigram": 0.0
+      },
+      {
+        "question_id": "DEV_475_QUERY_0",
+        "question": "曾志豪现在担任了什么职位？",
+        "answerable": false,
+        "gold_answers": [
+          "大宇资讯音乐音效课课长兼音序作业员",
+          "高雄工学院电子音乐社创社社长"
+        ],
+        "top1_distance": 1.0812,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“曾志豪”此人，因此无法回答其现任职位。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8182,
+        "faithfulness_bigram": 0.1905
+      },
+      {
+        "question_id": "DEV_568_QUERY_0",
+        "question": "学习演算法的一些训练样本说明了什么？",
+        "answerable": false,
+        "gold_answers": [
+          "说明输入与输出之间的预期关系",
+          "输入与输出之间的预期关系。"
+        ],
+        "top1_distance": 1.2815,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“学习演算法”或“训练样本”，因此无法根据所提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0444,
+        "faithfulness_unigram": 0.7879,
+        "faithfulness_bigram": 0.0938
+      },
+      {
+        "question_id": "DEV_400_QUERY_0",
+        "question": "大曲车站的地址是哪里？",
+        "answerable": false,
+        "gold_answers": [
+          "日本秋田县大仙市大曲通町"
+        ],
+        "top1_distance": 0.5016,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "大曲车站的地址是日本青森县上北郡六户町犬落濑。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.3529,
+        "faithfulness_unigram": 0.9545,
+        "faithfulness_bigram": 0.8571
+      },
+      {
+        "question_id": "DEV_1022_QUERY_0",
+        "question": "胜利纪念柱在哪里？",
+        "answerable": false,
+        "gold_answers": [
+          "德国柏林市区内"
+        ],
+        "top1_distance": 1.3083,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中没有提及“胜利纪念柱”的相关信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8125,
+        "faithfulness_bigram": 0.0667
+      },
+      {
+        "question_id": "DEV_1058_QUERY_0",
+        "question": "河北省文物研究所位于什么地方？",
+        "answerable": false,
+        "gold_answers": [
+          "石家庄市建华南大街82号"
+        ],
+        "top1_distance": 1.2065,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及“河北省文物研究所”的位置信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.9444,
+        "faithfulness_bigram": 0.2353
+      },
+      {
+        "question_id": "DEV_1136_QUERY_0",
+        "question": "永平省属于哪个国家？",
+        "answerable": false,
+        "gold_answers": [
+          "越南共和国"
+        ],
+        "top1_distance": 1.2356,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“永平省”，因此无法确定其所属国家。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.08,
+        "faithfulness_unigram": 0.85,
+        "faithfulness_bigram": 0.1053
+      },
+      {
+        "question_id": "DEV_410_QUERY_0",
+        "question": "魔弹理论在什么时期形成？",
+        "answerable": false,
+        "gold_answers": [
+          "20世纪20年代"
+        ],
+        "top1_distance": 1.2909,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及“魔弹理论”，因此无法根据所提供的信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8148,
+        "faithfulness_bigram": 0.1923
+      },
+      {
+        "question_id": "DEV_161_QUERY_0",
+        "question": "《战栗游戏》的作者是谁？",
+        "answerable": false,
+        "gold_answers": [
+          "史蒂芬·金"
+        ],
+        "top1_distance": 1.0637,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及《战栗游戏》及其作者，因此无法根据所给信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.2222
+      },
+      {
+        "question_id": "DEV_1634_QUERY_0",
+        "question": "香港电台第六台的频率是什么？",
+        "answerable": false,
+        "gold_answers": [
+          "AM 675 kHz"
+        ],
+        "top1_distance": 1.1102,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提供关于“香港电台第六台的频率”的任何信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.913,
+        "faithfulness_bigram": 0.3636
+      },
+      {
+        "question_id": "DEV_328_QUERY_0",
+        "question": "美国佛蒙特州总共拥有多少个县？",
+        "answerable": false,
+        "gold_answers": [
+          "14个",
+          "14个县"
+        ],
+        "top1_distance": 1.1623,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提供关于美国佛蒙特州县的数量信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0833,
+        "faithfulness_unigram": 0.65,
+        "faithfulness_bigram": 0.2105
+      },
+      {
+        "question_id": "DEV_1146_QUERY_0",
+        "question": "雷切尔·墨索里尼是哪个国家的人？",
+        "answerable": false,
+        "gold_answers": [
+          "意大利"
+        ],
+        "top1_distance": 1.3529,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提供关于“雷切尔·墨索里尼”的任何信息。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.7,
+        "faithfulness_bigram": 0.1053
+      },
+      {
+        "question_id": "DEV_146_QUERY_0",
+        "question": "黑褐新箭雀鲷又可以叫什么？",
+        "answerable": false,
+        "gold_answers": [
+          "黑褐副雀鲷、拟黑雀鲷"
+        ],
+        "top1_distance": 0.7954,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "根据提供的上下文，没有提到“黑褐新箭雀鲷”这一名称，也未出现任何别名与之对应。文中提及的雀鲷种类包括：\n\n- 黄鳍雀鲷（俗名：菲律宾雀鲷）  \n- 颊鳞雀鲷（俗名：厚壳仔）  \n\n但**没有出现“黑褐新箭雀鲷”这一学名或俗名**，亦无相关信息可推断其别名。\n\n因此，**无法从给定上下文中回答该问题**。\n\nAnswer: 文中未提供相关信息，无法确定。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0946,
+        "faithfulness_unigram": 0.7914,
+        "faithfulness_bigram": 0.2464
+      },
+      {
+        "question_id": "DEV_155_QUERY_0",
+        "question": "九命奇冤的作者是谁？",
+        "answerable": false,
+        "gold_answers": [
+          "吴沃尧"
+        ],
+        "top1_distance": 0.9925,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "文中未提及《九命奇冤》及其作者，因此无法根据所提供文段回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.8621,
+        "faithfulness_bigram": 0.0714
+      },
+      {
+        "question_id": "DEV_553_QUERY_0",
+        "question": "过适现象在统计学中指什么？",
+        "answerable": false,
+        "gold_answers": [
+          "指在调适一个统计模型时，使用过多参数",
+          "指在调适一个统计模型时，使用过多参数。"
+        ],
+        "top1_distance": 1.1627,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提供关于“过适现象”（即统计学中的“过拟合”，overfitting）的任何信息，因此无法根据给定内容回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.1159,
+        "faithfulness_unigram": 0.8654,
+        "faithfulness_bigram": 0.2353
+      },
+      {
+        "question_id": "DEV_625_QUERY_0",
+        "question": "《1997年郡尉职权法案》属于哪个机构？",
+        "answerable": false,
+        "gold_answers": [
+          "英国国会"
+        ],
+        "top1_distance": 1.2694,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文未提及《1997年郡尉职权法案》或任何相关机构，因此无法根据所提供信息回答该问题。",
+        "em": null,
+        "f1": null,
+        "containment": null,
+        "negative_f1": 0.0,
+        "faithfulness_unigram": 0.775,
+        "faithfulness_bigram": 0.1795
+      },
+      {
+        "question_id": "DEV_1646_QUERY_1",
+        "question": "哪一因素决定游离能力？",
+        "answerable": true,
+        "gold_answers": [
+          "射线（粒子或波）所带的能量"
+        ],
+        "top1_distance": 0.8124,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "决定游离能力的因素是射线（粒子或波）所带的能量，而不是射线的数量。",
+        "em": 0.0,
+        "f1": 0.55,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8214
+      },
+      {
+        "question_id": "DEV_629_QUERY_0",
+        "question": "装配线还可以叫什么？",
+        "answerable": true,
+        "gold_answers": [
+          "生产线"
+        ],
+        "top1_distance": 0.6862,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "装配线还可以叫生产线。",
+        "em": 0.0,
+        "f1": 0.4615,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9,
+        "faithfulness_bigram": 0.5556
+      },
+      {
+        "question_id": "DEV_179_QUERY_1",
+        "question": "《我的暑假》是哪个公司制作的？",
+        "answerable": true,
+        "gold_answers": [
+          "Millennium Kitchen"
+        ],
+        "top1_distance": 0.8782,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《我的暑假》是由Millennium Kitchen制作的。",
+        "em": 0.0,
+        "f1": 0.7907,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.88
+      },
+      {
+        "question_id": "DEV_312_QUERY_0",
+        "question": "加利福尼亚滑银汉鱼分布在哪个地区？",
+        "answerable": true,
+        "gold_answers": [
+          "美国加州的旧金山至圣地牙哥海岸边"
+        ],
+        "top1_distance": 0.4712,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "加利福尼亚滑银汉鱼仅分布于美国加州的旧金山至圣地牙哥海岸边。",
+        "em": 0.0,
+        "f1": 0.7111,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_462_QUERY_0",
+        "question": "朱椿的母亲是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "郭惠妃"
+        ],
+        "top1_distance": 0.7682,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "朱椿的母亲是郭惠妃。",
+        "em": 0.0,
+        "f1": 0.5,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.375
+      },
+      {
+        "question_id": "DEV_358_QUERY_0",
+        "question": "《现代食品工程》的主编是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "孙大文"
+        ],
+        "top1_distance": 0.3199,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《现代食品工程》的主编是孙大文。",
+        "em": 0.0,
+        "f1": 0.375,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6667
+      },
+      {
+        "question_id": "DEV_1161_QUERY_1",
+        "question": "刘燕卿哪一年加入消委会成为研究主任？",
+        "answerable": true,
+        "gold_answers": [
+          "1974年"
+        ],
+        "top1_distance": 0.4207,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "1974年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_366_QUERY_1",
+        "question": "谁随王僧辩驻巴陵？",
+        "answerable": true,
+        "gold_answers": [
+          "王琳"
+        ],
+        "top1_distance": 0.7944,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "宜州刺史王琳随王僧辩驻巴陵。",
+        "em": 0.0,
+        "f1": 0.2667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_47_QUERY_0",
+        "question": "底特律第二浸信会教堂在哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "底特律希腊城梦露街441号"
+        ],
+        "top1_distance": 0.4139,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "底特律第二浸信会教堂位于底特律希腊城梦露街441号。",
+        "em": 0.0,
+        "f1": 0.6842,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9583
+      },
+      {
+        "question_id": "DEV_583_QUERY_0",
+        "question": "什么是从四位？",
+        "answerable": true,
+        "gold_answers": [
+          "日本品秩与神阶的一种，位于正四位之下正五位之上，勋等上相当于勋四等",
+          "日本品秩与神阶的一种，位于正四位之下正五位之上，勋等上相当于勋四等，追赠时则称为赠从四位。"
+        ],
+        "top1_distance": 0.7061,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "从四位是日本品秩与神阶的一种，位于正四位之下、正五位之上；勋等上相当于勋四等，追赠时称为赠从四位。在律令制度中，从四位官职相当于左京大夫、右京大夫等管理朝廷内行政事务的长官或次官。四位官人不属公卿（三位以上方为公卿），故敬称时需在姓氏与名讳后加官位及“朝臣”之名，例如“细川右京大夫从四位下源胜元朝臣”。历史上，从四位多由藤原氏旁系或非藤原氏中级贵族担任；武家如清和源氏、桓武平氏成员通常需有武勋或嫡子身份才可能升至此位。镰仓时代起，北条氏一门及重臣可获此位；室町时代后，有力大名（如足利氏一门、三管领四职守护）、战国时期幕府相伴众（如三好氏）乃至家臣（如松永久秀）亦因实力获得从四位下。足利义辉、义昭更以从四位下身份出任征夷大将军，跳过正四位而位列公卿。江户时代，亲藩与谱代大名的重臣（如老中）、高家旗本、10万石以上外样大名等普遍授此位。明治维新后，从四位相当于华族中的男爵位，及陆海军中将；今日则主要授予有功绩的公务员、以及在艺术、文化、学术研究领域有突出贡献的大学教授等。",
+        "em": 0.0,
+        "f1": 0.1898,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9744,
+        "faithfulness_bigram": 0.6744
+      },
+      {
+        "question_id": "DEV_358_QUERY_1",
+        "question": "《现代食品工程》系列丛书为读者提供了哪些内容？",
+        "answerable": true,
+        "gold_answers": [
+          "食品工程领域的食品加工最新发展"
+        ],
+        "top1_distance": 0.2346,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《现代食品工程》系列丛书为读者提供了食品工程领域的最新发展内容，具体包括：\n\n- 经典单元操作在食品加工中的应用；  \n- 液态或固态食品运输、储存方面的研究进展；  \n- 食品加热、冷却或冷冻；  \n- 食品传质过程；  \n- 食品工程中的化学和生物化学问题及动力学分析的应用；  \n- 脱水、热加工、非热加工、挤出、液态食品的浓缩；  \n- 封膜分离和膜在食品加工中的应用；  \n- 货架期、电子标签与电子标签库存管理；  \n- 可持续食品加工技术；  \n- 包装、清洗和食品卫生。\n\n此外，丛书各卷均由国际杰出工程师和科学家主编，每章作者均为世界著名专家，内容严谨、全面、易懂，并附有最新、完整的参考文献，旨在为食品加工领域的科技工作者、大学教师、研究生及科研机构的研究者提供重要参考。",
+        "em": 0.0,
+        "f1": 0.1034,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9345,
+        "faithfulness_bigram": 0.7482
+      },
+      {
+        "question_id": "DEV_1155_QUERY_0",
+        "question": "纽波特又被译为什么？",
+        "answerable": true,
+        "gold_answers": [
+          "新港"
+        ],
+        "top1_distance": 0.5701,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "纽波特又被译为新港。",
+        "em": 0.0,
+        "f1": 0.3636,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.75
+      },
+      {
+        "question_id": "DEV_530_QUERY_0",
+        "question": "什么是一号风球？",
+        "answerable": true,
+        "gold_answers": [
+          "是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号"
+        ],
+        "top1_distance": 0.356,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "一号风球是澳门特别行政区的热带气旋警告信号，是该系列警告信号中最低级别的信号，高一级为三号风球。它属于戒备信号，表示有热带气旋中心集结在澳门特别行政区800公里范围内，且其情况足以于稍后可能影响澳门。",
+        "em": 0.0,
+        "f1": 0.5156,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.828
+      },
+      {
+        "question_id": "DEV_301_QUERY_1",
+        "question": "二户车站在1891年叫做什么名字？",
+        "answerable": true,
+        "gold_answers": [
+          "福冈车站"
+        ],
+        "top1_distance": 0.7745,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "二户车站在1891年设置之初原名福冈车站。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_200_QUERY_1",
+        "question": "《无声狂啸》在哪一年发表在《如果》3月刊上？",
+        "answerable": true,
+        "gold_answers": [
+          "1967年"
+        ],
+        "top1_distance": 0.6876,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "1967年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_413_QUERY_0",
+        "question": "大曲车站的位置在哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "日本青森县上北郡六户町犬落濑"
+        ],
+        "top1_distance": 0.5116,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "大曲车站的位置在日本青森县上北郡六户町犬落濑。",
+        "em": 0.0,
+        "f1": 0.7778,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8571
+      },
+      {
+        "question_id": "DEV_290_QUERY_0",
+        "question": "美安的总部设在哪里?",
+        "answerable": true,
+        "gold_answers": [
+          "瑞典斯德哥尔摩"
+        ],
+        "top1_distance": 0.5744,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "美安的总部设在瑞典斯德哥尔摩。",
+        "em": 0.0,
+        "f1": 0.6667,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8462
+      },
+      {
+        "question_id": "DEV_463_QUERY_0",
+        "question": "依法利珠单抗是什么疾病的治疗用药？",
+        "answerable": true,
+        "gold_answers": [
+          "牛皮癣"
+        ],
+        "top1_distance": 0.4331,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "依法利珠单抗是牛皮癣的治疗用药。",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.9286
+      },
+      {
+        "question_id": "DEV_128_QUERY_1",
+        "question": "挥发性的硫醚大多具有什么气味？",
+        "answerable": true,
+        "gold_answers": [
+          "腐烂的气味"
+        ],
+        "top1_distance": 0.3345,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "腐烂的气味",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      },
+      {
+        "question_id": "DEV_1070_QUERY_0",
+        "question": "《ONE PIECE 死亡尽头的冒险》在哪一年上映？",
+        "answerable": true,
+        "gold_answers": [
+          "2003年"
+        ],
+        "top1_distance": 0.5527,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2003年",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0
+      }
+    ]
+  }
+}
