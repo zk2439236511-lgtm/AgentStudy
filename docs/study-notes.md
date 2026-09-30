@@ -808,6 +808,7 @@
 3. Mini Agent 沿用同一套纪律：**判据先写成常量、干跑先算预算、留哨兵组防回归、对照组当天重跑**。多轮循环的质量抖动会比单轮提示词更难肉眼判断。
 
 对应提交：feat(evals): 提示词单变量 A/B——判据写死 + 分层配对 + 哨兵，实测四条全过并记录反例
+
 #### 2026-09-30　Mini Agent 第一步：一次模型都不调，先把决定层与预算算式写成纯函数
 
 背景：外部评审把 **Agent Harness** 列为能力画像里唯一"仍然偏弱"的一项，并说 Mini Agent 做完（且不整个丢给 LangGraph 黑盒）作品能进 88~90 档。同时 qwen-plus 的免费额度已经被 ⑤c 那轮 A/B 吃掉大半（估余量不足 10 万 token）。两件事凑在一起决定了这一步怎么走：**先把零成本的部分做完做完再碰额度**——决定层的解析、工具的 schema、循环的停止条件，全都能在不调模型的情况下写完并测。
@@ -843,3 +844,52 @@
 3. ⑧d 才第一次花额度：1~2 道题、`max_turns=3`，只核对形状与实测每轮单价。
 
 对应提交：feat(agent): Mini Agent 决定层——tool_calls 解析与逐轮 token 预算，31 条离线用例零额度跑通
+
+#### 2026-09-30　Mini Agent 第二步：工具层与主循环——模型调用做成注入点，五条停止路径一次模型都不调就跑通
+
+背景：第一步只有决定层（`schema.py`），它能把一条 assistant 消息归一化成 `Decision`，但没有任何东西执行工具，也没有任何东西决定"什么时候不再问了"。这一步补上 `tools.py` + `loop.py`。约束还是那一条：**qwen-plus 免费额度剩不到十万 token，"验证接线"这种钱一分都不该花**——所以这两层的设计目标不是"能跑"，是"能在 0 次调用的前提下被测完"。唯一花钱的适配器（`model.py`）留到 ⑧d，并且它的第一目的是核对形状，不是看效果。
+
+改动：
+
+1. **`agent/tools.py`**（新）：
+   - `Tool(name, description, parameters, handler)` 是 `@dataclass(frozen=True)`，`spec()` 直接产出 OpenAI 兼容 `tools` 数组里的一个元素。**不 import LangChain 的 `@tool`**：送进模型的只要 `{name, description, parameters}` 这一层结构，自己维护它就不必为"生成一份 JSON"引入一个框架；handler 是普通可调用对象，测试时能整个换成假的。
+   - `ToolRegistry.register()` 遇到重名**在装配时就 raise**（同名两份定义送进模型，它选哪份不可预测，这种错不该留到运行时）。
+   - `ToolRegistry.call(call)` 把五种情况全部折成 `ToolResult(ok, content)`：未知工具（回"未知工具 X。可用工具：…"，空注册表则回"当前没有注册任何工具"）、缺必填参数、传了 schema 里没有的参数、handler 内部抛任何 `Exception`、成功。**失败一律不 raise**——模型看不见返回值就学不会改用对的参数，而"某个工具这一次没成"是 Agent 每天要吃的输入，不是程序崩溃。
+   - "不支持的参数"单独判一条，而不是写 `except TypeError`：否则 handler 里一个普通的 `TypeError` 会被贴成"参数不匹配"的标签，把排查方向整个带偏（这条是用例 `test_unexpected_argument_is_reported_not_confused_with_a_handler_bug` 存在的理由）。
+   - `format_hits(hits)` 把 `(document, 距离)` 排成编号块，**把距离写给模型看**：检索层那条 d ≤ 1.0 的拒答线就作用在它上面，Agent 看不到距离就只能全盘相信检索结果。页码沿用 kb-web 那边订正过的 1-based 口径（`page + 1`），长段 600 字截断加 `…`，metadata 缺失回落"未知来源"而不是抛错。
+   - `make_search_tool(search, default_k=8)` 接受任何 `search(query, k) -> [(document, 距离)]`。**工具层不 import Chroma / LangChain**，所以这 18 条用例全离线；真实接线（建索引、套拒答线）留在调用方，那部分要花钱。`k=0` 当"没给"处理回落默认值——0 不是一个有意义的检索请求（有用例钉住这个选择）。
+2. **`agent/loop.py`**（新）：
+   - `run_agent(question, registry, call_model, *, max_turns, token_budget, system_prompt)`：**模型调用是参数，不是在这里 new 一个客户端**。理由两条都很具体——五条停止路径能离线测完；换 Ollama 或别的提供商只改适配器，循环一行不动。
+   - 五条停止路径：`answered` / `max_turns` / `no_decision` / `token_budget_exceeded` / `schema_error`。
+   - **预算判定放在每次调用之前**（`spent >= budget` 当场停）。已烧掉的退不回来，宁可少跑一轮，也不要跑到一半才发现额度没了。
+   - `AGENT_SYSTEM_PROMPT` 的规则 3、4 是 ⑤c 那个反例的直接产物：证据不足要说"我不能答 + 缺什么"，题目里的实体在上下文找不到就指出不匹配、不许换个相似实体答。**短答案省掉的正是模型解释"我为什么不答"的那段字**，所以这里把它写回要求里，而不是等评测发现自拒率掉了再补。
+   - `with_call_ids()`：缺 `id` 的 tool_calls 合成 `call_auto_{i}`，并把**同一个 id 写回 assistant 消息**（两侧不一致 API 直接报错）。进历史的是模型原始消息，不是归一化后的 `Decision`——下一轮的 `role=tool` 要靠原始结构里的 id 对上号。
+   - 空轮（既无工具又无文本）只 nudge **一次**，再空就 `no_decision` 停："提醒 → 还是空 → 再提醒"是无限白烧额度。协议层垃圾（`DecisionError`）不重试，直接 `schema_error` 收尾：重试只会再花一次钱买同一条坏消息。
+   - `ModelReply.usage` 由适配器折算成 `input_tokens / output_tokens`，和 `evals/usage.py` 同一套口径，别让两处各叫各的。`AgentRun.answered_without_evidence`（一次工具没调就作答）是 ⑧e 评估要抓的第一号行为。
+3. **`tests/test_agent_tools.py`**（新，18 条）+ **`tests/test_agent_loop.py`**（新，17 条）：handler 与模型全是假的，断言集中在三类容易静默出错的地方——派发分支的文案对不对、`role`/`tool_call_id` 的结构对不对、每条停止路径是不是**只**在自己那条触发。
+4. **`examples/agent_loop_demo.py`**（新）：脚本化假模型 + 假检索，把消息轨迹、每轮决定、结论、成本摘要四段打印出来。评估人没有 key 也能复核整段行为。
+5. **README**：Mini Agent 段补运行命令与 demo 实测输出、目录树改成"schema / tools / loop 已完成"、进度 item 5 补数字。
+
+验证（与证据）：
+
+1. `pytest tests` → **66 passed / 0.06s**（schema 31 + tools 18 + loop 17），**0 次模型调用、0 token 消耗**。
+2. 回归未破：`pytest tests evals` → **200 passed**；`apps/knowledge-rag/tests` → **53 passed, 5 skipped**。
+3. 结构断言（这类错了不会报错，只会让真机第二轮请求被 API 拒掉）：第二次请求的历史 roles 恰为 `["system", "user", "assistant", "tool"]`；`messages[2]["tool_calls"][0]["id"] == "call_1"` 证明进历史的是原始结构；一轮两个调用时 `[m["tool_call_id"] for m in tool_messages] == ["c1", "c2"]` 证明不错位；缺 id 时 assistant 侧与 tool 侧都是 `call_auto_0`；`test_with_call_ids_does_not_mutate_the_original_message` 证明不污染调用方对象。
+4. 五条停止路径逐条单独触发：`token_budget=119` 时第一轮花掉 120，断言 `model.calls() == 1`——**第二轮请求根本没发出去**；`{坏掉的 JSON` → `schema_error` 且同样只调 1 次（没重试）；`max_turns=3` 跑满 → `answer is None` 且 `turns_used == 3`；连续两条空消息 → 第 2 条才 `no_decision`；空一条之后给出答案 → 能恢复成 `answered`。
+5. `PYTHONIOENCODING=utf-8 python examples/agent_loop_demo.py` 实测输出：第 1 轮模型调**不存在的** `search_web` → 工具层回一段 42 字的解释文本（不抛错），第 2 轮它改用注册过的 `search_knowledge_base` 拿到 76 字证据，第 3 轮作答 → `stop_reason=answered`、`turns=3`、`tool_calls=2`、成本摘要 1575 token。**"把错误喂回去 → 模型自我纠正"这条 Agent 的核心机制，不花一分钱就演示了一遍。**
+
+踩坑与未证实的假设：
+
+1. **差点把归一化后的 `Decision` 喂回历史**。第一版进历史的是转换后的结构，看着更干净，实际代价是下一轮的 `role=tool` 找不到 id 对得上号——离线单测里一声不响，真机第二轮请求才被 API 拒掉。教训：**能进消息历史的必须是"发给模型的那一份"**，归一化结构只服务内部决策。
+2. **`echo_tool(name, handler=...)` 这种 helper 签名会炸**：helper 内部已经显式传了 `handler=lambda ...`，再用 `**overrides` 传同名参数就是 `got multiple values for keyword argument 'handler'`。改成先组 fields dict 再 `update(overrides)`。
+3. **`round(0.62135, 4)` 不等于我以为的值**（是 0.6213，浮点表示 + 四舍六入五成双）。用例里这种期望值**必须算出来再写**，猜出来的数字会制造一条看起来合理的假失败。
+4. **有三条断言是我自己写的废话**：`assert X or True`、`assert run.usage["total"] if False else ...`、把长度硬编码成 `chars: 26`。它们永远绿，等于没测；`test_handler_type_error_is_reported_as_failure_not_parameter_mismatch` 这条名字与内容也不符（走的是正常路径），删掉。全部改成真断言。
+5. **形状仍然是文档口径，不是真机口径**（和第一步同一条，没解除）：`arguments` 是不是 JSON 字符串、`content` 与 `tool_calls` 会不会同时出现、DashScope 会不会给 `id`。⑧d 还要回答一个离线根本答不了的问题：**qwen-plus 在兼容模式下收到 `tools` 参数会不会直接报错**。
+
+下一步：
+
+1. **⑧d `agent/model.py`**（真适配器，`OpenAI().chat.completions.create(...)` → `ModelReply`）+ 真机冒烟：**1~2 道题、`max_turns=3`**。按借来的单价算最坏约 10 050 token/题，跑之前先跟用户确认额度。**目的是核对形状与实测每轮单价，不是看效果**；冒烟产物不进仓。
+2. **⑧e `agent/evals/`**（根 `evals/` 已被 RAG 占用）：任务成功率 / 平均轮数 / 平均 token / `answered_without_evidence`，判据照 ⑤c 的做法——**跑之前写成模块常量**。
+3. **接真检索**：把 `apps/knowledge-rag` 的检索函数交给 `make_search_tool`。要先定一件事：d ≤ 1.0 的拒答线是包在工具里（Agent 看不到弱证据），还是把距离原样交给模型自己判——后者更贴 Mini Agent 的目标，也更接近评审想看的"自主性"。
+
+对应提交：feat(agent): Mini Agent 工具层与主循环——模型调用做成注入点，五条停止路径 66 条离线用例零额度跑通

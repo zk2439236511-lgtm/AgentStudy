@@ -11,8 +11,8 @@
 ├── apps/idea-web/        # 灵感引擎前端：Vite + React 19（磨砂玻璃 Navbar、Loading 交互）
 ├── apps/knowledge-rag/   # 知识库 RAG：LangChain 四模块 + Chroma 持久化 + FastAPI 问答接口
 ├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF / txt / md、提问、答案 + 来源出处）
-├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）
-├── agent/                # Mini Agent：裸写 tool_calls 循环（schema.py 已完成 → tools.py / loop.py / context.py / memory.py 待做）
+├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）、agent_loop_demo.py（假模型跑通 Agent 循环）
+├── agent/                # Mini Agent：裸写 tool_calls 循环（schema.py / tools.py / loop.py 已完成 → model.py / context.py / memory.py 待做）
 ├── evals/                # RAG 评测：metrics.py + 自造题网格 + CMRC2018 金标集 + 距离口径/拒答阈值 + 答案层 + 提示词 A/B（datasets/）
 ├── tests/                # Mini Agent 测试（离线、不调模型）
 └── agent/evals/          # Mini Agent 评估集（规划中：任务成功率 / 轮数 / token）
@@ -134,10 +134,18 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
 
 ## Mini Agent（agent/，裸写 tool_calls 循环，不套框架）
 
-第一步只做**零成本**的部分：决定层的消息解析与多轮 token 预算全是纯函数，一行模型都不调。
+前两步只做**零成本**的部分：决定层的消息解析、工具注册与派发、主循环的五条停止路径全是纯函数
+或注入点，一行模型都不调——额度只剩不到十万 token，不能花在"验证接线"上。
 
 ```bash
-pytest tests                    # 当前 31 passed（tool_calls 各种畸形输入 + 预算算式，离线 0.05s、0 token）
+pytest tests                    # 当前 66 passed（畸形 tool_calls / 派发与失败处理 / 每条停止路径，离线 0.06s、0 token）
+
+PYTHONIOENCODING=utf-8 python examples/agent_loop_demo.py
+                               # 用脚本化的假模型把循环整个跑一遍，不花额度就能看到：
+                               #   第 1 轮模型编了个不存在的工具 search_web → 工具层回一段解释文本（不抛错）
+                               #   第 2 轮它改用注册过的 search_knowledge_base 拿到证据
+                               #   第 3 轮作答 → 停止原因 answered、3 轮 2 次工具调用、成本摘要一行
+                               #  transcript 与每轮决定都会打出来，评估人不用 key 也能复核
 
 PYTHONPATH=. python -c "from agent.schema import estimate_budget; print(estimate_budget())"
                                # 跑之前先算钱：默认 6 轮 = 输入曲线 [600, 3200, 5800, 8400, 11000, 13600]
@@ -147,10 +155,18 @@ PYTHONPATH=. python -c "from agent.schema import estimate_budget; print(estimate
                                # 真机跑过 Agent 之后必须换成 Agent 自己的实测数
 ```
 
-已完成 `schema.py`（`parse_message` → `Decision(action, text, tool_calls)`，三态 tool/final/invalid；
-协议层垃圾 raise `DecisionError`，模型没决定则是合法的 `invalid`——两者分开是因为循环要区分"该重试"和"该停"）。
-待做：`tools.py`（注册表 + 把 RAG 包成 `search_knowledge_base`）、`loop.py`（模型注入点 + 四条停止路径）、
-真机冒烟先核对 `tool_calls` 的实际形状（现在的解析是按 OpenAI 口径写的，只有真机能证明钉对了）。
+已完成三件：
+`schema.py`（`parse_message` → `Decision(action, text, tool_calls)`，三态 tool/final/invalid；
+协议层垃圾 raise `DecisionError`，模型没决定则是合法的 `invalid`——两者分开是因为循环要区分"该重试"和"该停"）；
+`tools.py`（`ToolRegistry` 重名即炸；未知工具、缺必填、handler 抛异常都变成 `ok=False` 的**给模型看的文本**，
+因为模型看不见返回值就学不会改参数）；
+`loop.py`（`call_model` 是注入点，所以五条停止路径——`answered` / `max_turns` / `no_decision` /
+`token_budget_exceeded` / `schema_error`——全能在离线测；预算判定放在**每次调用之前**，
+已烧掉的退不回来，宁可少跑一轮也不要跑到一半才发现额度没了）。
+
+待做：`model.py`（真适配器：OpenAI SDK → `ModelReply`，把 `prompt_tokens/completion_tokens` 折算成
+`input_tokens/output_tokens`）、真机冒烟先核对 `tool_calls` 的实际形状（现在的解析是按 OpenAI 口径写的，
+只有真机能证明钉对了）、评估集 `agent/evals/`（任务成功率 / 平均轮数 / 平均 token / 是否凭空作答）。
 
 ## 学习记录方式
 
@@ -204,9 +220,12 @@ PYTHONPATH=. python -c "from agent.schema import estimate_budget; print(estimate
         但唯一的反例说明"短答案 + 字面支撑满分"可以是错的（把正确的自拒换成自信的错答），
         所以默认模板暂不替换；同时暴露了现有指标的边界——需要 claim 级 Faithfulness 才判得出实体对不对
 - [ ] 5. Mini Agent：裸写 OpenAI SDK `tool_calls` 循环，不套框架
-      · 决定层已完成（`agent/schema.py` + `pytest tests` 31 passed，全程 0 token）：消息归一化成
-        `Decision`、`arguments` 的 JSON 字符串/双重编码都收、协议错与"模型没决定"分成两条出口，
-        预算按逐轮累加（默认 6 轮最坏 43 500 token → 真机冒烟只能压到 1~2 题 × 3 轮）
-      · 待做：`tools.py` 注册表、`loop.py` 四条停止路径、真机核对 `tool_calls` 形状并回填实测单价
+      · 决定层已完成（`agent/schema.py`）：消息归一化成 `Decision`、`arguments` 的 JSON 字符串/双重编码都收、
+        协议错与"模型没决定"分成两条出口，预算按逐轮累加（默认 6 轮最坏 43 500 token → 真机冒烟只能压到 1~2 题 × 3 轮）
+      · 工具层 + 主循环已完成（`agent/tools.py`、`agent/loop.py`，`pytest tests` **66 passed / 0.06s / 0 token**）：
+        注册表重名即炸，未知工具、缺必填、handler 抛异常统一降级成 `ok=False` 的给模型看的文本；
+        `call_model` 是注入点，所以五条停止路径（`answered` / `max_turns` / `no_decision` /
+        `token_budget_exceeded` / `schema_error`）全部离线跑过，`examples/agent_loop_demo.py` 不花额度就能复现整段轨迹
+      · 待做：`agent/model.py` 真适配器 + 真机核对 `tool_calls` 形状并回填实测单价、评估集 `agent/evals/`
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够
