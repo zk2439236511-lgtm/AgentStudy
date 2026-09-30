@@ -38,7 +38,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 load_dotenv(APP_DIR / ".env")
 
-from metrics import hit_rate, ndcg, precision, recall
+from metrics import hit_rate, ndcg, precision, recall, similarity_refusal_sweep
 from ragdemo.document_loader import CJK_SEPARATORS
 from ragdemo.vector_store import EMBEDDING_BATCH_SIZE, create_embeddings
 
@@ -111,25 +111,12 @@ def summarize(values: list[float]) -> dict:
 def threshold_sweep(
     answerable_top1: list[float], negatives_top1: list[float], thresholds: list[float]
 ) -> list[dict]:
-    """把"top1 相似度低于 t 就拒答"当成一个分类器，扫一遍 t。
+    """转发给 metrics.similarity_refusal_sweep；保留这个名字是为了不改动结果文件的字段语义。
 
     只是给 ④ 挑候选阈值用的分布证据，不是调参结论：这里的分数是内存库的余弦
     相似度，线上是 Chroma 距离，阈值搬不过去。
     """
-    rows = []
-    for threshold in thresholds:
-        refused_neg = sum(1 for score in negatives_top1 if score < threshold)
-        refused_pos = sum(1 for score in answerable_top1 if score < threshold)
-        rows.append(
-            {
-                "threshold": threshold,
-                "negative_refusal_rate": round(refused_neg / len(negatives_top1), 3),
-                "negative_refused": f"{refused_neg}/{len(negatives_top1)}",
-                "answerable_false_refusal_rate": round(refused_pos / len(answerable_top1), 3),
-                "answerable_wrongly_refused": f"{refused_pos}/{len(answerable_top1)}",
-            }
-        )
-    return rows
+    return similarity_refusal_sweep(answerable_top1, negatives_top1, thresholds)
 
 
 def score_config(

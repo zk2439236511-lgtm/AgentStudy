@@ -112,6 +112,17 @@
   white-space: pre-wrap;
 }
 
+/* 拒答提示：检索层就没找到够近的证据，这条回答没经过模型 */
+.kb-refusal {
+  margin-top: 14px;
+  color: rgba(251, 191, 36, 0.95);
+}
+
+.kb-answer-refused {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px dashed rgba(251, 191, 36, 0.45);
+}
+
 .kb-sources {
   margin-top: 16px;
   list-style: none;

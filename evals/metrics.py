@@ -10,6 +10,10 @@
 
 Hit / Recall 天然随 K 单调上升，单看它们等于没有代价地调大 K；
 Precision 与 nDCG 就是那另一半代价，四个一起看才判得出配置优劣。
+
+最后两个函数管的是"分数口径"：内存库给余弦相似度（越大越相关），线上 Chroma 给距离
+（越小越相关），而距离具体是哪种距离要看索引创建时的 space 配置。做阈值拒答前必须先
+把这个口径确认下来，否则同一根阈值线在两套数字下完全不是一回事。
 """
 
 import math
@@ -118,3 +122,95 @@ def evaluate(cases: Iterable[dict]) -> dict:
         "mrr": round(sum(reciprocals) / n, 3),
         "keyword_coverage": round(sum(coverage) / n, 3),
     }
+
+
+# Chroma 的三种 space 在**单位长度向量**下与余弦的关系。
+# 注意 l2 口径返回的是平方欧氏距离（||a-b||²），不是开方后的欧氏距离。
+_DISTANCE_TO_COSINE = {
+    "l2": lambda d: 1.0 - d / 2.0,
+    "cosine": lambda d: 1.0 - d,
+    "ip": lambda d: -d,
+}
+
+
+def cosine_from_distance(distance: float, space: str) -> float:
+    """把向量库返回的距离换算成余弦相似度，结果截到 [-1, 1]。
+
+    只在向量是单位长度时成立。所以别拿它当"任意距离都能换"的通用公式：
+    先按 match_distance_space 实测确认口径，再确认向量模长接近 1，才能用。
+    """
+    if space not in _DISTANCE_TO_COSINE:
+        raise ValueError(f"未知的距离口径：{space}，只支持 {sorted(_DISTANCE_TO_COSINE)}")
+    return max(-1.0, min(1.0, _DISTANCE_TO_COSINE[space](distance)))
+
+
+def match_distance_space(pairs: Sequence[tuple[float, float]]) -> dict:
+    """用实测的 (库返回距离, 手工算的余弦相似度) 配对，反推这张库实际是哪种距离口径。
+
+    残差最大的那一项最小、且接近 0，才算确认了口径；三种都对不上说明向量没归一化
+    或者 retrieval 用的模型和写入时不是同一个，这时候不能拿换算公式硬套阈值。
+    """
+    if not pairs:
+        raise ValueError("没有实测配对，无法判断距离口径")
+
+    ranking = []
+    for space, convert in _DISTANCE_TO_COSINE.items():
+        errors = [abs(convert(distance) - cosine) for distance, cosine in pairs]
+        ranking.append(
+            {
+                "space": space,
+                "max_abs_error": round(max(errors), 6),
+                "mean_abs_error": round(sum(errors) / len(errors), 6),
+            }
+        )
+    ranking.sort(key=lambda row: row["max_abs_error"])
+    return {"best": ranking[0]["space"], "confirmed": ranking[0]["max_abs_error"] < 1e-6,
+            "n_pairs": len(pairs), "ranking": ranking}
+
+
+def _refusal_rows(answerable: list[float], negatives: list[float], thresholds: list[float],
+                  refuses: callable, label: str) -> list[dict]:
+    """两个方向相反的阈值扫描共用的计数骨架。"""
+    rows = []
+    for threshold in thresholds:
+        refused_neg = sum(1 for score in negatives if refuses(score, threshold))
+        refused_pos = sum(1 for score in answerable if refuses(score, threshold))
+        rows.append(
+            {
+                label: threshold,
+                "negative_refusal_rate": round(refused_neg / len(negatives), 3),
+                "negative_refused": f"{refused_neg}/{len(negatives)}",
+                "answerable_false_refusal_rate": round(refused_pos / len(answerable), 3),
+                "answerable_wrongly_refused": f"{refused_pos}/{len(answerable)}",
+            }
+        )
+    return rows
+
+
+def similarity_refusal_sweep(
+    answerable_top1: Sequence[float],
+    negatives_top1: Sequence[float],
+    thresholds: Sequence[float],
+) -> list[dict]:
+    """余弦相似度口径：top1 相似度**低于** t 就拒答。"""
+    return _refusal_rows(
+        list(answerable_top1), list(negatives_top1), list(thresholds),
+        refuses=lambda score, t: score < t, label="threshold",
+    )
+
+
+def distance_refusal_sweep(
+    answerable_top1: Sequence[float],
+    negatives_top1: Sequence[float],
+    thresholds: Sequence[float],
+) -> list[dict]:
+    """距离口径（线上 Chroma）：top1 距离**大于** t 就拒答。
+
+    方向必须和 similarity_refusal_sweep 相反，否则同一根线会把"最相关的"当成该拒的。
+    """
+    return _refusal_rows(
+        list(answerable_top1), list(negatives_top1), list(thresholds),
+        refuses=lambda score, t: score > t, label="max_distance",
+    )
+
+

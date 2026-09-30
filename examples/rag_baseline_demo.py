@@ -27,7 +27,8 @@ question = (
 
 chunks = load_and_chunk_pdf(APP_DIR / "documents" / "sample.pdf")
 vector_store = create_vector_store(chunks)
-chain = create_rag_chain_with_sources(vector_store)
+# 内存库的分数是余弦相似度（越大越相关），和线上 Chroma 的距离不是一套口径，这里关掉拒答线
+chain = create_rag_chain_with_sources(vector_store, max_distance=None)
 
 print("\nQ:", question, "\n")
 result = chain.invoke(question)

@@ -633,3 +633,49 @@
 下一步：④ 阈值拒答 + rerank 的单变量实验（相似度阈值先在 0.5~0.6 区间试，用 Chroma 口径重扫）；答案层补 EM/F1、简化 Faithfulness、拒答正确率。真要判 chunk_size，语料得扩到 300~800 段或者换带 qrels 的数据集。
 
 对应提交：feat(evals): CMRC2018 外部金标集 + Precision@K / nDCG@K 分层指标
+
+#### 2026-09-30　检索层距离阈值拒答：先把口径实测死，再选工作点，最后才写进生产代码
+
+背景：补课路线第 4 步的上半段。上一轮在内存库里扫出来的相似度线（cos 0.5 拒 24/30、误伤 3/200）不能直接搬到线上——kb-web 走 Chroma，分数是**距离**、越小越相关，方向和数值口径都不一样。外部评审点过"阈值是拍脑袋定的"，要结束拍脑袋，第一步不是调参，是搞清楚 Chroma 那个数字到底是什么。
+
+改动：
+
+1. **口径先实测、不假设**（`evals/metrics.py`）：新增 `cosine_from_distance(distance, space)` 与 `match_distance_space(pairs)`。做法是把 l2 / cosine / ip 三种候选换算全跑一遍，谁残差最小就是谁，而不是先认定 l2 再找证据。同时补 `distance_refusal_sweep`（d > t 就拒），和原有 `similarity_refusal_sweep`（s < t 就拒）方向相反，两个函数分开测、分开渲染表头。
+
+2. **实验脚本** `evals/chroma_threshold_eval.py`：把 CMRC 金标集建进**临时 Chroma**（复用线上同一套 `load_vector_store` + 百炼 embedding，切块逻辑直接 import 上一轮脚本的 `to_documents`，保证两轮是同一批文本）。三层证据链：读 `collection.configuration` 里的 `hnsw:space` → 取 `collection.get(include=["embeddings", "metadatas"])` 的向量算模长（模长全为 1 才允许用 `d = 2(1-cos)`）→ 50 道题做实测配对换算。最后再拿 230 道题逐题对齐上一轮的内存库结果。少一层，结论就只能写"假设"。
+
+3. **检索链路落地**（`apps/knowledge-rag/src/ragdemo/rag_chain.py`）：`should_refuse()` / `refusal_answer()` 两个纯函数 + `create_rag_chain_with_sources(..., max_distance=DEFAULT_MAX_DISTANCE)`，默认值走环境变量 `RAG_MAX_DISTANCE=1.0`。三个"放行"分支各有理由并写了注释：阈值为 `None`（内存库给的是相似度不是距离，不能拿这条线卡它）、score 为 `None`（退回无分数路径就判不了口径 → 宁可放行）、刚好压线（`>` 才算超）。拒答路径不拼上下文、不构建 LCEL 管道、一次模型都不调。
+
+4. **接口与前端**：`/kb/ask` 响应新增 `refused` 字段；`apps/kb-web/src/AskPanel.jsx` 在 `refused` 时显示琥珀色提示"检索层判定证据不足，已拒答（没有调用模型）"，答案卡片切虚线样式，**8 条来源照旧透出**。这一条是刻意的：拒答时也要让用户看到"最接近的是哪几块、离得多远"，否则分不清"库里没有"和"问法不对"。
+
+5. **调用点按口径显式化**：`src/ragdemo/main.py` 与 `examples/rag_baseline_demo.py`（内存库）传 `max_distance=None` 并注释原因；`examples/kb_persistent_demo.py`（Chroma）保持默认阈值。
+
+验证（与证据）：
+
+1. **口径钉死**：`hnsw:space = "l2"`（平方欧氏）；语料与问题向量模长 min/max/mean 全是 1.0 → 单位向量，`d = 2(1-cos)` 成立。50 对实测配对残差：l2 **0.0**、cosine 最大 0.726、ip 最大 1.726，后两个直接排除；库的 top1 与手工余弦的 top1 是同一段 50/50。
+
+2. **两套口径排同一个序**：230 道题与 `2026-09-29-cmrc.json` 逐题比对，`gold_rank` 差异 **0/200**，换算后的余弦与上一轮实测值最大差 0.0001（舍入级）。这一步做完才敢把 1.0 写进代码。
+
+3. **工作点选 d ≤ 1.0（等价 cos ≥ 0.5）**：可回答题 top1 距离中位 0.5046（max 1.2176），负样本中位 1.2048（min 0.4229）。扫描：d=1.0 拒 24/30（80%）、误伤 3/200（1.5%）；d=0.8 拒 27/30、误伤 19/200。往里收到 0.8 只多拒 3 道，代价是误伤涨 6 倍——不值。取向明确写进结果文件：**宁可少拒，不要错拒**。
+
+4. **pytest**：`pytest evals` **42 passed**（本轮 +18：`test_metrics.py` 距离换算/两种方向扫描 +10，新文件 `test_chroma_threshold.py` 8 条含取样步长、cross_check 三种情形、Markdown 渲染，全离线）；`apps/knowledge-rag` **48 passed, 5 skipped**（+10：`TestDistanceThresholdRefusal` 9 条 + `test_api.py` 1 条）。
+
+5. **真机 + 浏览器端到端**（线上库 2 文件 / 53 向量）：httpx 探针四例——库内中文 top1 0.252 作答、库内英文 0.533 作答、世界杯问题 1.70 拒答、劳动合同法问题 1.588 拒答，四条全是 HTTP 200，拒答两条 `refused=true` 且不产生模型调用。浏览器两轮：拒答轮页面出现琥珀色提示 + "（最接近的片段距离 1.70，拒答阈值 1.00）" + 8 条 1.700~1.762 的来源；库内轮正常生成完整答案、无拒答提示、top1 距离 0.252。结果与推导全在 `evals/results/2026-09-30-chroma-threshold.{json,md}`。
+
+踩坑：
+
+1. **`collection.get()` 默认不返回 metadatas 和 embeddings**，直接下标拿到 `None` 后迭代炸 `TypeError: 'NoneType' object is not iterable`。必须显式 `include=["embeddings", "metadatas"]`，并对 None 兜底成空 dict——因为空库是真的会出现，不是异常。
+
+2. **"l2 是欧氏距离"这句话还不够**：只有向量已归一化时 `d² = 2(1-cos)` 才成立，模长不是 1 就整个换算。百炼 `text-embedding-v4` 恰好是单位长度，但这是实测出来的（min=max=mean=1.0），不是它承诺的。换 embedding 模型必须重算模长、重扫阈值。
+
+3. **MagicMock 进不了 LCEL 管道**：`prompt | llm | StrOutputParser()` 里 `|` 只接受 Runnable / callable / dict，Mock 会被 coerce 成 `RunnableLambda`，然后在 `StrOutputParser` 抛 `TypeError`，报错位置和真实原因隔了两层。改成两个替身：验证"拒答根本没去敲模型的门"用 `object()` 当 tripwire（管道一构建就抛错，反而证明没构建）；验证作答路径用 `FakeMessagesListChatModel(responses=[AIMessage(...)])`。
+
+4. **两个方向相反的阈值函数必须分别测**：`similarity_refusal_sweep`（s < t 拒）和 `distance_refusal_sweep`（d > t 拒）看着只差一个比较号，实际表头、扫描方向、"等价余弦线"列都不同。我第一版想让一个函数通过参数兼容两种方向，读代码时自己都分不清某一列在说什么，还是拆回两个函数、在换算过的工作点上验证两者结论一致。
+
+5. **凭记忆写 Edit 的 old_string 必然失败**：改 `App.css` 时按印象写了 `background: rgba(11, 16, 32, 0.72)`，实际是 0.55 还带 `border-left`。Read 之后重做才成功——凡是"我记得这个文件长啥样"的编辑，先读。
+
+6. **写测试时自查出两个实现 bug**：`to_markdown` 里提前 `return` 导致第 4 节整段没渲染；`pick_calibration_sample` 的期望下标一开始算错（按步长取应为 A0,A2,A4,A6,A8）。这两个都不是跑真机发现的，是离线用例先绿不了暴露的。
+
+下一步：④ 剩下 rerank 的单变量实验（一轮只动一个变量，别和阈值结论搅在一起）。答案层还欠 EM/F1、简化 Faithfulness、拒答正确率——本轮的 30 道构造负样本正好能复用。已知限制记着：拒答只看 top1，k=8 时后 7 块完全不参与判定，真要看"有没有第二块够近"得重扫；chunk_size=500 会切出 33 字碎尾块；这份金标集在检索层依旧饱和，判不了分块。
+
+对应提交：feat(rag): 检索层距离阈值拒答（工作点来自 CMRC 金标集实测）

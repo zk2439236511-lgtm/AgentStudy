@@ -47,7 +47,8 @@ def main():
 
     # Create RAG chains - one simple, one with source tracking
     rag_chain = create_rag_chain(vector_store)
-    rag_chain_with_sources = create_rag_chain_with_sources(vector_store)
+    # InMemoryVectorStore 给的是余弦相似度，不是 Chroma 距离，拒答阈值在这条路径上没有意义
+    rag_chain_with_sources = create_rag_chain_with_sources(vector_store, max_distance=None)
     print("\nRAG chain ready!\n")
 
     # Interactive Q&A loop

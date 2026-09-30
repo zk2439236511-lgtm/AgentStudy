@@ -13,7 +13,7 @@
 ├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF / txt / md、提问、答案 + 来源出处）
 ├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）
 ├── agent/                # Mini Agent（规划中：loop.py / tools.py / schema.py / memory.py / context.py）
-├── evals/                # 检索评测：metrics.py + 自造题网格实验 + CMRC2018 外部金标集（datasets/）
+├── evals/                # 检索评测：metrics.py + 自造题网格 + CMRC2018 金标集 + Chroma 距离口径/拒答阈值实验（datasets/）
 └── tests/                # Mini Agent 测试（规划中）
 ```
 
@@ -43,7 +43,7 @@ npm run dev                    # http://127.0.0.1:5173
 cd apps/knowledge-rag
 pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
-pytest                         # 当前 38 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
+pytest                         # 当前 48 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
 
 cd ../..                       # 示例与评测脚本在仓库根目录下运行
 python examples/rag_baseline_demo.py     # 内存版完整 RAG
@@ -53,10 +53,14 @@ cd apps/knowledge-rag
 PYTHONPATH=src uvicorn ragdemo.api:app --port 8001   # 知识库 HTTP 接口
 ```
 
+`/kb/ask` 带**检索层拒答**：最像的片段离得不够近就直接不作答（不调模型），响应里的 `refused` 告诉前端这是拒答而不是答案。
+阈值走环境变量 `RAG_MAX_DISTANCE`（默认 `1.0`，Chroma 的平方欧氏距离口径），工作点的推导见下面 C 段；
+`InMemoryVectorStore` 的分数是余弦相似度、不是距离，所以内存版调用点显式传 `max_distance=None` 关掉这条线。
+
 检索评测（evals/，指标计算是纯函数、离线免费；跑评测会真实调用百炼 embedding）：
 
 ```bash
-pytest evals                       # 当前 24 passed（指标 + 金标集构建，全部离线）
+pytest evals                       # 当前 42 passed（指标 + 金标集构建 + 距离口径实验，全部离线）
 
 # A. 自造题：chunk_size × k 网格，判的是"相关页有没有进前 K"
 python evals/retrieval_eval.py --chunk-sizes 500,1000,2000 --ks 4,8
@@ -70,11 +74,20 @@ curl -L -o evals/datasets/raw/cmrc2018_dev.json \
 python evals/datasets/build_cmrc_golden.py        # 重抽金标集，默认 100 段 / 200 问 / 30 负样本
 python evals/cmrc_retrieval_eval.py --chunk-sizes 0,500 --ks 4,8
                                # 结果写入 evals/results/{日期}-cmrc.{json,md}
-                               # 除检索指标外还出 top1 相似度分布 + 阈值扫描（供后续阈值拒答用）
+                               # 除检索指标外还出 top1 相似度分布 + 阈值扫描（供 C 段换算用）
+
+# C. 距离阈值拒答：把 B 的金标集建进**真 Chroma**（临时目录），先反推距离口径再选工作点
+#    会真实调用百炼 embedding；跑完把 --keep 换掉可保留库便于复查
+python evals/chroma_threshold_eval.py --chunk-size 0 --k 8 \
+       --thresholds 0.3,0.4,0.5,0.6,0.8,1.0,1.2 --calibrate 50
+                               # 结果写入 evals/results/{日期}-chroma-threshold.{json,md}
+                               # 实测结论：collection 的 space=l2（平方欧氏），且百炼向量已归一化
+                               # → cos = 1 - d/2；据此换算后与内存库逐题对齐（230 题 gold_rank 差异 0/200）
+                               # 工作点 d ≤ 1.0：30 道负样本拒掉 24 道，200 道可回答题只误伤 3 道
 ```
 
-> 分数口径注意：`cmrc_retrieval_eval.py` 用的是 `InMemoryVectorStore`，分数是**余弦相似度（越大越相关）**；
-> 线上 kb-web 走 Chroma，`score` 是**距离（越小越相关）**。两套数字不能互相套用，阈值也不能直接搬。
+> 分数口径注意：`InMemoryVectorStore` 的分数是**余弦相似度（越大越相关）**，线上 kb-web 走 Chroma，`score` 是
+> **平方欧氏距离（越小越相关）**，两套数字必须像 C 段那样先实测换算才能对齐，阈值不能直接搬。
 
 知识库网页（先启动上面的后端接口）：
 
@@ -120,6 +133,9 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
       · 检索层已完成（Precision@K / nDCG@K / top1 相似度分布 / 阈值扫描）；答案层待做
       · 注意单 gold 数据下 Precision@K 的天花板恒等于 1/K，0.25 / 0.125 是恒等式不是质量结论
 - [ ] 4. 距离阈值拒答 + rerank 单变量实验
+      · 距离阈值拒答已完成：先在真 Chroma 上实测口径（`space=l2`、百炼向量已归一 → `cos = 1 - d/2`），再选工作点 `d ≤ 1.0`，落到 `/kb/ask` 的 `refused` 字段与前端拒答态；见 `evals/results/2026-09-30-chroma-threshold.md`
+      · 已知限制：只看 top1 一根线，后 7 块不参与判定；换 embedding 模型或向量库要重扫
+      · 待做：rerank 单变量实验（一轮只动一个变量，避免和阈值结论混在一起）
 - [ ] 5. Mini Agent：裸写 OpenAI SDK `tool_calls` 循环，不套框架
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够

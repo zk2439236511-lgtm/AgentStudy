@@ -123,4 +123,6 @@ def ask(payload: AskRequest):
         }
         for doc in result["source_documents"]
     ]
-    return {"answer": result["answer"], "sources": sources}
+    # refused=True 表示检索层就没找到够近的证据，answer 是拒答文案，没调用过模型；
+    # 工作点见 evals/results/2026-09-30-chroma-threshold.md
+    return {"answer": result["answer"], "sources": sources, "refused": result["refused"]}

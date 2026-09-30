@@ -52,7 +52,17 @@ export default function AskPanel() {
 
       {result && (
         <>
-          <article className="kb-answer" data-testid="kb-answer">{result.answer}</article>
+          {result.refused && (
+            <p className="kb-refusal" data-testid="kb-refusal">
+              检索层判定证据不足，已拒答（没有调用模型）。下面列出的片段都不够近，只是线索。
+            </p>
+          )}
+          <article
+            className={result.refused ? 'kb-answer kb-answer-refused' : 'kb-answer'}
+            data-testid="kb-answer"
+          >
+            {result.answer}
+          </article>
           <ul className="kb-sources" data-testid="kb-sources">
             {result.sources.map((source, index) => (
               <li key={index} className="kb-source">

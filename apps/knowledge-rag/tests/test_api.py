@@ -22,20 +22,30 @@ class FakeStore:
 
 
 class FakeChain:
-    def __init__(self):
+    """假链路：把 create_rag_chain_with_sources 返回对象的契约（answer/sources/refused）演出来。"""
+
+    def __init__(self, refused=False, distance=0.6789):
         self.received = None
+        self.refused = refused
+        self.distance = distance
 
     def invoke(self, question):
         self.received = question
         long_text = "x" * 500
+        answer = (
+            "知识库里没有与这个问题足够相关的内容，不作答。（最接近的片段距离 1.35，拒答阈值 1.00）"
+            if self.refused
+            else "多头注意力把 query/key/value 投影 h 次后并行计算。"
+        )
         return {
-            "answer": "多头注意力把 query/key/value 投影 h 次后并行计算。",
+            "answer": answer,
             "source_documents": [
                 Document(
                     page_content=long_text,
-                    metadata={"source": "sample.pdf", "page": 3, "score": 0.6789},
+                    metadata={"source": "sample.pdf", "page": 3, "score": self.distance},
                 )
             ],
+            "refused": self.refused,
         }
 
 
@@ -196,12 +206,25 @@ def test_ask_returns_answer_with_sources(monkeypatch):
 
     assert chain.received == "What is multi-head attention?"
     assert data["answer"].startswith("多头注意力")
+    assert data["refused"] is False
     source = data["sources"][0]
     assert source["filename"] == "sample.pdf"
     assert source["page"] == 3
     # 接口原样透出 Chroma 的向量距离，不做单调变换包装
     assert source["distance"] == 0.679
     assert len(source["excerpt"]) == 300
+
+
+def test_ask_surfaces_refusal_without_hiding_the_sources(monkeypatch):
+    """拒答时也要把"最近的一条是什么、离得多远"透出去，用户才判断得了是没查全还是真没有。"""
+    chain = FakeChain(refused=True, distance=1.35)
+    monkeypatch.setattr(api, "create_rag_chain_with_sources", lambda store: chain)
+
+    data = client.post("/kb/ask", json={"question": "明天天气怎么样"}).json()
+
+    assert data["refused"] is True
+    assert "不作答" in data["answer"]
+    assert data["sources"][0]["distance"] == 1.35
 
 
 def test_ask_blank_question_returns_400(monkeypatch):
