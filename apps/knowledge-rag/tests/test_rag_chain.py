@@ -177,6 +177,55 @@ class TestConfigPassthrough:
         assert result["answer"] == "模型给的答案"
 
 
+class CapturingHandler(BaseCallbackHandler):
+    """记下真正送进模型的 prompt 文本，用来验证 template 参数确实生效。"""
+
+    def __init__(self):
+        self.prompts = []
+
+    def on_chat_model_start(self, serialized, messages, **kwargs):
+        self.prompts.append("\n".join(message.content for message in messages[0]))
+
+
+class TestTemplateParameter:
+    """prompt_ab_eval.py 把提示词当唯一实验变量，靠的就是这个参数——它必须真的生效、
+    而且默认值一个字符都不能变，否则测的就不是线上那条链。"""
+
+    def build(self, llm, **kwargs):
+        from ragdemo.rag_chain import create_rag_chain_with_sources
+
+        with patch("ragdemo.rag_chain.ChatOpenAI", return_value=llm):
+            return create_rag_chain_with_sources(
+                FakeVectorStore([(make_doc("上下文里的事实"), 0.4)]), k=4, max_distance=1.0, **kwargs
+            )
+
+    def run_prompt(self, chain) -> str:
+        handler = CapturingHandler()
+        chain.invoke("问题是什么", config={"callbacks": [handler]})
+        assert len(handler.prompts) == 1
+        return handler.prompts[0]
+
+    def test_default_template_is_unchanged(self):
+        from ragdemo.rag_chain import RAG_TEMPLATE
+
+        prompt = self.run_prompt(self.build(answering_llm()))
+
+        assert "Answer the question based only on the following context." in prompt
+        assert "上下文里的事实" in prompt
+        assert "问题是什么" in prompt
+        # 模板占位符都被填掉了
+        assert "{context}" not in prompt and "{question}" not in prompt
+        assert RAG_TEMPLATE.count("{") == 2
+
+    def test_custom_template_replaces_the_prompt(self):
+        prompt = self.run_prompt(
+            self.build(answering_llm(), template="只用一句中文回答。\n上下文：{context}\n问题：{question}")
+        )
+
+        assert "只用一句中文回答。" in prompt
+        assert "Answer the question based only on" not in prompt
+
+
 class TestRagChain:
     """Tests for the RAG chain module."""
 

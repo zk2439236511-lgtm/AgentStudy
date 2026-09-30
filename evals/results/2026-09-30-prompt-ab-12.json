@@ -1,0 +1,1086 @@
+{
+  "date": "2026-09-30",
+  "chat_model": "qwen-plus",
+  "k": 8,
+  "chunk_size": 0,
+  "max_distance": 1.0,
+  "baseline": "E:\\AgentStudy\\evals\\results\\2026-09-30-answer.json",
+  "budget": {
+    "questions": 12,
+    "generations": 24,
+    "estimated_input_tokens": 72000,
+    "note": "单价按真机冒烟取 3000 input/生成；两组都跑所以 ×2"
+  },
+  "selection": [
+    {
+      "question_id": "DEV_1012_QUERY_1",
+      "stratum": "low",
+      "f1_baseline_record": 0.0
+    },
+    {
+      "question_id": "DEV_377_QUERY_0",
+      "stratum": "low",
+      "f1_baseline_record": 0.028
+    },
+    {
+      "question_id": "DEV_519_QUERY_1",
+      "stratum": "low",
+      "f1_baseline_record": 0.0379
+    },
+    {
+      "question_id": "DEV_519_QUERY_0",
+      "stratum": "low",
+      "f1_baseline_record": 0.0424
+    },
+    {
+      "question_id": "DEV_543_QUERY_1",
+      "stratum": "low",
+      "f1_baseline_record": 0.0571
+    },
+    {
+      "question_id": "DEV_578_QUERY_1",
+      "stratum": "mid",
+      "f1_baseline_record": 0.411
+    },
+    {
+      "question_id": "DEV_530_QUERY_0",
+      "stratum": "mid",
+      "f1_baseline_record": 0.5156
+    },
+    {
+      "question_id": "DEV_1122_QUERY_0",
+      "stratum": "mid",
+      "f1_baseline_record": 0.4267
+    },
+    {
+      "question_id": "DEV_219_QUERY_1",
+      "stratum": "mid",
+      "f1_baseline_record": 0.5075
+    },
+    {
+      "question_id": "DEV_487_QUERY_0",
+      "stratum": "high",
+      "f1_baseline_record": 1.0
+    },
+    {
+      "question_id": "DEV_48_QUERY_1",
+      "stratum": "high",
+      "f1_baseline_record": 1.0
+    },
+    {
+      "question_id": "DEV_1170_QUERY_0",
+      "stratum": "high",
+      "f1_baseline_record": 1.0
+    }
+  ],
+  "strata": [
+    "high",
+    "low",
+    "mid"
+  ],
+  "conditions": {
+    "baseline_template": {
+      "answerable": {
+        "n": 12,
+        "store_refused": 0,
+        "model_self_refused": 1,
+        "either_refused": 1,
+        "both_refused": 0,
+        "answered": 11,
+        "refusal_rate": 0.0833
+      },
+      "negative": {
+        "n": 0,
+        "store_refused": 0,
+        "model_self_refused": 0,
+        "either_refused": 0,
+        "both_refused": 0,
+        "answered": 0,
+        "refusal_rate": 0.0
+      },
+      "quality_answered_subset": {
+        "n": 11,
+        "em": 0.2727,
+        "f1": 0.4532,
+        "containment": 0.4545,
+        "faithfulness_unigram": 0.9677,
+        "faithfulness_bigram": 0.7883
+      },
+      "quality_all_answerable_zero_refused": {
+        "n": 12,
+        "em": 0.25,
+        "f1": 0.4154,
+        "containment": 0.4167
+      },
+      "negative_hard_answered_f1": 0.0,
+      "negative_hard_answered_matches_gold": 0,
+      "f1_distribution": {
+        "n": 12,
+        "min": 0.0114,
+        "p25": 0.0492,
+        "median": 0.4021,
+        "p75": 0.5156,
+        "max": 1.0,
+        "mean": 0.4164
+      },
+      "cost": {
+        "questions": 12,
+        "llm_generations": 12,
+        "retrievals": 12,
+        "seconds": 41.5,
+        "input_tokens": 33023,
+        "output_tokens": 1543,
+        "total_tokens": 34566,
+        "mean_input_tokens_per_generation": 2751.9,
+        "mean_output_tokens_per_generation": 128.6,
+        "latency_all": {
+          "n": 12,
+          "min": 0.468,
+          "p25": 1.447,
+          "median": 2.447,
+          "p75": 3.835,
+          "max": 11.263,
+          "mean": 3.4571
+        },
+        "latency_generated": {
+          "n": 12,
+          "min": 0.468,
+          "p25": 1.447,
+          "median": 2.447,
+          "p75": 3.835,
+          "max": 11.263,
+          "mean": 3.4571
+        }
+      }
+    },
+    "concise_template": {
+      "answerable": {
+        "n": 12,
+        "store_refused": 0,
+        "model_self_refused": 0,
+        "either_refused": 0,
+        "both_refused": 0,
+        "answered": 12,
+        "refusal_rate": 0.0
+      },
+      "negative": {
+        "n": 0,
+        "store_refused": 0,
+        "model_self_refused": 0,
+        "either_refused": 0,
+        "both_refused": 0,
+        "answered": 0,
+        "refusal_rate": 0.0
+      },
+      "quality_answered_subset": {
+        "n": 12,
+        "em": 0.6667,
+        "f1": 0.8256,
+        "containment": 0.9167,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.989
+      },
+      "quality_all_answerable_zero_refused": {
+        "n": 12,
+        "em": 0.6667,
+        "f1": 0.8256,
+        "containment": 0.9167
+      },
+      "negative_hard_answered_f1": 0.0,
+      "negative_hard_answered_matches_gold": 0,
+      "f1_distribution": {
+        "n": 12,
+        "min": 0.2295,
+        "p25": 0.9444,
+        "median": 1.0,
+        "p75": 1.0,
+        "max": 1.0,
+        "mean": 0.8256
+      },
+      "cost": {
+        "questions": 12,
+        "llm_generations": 12,
+        "retrievals": 12,
+        "seconds": 10.7,
+        "input_tokens": 33407,
+        "output_tokens": 180,
+        "total_tokens": 33587,
+        "mean_input_tokens_per_generation": 2783.9,
+        "mean_output_tokens_per_generation": 15.0,
+        "latency_all": {
+          "n": 12,
+          "min": 0.468,
+          "p25": 0.677,
+          "median": 0.8445,
+          "p75": 0.957,
+          "max": 1.912,
+          "mean": 0.8889
+        },
+        "latency_generated": {
+          "n": 12,
+          "min": 0.468,
+          "p25": 0.677,
+          "median": 0.8445,
+          "p75": 0.957,
+          "max": 1.912,
+          "mean": 0.8889
+        }
+      }
+    }
+  },
+  "summary": {
+    "before": {
+      "n": 12,
+      "em": 0.25,
+      "containment": 0.4167,
+      "f1": 0.4164,
+      "bigram": 0.7626,
+      "mean_answer_chars": 190.1,
+      "mean_output_tokens": 128.6
+    },
+    "after": {
+      "n": 12,
+      "em": 0.6667,
+      "containment": 0.9167,
+      "f1": 0.8256,
+      "bigram": 0.989,
+      "mean_answer_chars": 19.4,
+      "mean_output_tokens": 15
+    },
+    "all_passed": true
+  },
+  "verdicts": [
+    {
+      "name": "主判据：平均 char-F1 涨 ≥ 0.05",
+      "value": "0.4164 → 0.8256（Δ 0.4092）",
+      "passed": true
+    },
+    {
+      "name": "护栏：span 命中跌幅 ≤ 0.05",
+      "value": "0.4167 → 0.9167（跌 -0.5）",
+      "passed": true
+    },
+    {
+      "name": "哨兵：满分组跌破 0.5 的不超过 1 道",
+      "value": "回归 0/3 道",
+      "passed": true
+    },
+    {
+      "name": "机制：平均答案字数确实下降（不降就说明涨分不是这段话带来的）",
+      "value": "190.1 → 19.4 字（降 170.7）",
+      "passed": true
+    }
+  ],
+  "pairs": [
+    {
+      "question_id": "DEV_1012_QUERY_1",
+      "stratum": "low",
+      "f1_before": 0.0114,
+      "f1_after": 0.3333,
+      "containment_before": 0.0,
+      "containment_after": 0.0,
+      "chars_before": 214,
+      "chars_after": 3,
+      "predicted_after": "16倍",
+      "gold": [
+        "90倍"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_377_QUERY_0",
+      "stratum": "low",
+      "f1_before": 0.03,
+      "f1_after": 1.0,
+      "containment_before": 0.0,
+      "containment_after": 1.0,
+      "chars_before": 731,
+      "chars_after": 10,
+      "predicted_after": "引起了世界范围的恐慌",
+      "gold": [
+        "引起了世界范围的恐慌",
+        "引起了世界范围的恐慌。"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_519_QUERY_1",
+      "stratum": "low",
+      "f1_before": 0.0386,
+      "f1_after": 0.2295,
+      "containment_before": 0.0,
+      "containment_after": 1.0,
+      "chars_before": 592,
+      "chars_after": 69,
+      "predicted_after": "威尔特郡、汉普郡、多塞特郡；皮尤西河谷、索尔兹伯里平原、埃姆斯伯里、索尔兹伯里、汉普郡盆地、新福-{里}-斯特、福丁布里奇、灵伍德、基督城",
+      "gold": [
+        "汉普郡、多塞特郡",
+        "流经汉普郡、多塞特郡"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_519_QUERY_0",
+      "stratum": "low",
+      "f1_before": 0.0819,
+      "f1_after": 0.4,
+      "containment_before": 1.0,
+      "containment_after": 1.0,
+      "chars_before": 211,
+      "chars_after": 32,
+      "predicted_after": "英格兰威尔特郡肯尼特区（Kennet）迪韦齐斯（Devizes）",
+      "gold": [
+        "英格兰威尔特郡"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_543_QUERY_1",
+      "stratum": "low",
+      "f1_before": 0.0492,
+      "f1_after": 1.0,
+      "containment_before": 1.0,
+      "containment_after": 1.0,
+      "chars_before": 155,
+      "chars_after": 3,
+      "predicted_after": "罗贯中",
+      "gold": [
+        "罗贯中"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_578_QUERY_1",
+      "stratum": "mid",
+      "f1_before": 0.3774,
+      "f1_after": 1.0,
+      "containment_before": 0.0,
+      "containment_after": 1.0,
+      "chars_before": 137,
+      "chars_after": 31,
+      "predicted_after": "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。",
+      "gold": [
+        "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种",
+        "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_530_QUERY_0",
+      "stratum": "mid",
+      "f1_before": 0.5156,
+      "f1_after": 0.9444,
+      "containment_before": 0.0,
+      "containment_after": 1.0,
+      "chars_before": 100,
+      "chars_after": 40,
+      "predicted_after": "一号风球是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号。",
+      "gold": [
+        "是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_1122_QUERY_0",
+      "stratum": "mid",
+      "f1_before": 0.4267,
+      "f1_after": 1.0,
+      "containment_before": 0.0,
+      "containment_after": 1.0,
+      "chars_before": 73,
+      "chars_after": 20,
+      "predicted_after": "雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福",
+      "gold": [
+        "雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_219_QUERY_1",
+      "stratum": "mid",
+      "f1_before": 0.4658,
+      "f1_after": 1.0,
+      "containment_before": 0.0,
+      "containment_after": 1.0,
+      "chars_before": 62,
+      "chars_after": 19,
+      "predicted_after": "通常以甲醇、乙醇等醇类溶剂的溶液储存。",
+      "gold": [
+        "以甲醇、乙醇等醇类溶剂的溶液储存",
+        "通常以甲醇、乙醇等醇类溶剂的溶液储存"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_487_QUERY_0",
+      "stratum": "high",
+      "f1_before": 1.0,
+      "f1_after": 1.0,
+      "containment_before": 1.0,
+      "containment_after": 1.0,
+      "chars_before": 2,
+      "chars_after": 2,
+      "predicted_after": "泰国",
+      "gold": [
+        "泰国"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_48_QUERY_1",
+      "stratum": "high",
+      "f1_before": 1.0,
+      "f1_after": 1.0,
+      "containment_before": 1.0,
+      "containment_after": 1.0,
+      "chars_before": 2,
+      "chars_after": 2,
+      "predicted_after": "粤语",
+      "gold": [
+        "粤语"
+      ],
+      "missing": false
+    },
+    {
+      "question_id": "DEV_1170_QUERY_0",
+      "stratum": "high",
+      "f1_before": 1.0,
+      "f1_after": 1.0,
+      "containment_before": 1.0,
+      "containment_after": 1.0,
+      "chars_before": 2,
+      "chars_after": 2,
+      "predicted_after": "瑞典",
+      "gold": [
+        "瑞典"
+      ],
+      "missing": false
+    }
+  ],
+  "cost": {
+    "baseline": {
+      "questions": 12,
+      "llm_generations": 12,
+      "retrievals": 12,
+      "seconds": 41.5,
+      "input_tokens": 33023,
+      "output_tokens": 1543,
+      "total_tokens": 34566,
+      "mean_input_tokens_per_generation": 2751.9,
+      "mean_output_tokens_per_generation": 128.6,
+      "latency_all": {
+        "n": 12,
+        "min": 0.468,
+        "p25": 1.447,
+        "median": 2.447,
+        "p75": 3.835,
+        "max": 11.263,
+        "mean": 3.4571
+      },
+      "latency_generated": {
+        "n": 12,
+        "min": 0.468,
+        "p25": 1.447,
+        "median": 2.447,
+        "p75": 3.835,
+        "max": 11.263,
+        "mean": 3.4571
+      }
+    },
+    "variant": {
+      "questions": 12,
+      "llm_generations": 12,
+      "retrievals": 12,
+      "seconds": 10.7,
+      "input_tokens": 33407,
+      "output_tokens": 180,
+      "total_tokens": 33587,
+      "mean_input_tokens_per_generation": 2783.9,
+      "mean_output_tokens_per_generation": 15.0,
+      "latency_all": {
+        "n": 12,
+        "min": 0.468,
+        "p25": 0.677,
+        "median": 0.8445,
+        "p75": 0.957,
+        "max": 1.912,
+        "mean": 0.8889
+      },
+      "latency_generated": {
+        "n": 12,
+        "min": 0.468,
+        "p25": 0.677,
+        "median": 0.8445,
+        "p75": 0.957,
+        "max": 1.912,
+        "mean": 0.8889
+      }
+    }
+  },
+  "rows": {
+    "baseline": [
+      {
+        "question_id": "DEV_1012_QUERY_1",
+        "question": "格利泽518b的质量至少是地球的多少倍？",
+        "answerable": true,
+        "gold_answers": [
+          "90倍"
+        ],
+        "top1_distance": 0.6595,
+        "store_refused": false,
+        "model_self_refused": true,
+        "predicted": "上下文提到的是“格利泽581b”，而非“格利泽518b”。文中明确指出：\n\n> “格利泽581b的质量至少为地球的16倍……”\n\n但问题问的是“格利泽518b”，该名称在所提供的全部上下文中**从未出现**。上下文中只有“格利泽581b”（Gliese 581b），没有“格利泽518b”的任何信息。\n\n因此，**根据所给上下文，无法回答关于‘格利泽518b’的问题**。\n\n答案：上下文未提供关于“格利泽518b”的任何信息。",
+        "em": 0.0,
+        "f1": 0.0114,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9128,
+        "faithfulness_bigram": 0.4795,
+        "latency_seconds": 3.924,
+        "llm_calls": 1,
+        "input_tokens": 3114,
+        "output_tokens": 148,
+        "total_tokens": 3262
+      },
+      {
+        "question_id": "DEV_377_QUERY_0",
+        "question": "2007－08年全球粮食价格危机产生了怎样的影响？",
+        "answerable": true,
+        "gold_answers": [
+          "引起了世界范围的恐慌",
+          "引起了世界范围的恐慌。"
+        ],
+        "top1_distance": 0.3427,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "2007－08年全球粮食价格危机产生了以下多方面影响：\n\n1. **全球性恐慌与政治安全警示**：粮食价格迅速上涨引发世界范围恐慌；国际货币基金组织（IMF）总裁斯特劳斯卡恩警告食品价格急剧上涨“可能引发战争”。\n\n2. **各国紧急政策调整**：\n   - 中国取消粮食及其制粉出口退税，并对小麦、玉米、稻谷、大米、大豆等57种产品征收5%–25%的出口暂定关税；\n   - 摩洛哥大幅下调小麦进口关税（由130%降至2.5%）；\n   - 欧盟暂停征收大部分谷物进口关税；\n   - 柬埔寨、埃及宣布大米出口禁令；越南（全球第二大稻米出口国）、印度（第三大）纷纷加价及减产。\n\n3. **全球粮食储备严重不足**：2008年3月，世界粮食计划署指出，全球食品储备仅够53天应急供应。\n\n4. **粮食供需矛盾凸显**：尽管国际谷物理事会报告显示2007/08年度全球谷物产量达16.62亿吨、同比增长5.7%（即“全球粮食并无减产”），但价格不降反涨，主因是需求增长更快，尤其是粮食被大规模用于生产生物燃料（“粮食能源化”）——如“注满一辆车油箱所需乙醇所耗掉的粮食，可供养一个人一年之久”。\n\n5. **加剧气候与粮食安全关联认知**：危机凸显全球暖化的威胁——高温（>30℃）导致稻米减产；水灾、旱灾周期缩短，将引发更大粮食危机。\n\n6. **多国陷入严重粮食危机**：联合国粮农组织2008年5月报告列出22个严重受影响国家，包括非洲的厄立特里亚、尼日尔、科摩罗、利比里亚等18国，亚洲的朝鲜、柬埔寨、塔吉克斯坦，以及美洲的海地。\n\n综上，该危机不仅造成市场动荡和政策连锁反应，更暴露了全球粮食体系在贸易政策、能源转型、气候变化应对等方面的深层脆弱性。",
+        "em": 0.0,
+        "f1": 0.03,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9306,
+        "faithfulness_bigram": 0.5932,
+        "latency_seconds": 11.263,
+        "llm_calls": 1,
+        "input_tokens": 2940,
+        "output_tokens": 481,
+        "total_tokens": 3421
+      },
+      {
+        "question_id": "DEV_519_QUERY_1",
+        "question": "雅芳河流经哪些地方？",
+        "answerable": true,
+        "gold_answers": [
+          "汉普郡、多塞特郡",
+          "流经汉普郡、多塞特郡"
+        ],
+        "top1_distance": 0.4891,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "根据提供的信息，雅芳河（即“索尔兹伯里的雅芳河”或“汉普郡的雅芳河”）流经以下地方：\n\n- 发源于英格兰威尔特郡肯尼特区迪韦齐斯（Devizes）  \n- 流入皮尤西河谷（Vale of Pewsey）  \n- 横过索尔兹伯里平原  \n- 经埃姆斯伯里（Amesbury）  \n- 经索尔兹伯里（Salisbury）  \n- 经汉普郡盆地  \n- 经新福里斯特（New Forest）  \n- 经福丁布里奇（Fordingbridge）  \n- 经灵伍德（Ringwood）  \n- 在多塞特郡基督城与斯陶尔河（Stour）汇流，注入英伦海峡  \n\n此外，文中还提到了另一条同名河流——“下雅芳河”（布里斯托雅芳河），它流经：\n\n- 发源于格洛斯特郡南格洛斯特奇平索德伯里（Chipping Sodbury）  \n- 流经马姆斯伯里（Malmesbury）  \n- 奇彭纳姆（Chippenham）  \n- 梅尔克舍姆（Melksham）  \n- 雅芳河畔布拉德福德（Bradford on Avon）  \n- 巴斯（Bath）  \n- 凯恩舍姆（Keynsham）  \n- 在布里斯托埃文茅斯（Avonmouth）与塞文河汇合，注入爱尔兰海  \n\n注意：两河同名但地理上独立，分别位于英格兰南部不同区域。问题未特指哪一条，而上下文明确列出两条，因此答案应涵盖两者各自流经的主要地点。",
+        "em": 0.0,
+        "f1": 0.0386,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9125,
+        "faithfulness_bigram": 0.7039,
+        "latency_seconds": 9.159,
+        "llm_calls": 1,
+        "input_tokens": 2393,
+        "output_tokens": 388,
+        "total_tokens": 2781
+      },
+      {
+        "question_id": "DEV_519_QUERY_0",
+        "question": "雅芳河的发源地是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "英格兰威尔特郡"
+        ],
+        "top1_distance": 0.4611,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "雅芳河有两条，发源地不同：\n\n1. **「索尔兹伯里的雅芳河」（又称「汉普郡的雅芳河」）**：发源于英格兰威尔特郡肯尼特区（Kennet）迪韦齐斯（Devizes）。\n\n2. **「下雅芳河」或「布里斯托雅芳河」**：发源于英格兰格洛斯特郡南格洛斯特奇平索德伯里（Chipping Sodbury）。\n\n因此，根据上下文，雅芳河的发源地有两个，分别位于**英格兰威尔特郡迪韦齐斯**和**英格兰格洛斯特郡奇平索德伯里**。",
+        "em": 0.0,
+        "f1": 0.0819,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9573,
+        "faithfulness_bigram": 0.7975,
+        "latency_seconds": 3.835,
+        "llm_calls": 1,
+        "input_tokens": 2399,
+        "output_tokens": 148,
+        "total_tokens": 2547
+      },
+      {
+        "question_id": "DEV_543_QUERY_1",
+        "question": "《三遂平妖传》的作者是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "罗贯中"
+        ],
+        "top1_distance": 0.3344,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "《三遂平妖传》的作者是明朝罗贯中。  \n根据文段：“《三遂平妖传》全称《北宋三遂平妖传》，又名《新平妖传》，明朝罗贯中所著……”以及末尾明确署名：“四十回本署名为：‘罗贯中编次，冯梦龙补改’”，可知原著作者为罗贯中；冯梦龙是明代万历年间对二十回本进行改编增补者，并非原始作者。\n\n因此，答案是：**罗贯中**。",
+        "em": 0.0,
+        "f1": 0.0492,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9496,
+        "faithfulness_bigram": 0.661,
+        "latency_seconds": 3.525,
+        "llm_calls": 1,
+        "input_tokens": 3715,
+        "output_tokens": 121,
+        "total_tokens": 3836
+      },
+      {
+        "question_id": "DEV_578_QUERY_1",
+        "question": "前独立成科的凤头鹦鹉为什么被降级为亚科？",
+        "answerable": true,
+        "gold_answers": [
+          "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种",
+          "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。"
+        ],
+        "top1_distance": 0.3745,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉具有更多特性的品种，表明凤头鹦鹉并非如原先认为的那样高度特化或孤立，其系统发育位置更适宜降为亚科层级；同时，有研究指出，鹦鹉亚科内的各族终将被提升至更高的亚科层级，从而促使分类体系调整，使凤头鹦鹉从独立成科降为鹦鹉科下的一个亚科。",
+        "em": 0.0,
+        "f1": 0.3774,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9302,
+        "faithfulness_bigram": 0.6094,
+        "latency_seconds": 2.733,
+        "llm_calls": 1,
+        "input_tokens": 2747,
+        "output_tokens": 99,
+        "total_tokens": 2846
+      },
+      {
+        "question_id": "DEV_530_QUERY_0",
+        "question": "什么是一号风球？",
+        "answerable": true,
+        "gold_answers": [
+          "是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号"
+        ],
+        "top1_distance": 0.356,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "一号风球是澳门特别行政区的热带气旋警告信号，是该系列警告信号中最低级别的信号，高一级为三号风球。它是一戒备信号，表示有热带气旋中心集结在澳门特别行政区800公里范围内，且其情况足以于稍后可能影响澳门。",
+        "em": 0.0,
+        "f1": 0.5156,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8495,
+        "latency_seconds": 2.161,
+        "llm_calls": 1,
+        "input_tokens": 3272,
+        "output_tokens": 66,
+        "total_tokens": 3338
+      },
+      {
+        "question_id": "DEV_1122_QUERY_0",
+        "question": "萨克斯-瓦福效应以谁为名？",
+        "answerable": true,
+        "gold_answers": [
+          "雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福"
+        ],
+        "top1_distance": 0.4448,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "萨克斯-瓦福效应以雷纳·库尔特·萨克斯（Rainer Kurt Sachs）和亚瑟·迈克尔·瓦福（Arthur Michael Wolfe）为名。",
+        "em": 0.0,
+        "f1": 0.4267,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.6207,
+        "latency_seconds": 1.447,
+        "llm_calls": 1,
+        "input_tokens": 2313,
+        "output_tokens": 40,
+        "total_tokens": 2353
+      },
+      {
+        "question_id": "DEV_219_QUERY_1",
+        "question": "甲醇钠如何储存？",
+        "answerable": true,
+        "gold_answers": [
+          "以甲醇、乙醇等醇类溶剂的溶液储存",
+          "通常以甲醇、乙醇等醇类溶剂的溶液储存"
+        ],
+        "top1_distance": 0.4181,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "甲醇钠通常以甲醇、乙醇等醇类溶剂的溶液形式储存；储存时需防潮，因其会逐渐被空气中的水分分解变质（遇水分解为甲醇和氢氧化钠）。",
+        "em": 0.0,
+        "f1": 0.4658,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 0.9643,
+        "faithfulness_bigram": 0.8364,
+        "latency_seconds": 1.724,
+        "llm_calls": 1,
+        "input_tokens": 2322,
+        "output_tokens": 48,
+        "total_tokens": 2370
+      },
+      {
+        "question_id": "DEV_487_QUERY_0",
+        "question": "巴吞他尼府是哪个国家中部的一个府？",
+        "answerable": true,
+        "gold_answers": [
+          "泰国"
+        ],
+        "top1_distance": 0.4032,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "泰国",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.468,
+        "llm_calls": 1,
+        "input_tokens": 2263,
+        "output_tokens": 1,
+        "total_tokens": 2264
+      },
+      {
+        "question_id": "DEV_48_QUERY_1",
+        "question": "广东广播电视台珠江频道以什么语言为主？",
+        "answerable": true,
+        "gold_answers": [
+          "粤语"
+        ],
+        "top1_distance": 0.591,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "粤语",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.726,
+        "llm_calls": 1,
+        "input_tokens": 3290,
+        "output_tokens": 2,
+        "total_tokens": 3292
+      },
+      {
+        "question_id": "DEV_1170_QUERY_0",
+        "question": "斯韦阿兰属于哪个国家？",
+        "answerable": true,
+        "gold_answers": [
+          "瑞典"
+        ],
+        "top1_distance": 0.457,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "瑞典",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.52,
+        "llm_calls": 1,
+        "input_tokens": 2255,
+        "output_tokens": 1,
+        "total_tokens": 2256
+      }
+    ],
+    "variant": [
+      {
+        "question_id": "DEV_1012_QUERY_1",
+        "question": "格利泽518b的质量至少是地球的多少倍？",
+        "answerable": true,
+        "gold_answers": [
+          "90倍"
+        ],
+        "top1_distance": 0.6595,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "16倍",
+        "em": 0.0,
+        "f1": 0.3333,
+        "containment": 0.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.703,
+        "llm_calls": 1,
+        "input_tokens": 3146,
+        "output_tokens": 3,
+        "total_tokens": 3149
+      },
+      {
+        "question_id": "DEV_377_QUERY_0",
+        "question": "2007－08年全球粮食价格危机产生了怎样的影响？",
+        "answerable": true,
+        "gold_answers": [
+          "引起了世界范围的恐慌",
+          "引起了世界范围的恐慌。"
+        ],
+        "top1_distance": 0.3427,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "引起了世界范围的恐慌",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.813,
+        "llm_calls": 1,
+        "input_tokens": 2972,
+        "output_tokens": 5,
+        "total_tokens": 2977
+      },
+      {
+        "question_id": "DEV_519_QUERY_1",
+        "question": "雅芳河流经哪些地方？",
+        "answerable": true,
+        "gold_answers": [
+          "汉普郡、多塞特郡",
+          "流经汉普郡、多塞特郡"
+        ],
+        "top1_distance": 0.4891,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "威尔特郡、汉普郡、多塞特郡；皮尤西河谷、索尔兹伯里平原、埃姆斯伯里、索尔兹伯里、汉普郡盆地、新福-{里}-斯特、福丁布里奇、灵伍德、基督城",
+        "em": 0.0,
+        "f1": 0.2295,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 0.8679,
+        "latency_seconds": 1.912,
+        "llm_calls": 1,
+        "input_tokens": 2425,
+        "output_tokens": 62,
+        "total_tokens": 2487
+      },
+      {
+        "question_id": "DEV_519_QUERY_0",
+        "question": "雅芳河的发源地是哪里？",
+        "answerable": true,
+        "gold_answers": [
+          "英格兰威尔特郡"
+        ],
+        "top1_distance": 0.4611,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "英格兰威尔特郡肯尼特区（Kennet）迪韦齐斯（Devizes）",
+        "em": 0.0,
+        "f1": 0.4,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.957,
+        "llm_calls": 1,
+        "input_tokens": 2431,
+        "output_tokens": 20,
+        "total_tokens": 2451
+      },
+      {
+        "question_id": "DEV_543_QUERY_1",
+        "question": "《三遂平妖传》的作者是谁？",
+        "answerable": true,
+        "gold_answers": [
+          "罗贯中"
+        ],
+        "top1_distance": 0.3344,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "罗贯中",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.647,
+        "llm_calls": 1,
+        "input_tokens": 3747,
+        "output_tokens": 3,
+        "total_tokens": 3750
+      },
+      {
+        "question_id": "DEV_578_QUERY_1",
+        "question": "前独立成科的凤头鹦鹉为什么被降级为亚科？",
+        "answerable": true,
+        "gold_answers": [
+          "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种",
+          "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。"
+        ],
+        "top1_distance": 0.3745,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "因为一些史前的鹦形目化石揭示了一些比凤头鹦鹉有更多特性的品种。",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 1.079,
+        "llm_calls": 1,
+        "input_tokens": 2779,
+        "output_tokens": 22,
+        "total_tokens": 2801
+      },
+      {
+        "question_id": "DEV_530_QUERY_0",
+        "question": "什么是一号风球？",
+        "answerable": true,
+        "gold_answers": [
+          "是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号"
+        ],
+        "top1_distance": 0.356,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "一号风球是澳门特别行政区的热带气旋警告信号，是热带气旋警告信号之中最低级的信号。",
+        "em": 0.0,
+        "f1": 0.9444,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 1.136,
+        "llm_calls": 1,
+        "input_tokens": 3304,
+        "output_tokens": 26,
+        "total_tokens": 3330
+      },
+      {
+        "question_id": "DEV_1122_QUERY_0",
+        "question": "萨克斯-瓦福效应以谁为名？",
+        "answerable": true,
+        "gold_answers": [
+          "雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福"
+        ],
+        "top1_distance": 0.4448,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "雷纳·库尔特·萨克斯和亚瑟·迈克尔·瓦福",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.906,
+        "llm_calls": 1,
+        "input_tokens": 2345,
+        "output_tokens": 19,
+        "total_tokens": 2364
+      },
+      {
+        "question_id": "DEV_219_QUERY_1",
+        "question": "甲醇钠如何储存？",
+        "answerable": true,
+        "gold_answers": [
+          "以甲醇、乙醇等醇类溶剂的溶液储存",
+          "通常以甲醇、乙醇等醇类溶剂的溶液储存"
+        ],
+        "top1_distance": 0.4181,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "通常以甲醇、乙醇等醇类溶剂的溶液储存。",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.876,
+        "llm_calls": 1,
+        "input_tokens": 2354,
+        "output_tokens": 16,
+        "total_tokens": 2370
+      },
+      {
+        "question_id": "DEV_487_QUERY_0",
+        "question": "巴吞他尼府是哪个国家中部的一个府？",
+        "answerable": true,
+        "gold_answers": [
+          "泰国"
+        ],
+        "top1_distance": 0.4032,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "泰国",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.468,
+        "llm_calls": 1,
+        "input_tokens": 2295,
+        "output_tokens": 1,
+        "total_tokens": 2296
+      },
+      {
+        "question_id": "DEV_48_QUERY_1",
+        "question": "广东广播电视台珠江频道以什么语言为主？",
+        "answerable": true,
+        "gold_answers": [
+          "粤语"
+        ],
+        "top1_distance": 0.591,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "粤语",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.677,
+        "llm_calls": 1,
+        "input_tokens": 3322,
+        "output_tokens": 2,
+        "total_tokens": 3324
+      },
+      {
+        "question_id": "DEV_1170_QUERY_0",
+        "question": "斯韦阿兰属于哪个国家？",
+        "answerable": true,
+        "gold_answers": [
+          "瑞典"
+        ],
+        "top1_distance": 0.457,
+        "store_refused": false,
+        "model_self_refused": false,
+        "predicted": "瑞典",
+        "em": 1.0,
+        "f1": 1.0,
+        "containment": 1.0,
+        "negative_f1": null,
+        "faithfulness_unigram": 1.0,
+        "faithfulness_bigram": 1.0,
+        "latency_seconds": 0.493,
+        "llm_calls": 1,
+        "input_tokens": 2287,
+        "output_tokens": 1,
+        "total_tokens": 2288
+      }
+    ]
+  }
+}

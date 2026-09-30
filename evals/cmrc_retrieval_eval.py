@@ -94,15 +94,25 @@ def retrieve(store: InMemoryVectorStore, question: str, k: int) -> tuple[list[st
 
 
 def summarize(values: list[float]) -> dict:
+    """分位数摘要。下标用「四舍五入到最近的那个样本」而不是向下取整：
+
+    向下取整在 n=2 时会让 p75 == min，渲染出来就是「中位 7.4s / p75 3.3s」这种反序数字，
+    看着像统计炸了。改成最近下标后 min ≤ p25 ≤ median ≤ p75 ≤ max 恒成立。
+    """
     if not values:
         return {"n": 0}
     ordered = sorted(values)
+    last = len(ordered) - 1
+
+    def pick(quantile: float) -> float:
+        return ordered[min(int(round(last * quantile)), last)]
+
     return {
         "n": len(ordered),
         "min": round(ordered[0], 4),
-        "p25": round(ordered[int((len(ordered) - 1) * 0.25)], 4),
+        "p25": round(pick(0.25), 4),
         "median": round(statistics.median(ordered), 4),
-        "p75": round(ordered[int((len(ordered) - 1) * 0.75)], 4),
+        "p75": round(pick(0.75), 4),
         "max": round(ordered[-1], 4),
         "mean": round(statistics.fmean(ordered), 4),
     }

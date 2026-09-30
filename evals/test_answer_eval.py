@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "apps" / "knowledge-rag" / "src"))
 
 from usage import TokenUsageCollector
+from cmrc_retrieval_eval import summarize
 from answer_eval import (
     _clip,
     _negative_hard_answer_line,
@@ -362,3 +363,27 @@ class TestNoShadowedDefinitions:
         ]
         dupes = sorted({name for name in names if names.count(name) > 1})
         assert dupes == [], f"顶层重复定义会被后一份覆盖：{dupes}"
+
+class TestSummarizeQuantiles:
+    """分位数工具是三个评测脚本共用的，n 小的时候绝不能渲染出反序数字。
+
+    旧实现下标向下取整，n=2 时 p75 == min，成本行就印成「中位 7.4s / p75 3.3s」，
+    看着像统计炸了。
+    """
+
+    def test_two_samples_stay_monotonic(self):
+        stats = summarize([11.526, 3.292])
+
+        assert stats["p25"] <= stats["median"] <= stats["p75"], stats
+        assert stats["p75"] == 11.526
+
+    def test_four_samples_pick_nearest_instead_of_collapsing_to_min(self):
+        """n=4 时旧实现的 p25 就是 min（下标 0），那不成其为分位数了。"""
+        stats = summarize([1.0, 2.0, 3.0, 4.0])
+
+        assert (stats["min"], stats["p25"], stats["median"], stats["p75"], stats["max"]) == (
+            1.0, 2.0, 2.5, 3.0, 4.0
+        )
+
+    def test_empty_reports_zero_instead_of_crashing(self):
+        assert summarize([]) == {"n": 0}

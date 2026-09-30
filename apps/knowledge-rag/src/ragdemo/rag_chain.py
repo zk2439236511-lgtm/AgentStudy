@@ -144,6 +144,7 @@ def create_rag_chain_with_sources(
     model: str | None = None,
     k: int = DEFAULT_K,
     max_distance: float | None = DEFAULT_MAX_DISTANCE,
+    template: str | None = None,
 ):
     """
     Create a RAG chain that returns both the answer and retrieved documents.
@@ -156,12 +157,15 @@ def create_rag_chain_with_sources(
         model: OpenAI chat model to use
         k: Number of documents to retrieve
         max_distance: 拒答线（Chroma 距离，越小越相关）；传 None 表示不启用
+        template: 提示词模板；传 None 用 RAG_TEMPLATE。evals/prompt_ab_eval.py 用它
+            把提示词做成唯一的实验变量——被测的必须是这条生产链，另写一份近似链测出来的
+            分数代表不了 /kb/ask
 
     Returns:
         Callable that returns
         {"answer": str, "source_documents": list[Document], "refused": bool}
     """
-    prompt = ChatPromptTemplate.from_template(RAG_TEMPLATE)
+    prompt = ChatPromptTemplate.from_template(template or RAG_TEMPLATE)
     llm = _build_llm(model)
 
     def retrieve_with_scores(question: str) -> list[tuple]:

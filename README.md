@@ -43,7 +43,7 @@ npm run dev                    # http://127.0.0.1:5173
 cd apps/knowledge-rag
 pip install -r requirements.txt
 cp .env.example .env           # 填入百炼 API-KEY
-pytest                         # 当前 51 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
+pytest                         # 当前 53 passed, 5 skipped（集成用例需 RUN_INTEGRATION=1）
 
 cd ../..                       # 示例与评测脚本在仓库根目录下运行
 python examples/rag_baseline_demo.py     # 内存版完整 RAG
@@ -60,7 +60,7 @@ PYTHONPATH=src uvicorn ragdemo.api:app --port 8001   # 知识库 HTTP 接口
 检索评测（evals/，指标计算是纯函数、离线免费；跑评测会真实调用百炼 embedding）：
 
 ```bash
-pytest evals                       # 当前 107 passed（指标 + 金标集构建 + 距离口径实验 + 答案层指标 + token 计量，全部离线）
+pytest evals                       # 当前 134 passed（指标 + 金标集构建 + 距离口径实验 + 答案层指标 + token 计量 + 提示词 A/B 判据，全部离线）
 
 # A. 自造题：chunk_size × k 网格，判的是"相关页有没有进前 K"
 python evals/retrieval_eval.py --chunk-sizes 500,1000,2000 --ks 4,8
@@ -97,6 +97,27 @@ python evals/answer_eval.py --limit 8 --probe 4 # 冒烟：走通拒答与作答
                                # 结论：span 命中 0.9077 而 char-F1 只有 0.5163 → 瓶颈是答案啰嗦不是答错；
                                #        EM 0.0974 在整句答案下没有解释力，必须与 span 命中成对看；
                                #        负样本拒答 29/30（阈值拦 24 + 模型自拒 5），与 C 段纯检索层数字一致
+
+# E. 提示词单变量 A/B：只换模板，模型/k/阈值/同一份临时索引全部锁死
+#    回答的是 D 段那个"char-F1 0.5163 而 span 命中 0.9077"——到底是答错还是答得啰嗦
+#    默认**干跑**：只打印分层配对的选题与 token 预算，不花额度；--yes 才真调
+python evals/prompt_ab_eval.py                         # 干跑：low 5 / mid 4 / high 3（哨兵）共 12 道 + 预算
+python evals/prompt_ab_eval.py --yes --out-suffix 12   # 真跑：两组各 12 次生成，实测吃掉 68 153 token
+python evals/prompt_ab_eval.py --limit 2               # 冒烟：先确认接线通，别拿全量预算去试错
+                               # 结果写入 evals/results/{日期}-prompt-ab{后缀}.{json,md}
+                               # 判据在写代码时就是常量，跑完照表打勾，不许事后肉眼判胜负：
+                               #   主判据 char-F1 涨 ≥ 0.05｜护栏 span 命中跌幅 ≤ 0.05
+                               #   哨兵 满分组跌破 0.5 的不超过 1 道｜机制 答案字数必须真的下降
+                               # 对照组是当天重跑基线，不是引用昨天的记录——顺带量出 temperature=1 的噪声地板
+                               # 实测 12 题：四条全过。char-F1 0.4164→0.8256、span 0.4167→0.9167、
+                               #   平均字数 190.1→19.4、输出 token 128.6→15、生成延迟中位 2.447s→0.8445s；
+                               #   基线重跑 vs 昨天记录 mean|Δf1|=0.0114（max 0.0417，5/12 道一分没动），
+                               #   增益是噪声均值的 36 倍，方向不是抖出来的
+                               # ⚠ 但生产默认 RAG_TEMPLATE 暂不换：唯一的 span 未命中题恰好是唯一那道正确自拒——
+                               #   DEV_1012 题干把「格利泽581b」写成「518b」，基线用 214 字指出实体名不对（对的），
+                               #   改短后答「16倍」（gold 是 90倍），char-F1 0.0114→0.3333、字面支撑 bigram 0.4795→1.0
+                               #   指标把一次正确的推诿记成了改进：字面支撑只证"这句话在上下文里"，不证"说的是题目问的东西"
+                               #   下一轮要先补：同一批构造负样本上短答案的自拒率有没有掉（≈18 万 token，跑前先确认额度）
 ```
 
 > 分数口径注意：`InMemoryVectorStore` 的分数是**余弦相似度（越大越相关）**，线上 kb-web 走 Chroma，`score` 是
@@ -158,6 +179,9 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
         拒答率与阈值开组同为 0.9667——所以阈值的价值在这份数据上不是"拒得更多"，而是省下 27/230 次生成调用、
         以及不看内容的可预测性；两层共同的盲区是"距离很近 + 模型敢答"（`DEV_400` top1 仅 0.5016，被硬答）
       · 待做：rerank 单变量实验（一轮只动一个变量，避免和阈值结论混在一起）
+      · 提示词层单变量 A/B 已完成（上面 E 段）：四条判据全过、答案字数 190→19、char-F1 +0.41，
+        但唯一的反例说明"短答案 + 字面支撑满分"可以是错的（把正确的自拒换成自信的错答），
+        所以默认模板暂不替换；同时暴露了现有指标的边界——需要 claim 级 Faithfulness 才判得出实体对不对
 - [ ] 5. Mini Agent：裸写 OpenAI SDK `tool_calls` 循环，不套框架
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够
