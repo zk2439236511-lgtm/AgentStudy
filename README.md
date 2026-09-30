@@ -12,9 +12,10 @@
 ├── apps/knowledge-rag/   # 知识库 RAG：LangChain 四模块 + Chroma 持久化 + FastAPI 问答接口
 ├── apps/kb-web/          # 知识库前端：Vite + React 19（上传 PDF / txt / md、提问、答案 + 来源出处）
 ├── examples/             # 可运行示例：rag_baseline_demo.py（一条命令跑通完整 RAG）
-├── agent/                # Mini Agent（规划中：loop.py / tools.py / schema.py / memory.py / context.py）
-├── evals/                # 检索评测：metrics.py + 自造题网格 + CMRC2018 金标集 + Chroma 距离口径/拒答阈值实验（datasets/）
-└── tests/                # Mini Agent 测试（规划中）
+├── agent/                # Mini Agent：裸写 tool_calls 循环（schema.py 已完成 → tools.py / loop.py / context.py / memory.py 待做）
+├── evals/                # RAG 评测：metrics.py + 自造题网格 + CMRC2018 金标集 + 距离口径/拒答阈值 + 答案层 + 提示词 A/B（datasets/）
+├── tests/                # Mini Agent 测试（离线、不调模型）
+└── agent/evals/          # Mini Agent 评估集（规划中：任务成功率 / 轮数 / token）
 ```
 
 ## 快速运行
@@ -131,6 +132,26 @@ npm install
 npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代理到 8001
 ```
 
+## Mini Agent（agent/，裸写 tool_calls 循环，不套框架）
+
+第一步只做**零成本**的部分：决定层的消息解析与多轮 token 预算全是纯函数，一行模型都不调。
+
+```bash
+pytest tests                    # 当前 31 passed（tool_calls 各种畸形输入 + 预算算式，离线 0.05s、0 token）
+
+PYTHONPATH=. python -c "from agent.schema import estimate_budget; print(estimate_budget())"
+                               # 跑之前先算钱：默认 6 轮 = 输入曲线 [600, 3200, 5800, 8400, 11000, 13600]
+                               # → 最坏 43 500 token。上下文每轮都在长，所以按逐轮累加算，
+                               #   用「轮数 × 单次单价」会低估一个数量级（这条是结果文件里钉住的断言）
+                               # base/growth 现在借的是 RAG 的实测价（一次 k=8 检索 ≈ 2.6k input），
+                               # 真机跑过 Agent 之后必须换成 Agent 自己的实测数
+```
+
+已完成 `schema.py`（`parse_message` → `Decision(action, text, tool_calls)`，三态 tool/final/invalid；
+协议层垃圾 raise `DecisionError`，模型没决定则是合法的 `invalid`——两者分开是因为循环要区分"该重试"和"该停"）。
+待做：`tools.py`（注册表 + 把 RAG 包成 `search_knowledge_base`）、`loop.py`（模型注入点 + 四条停止路径）、
+真机冒烟先核对 `tool_calls` 的实际形状（现在的解析是按 OpenAI 口径写的，只有真机能证明钉对了）。
+
 ## 学习记录方式
 
 小步迭代，每步四件事：**改一点 → 本地验证（pytest / 浏览器）→ git 提交 → 在实践日志追加条目**（目标 / 改动 / 验证证据 / 踩坑 / 下一步）。
@@ -183,5 +204,9 @@ npm run dev                    # http://127.0.0.1:5173，/kb 请求由 Vite 代�
         但唯一的反例说明"短答案 + 字面支撑满分"可以是错的（把正确的自拒换成自信的错答），
         所以默认模板暂不替换；同时暴露了现有指标的边界——需要 claim 级 Faithfulness 才判得出实体对不对
 - [ ] 5. Mini Agent：裸写 OpenAI SDK `tool_calls` 循环，不套框架
+      · 决定层已完成（`agent/schema.py` + `pytest tests` 31 passed，全程 0 token）：消息归一化成
+        `Decision`、`arguments` 的 JSON 字符串/双重编码都收、协议错与"模型没决定"分成两条出口，
+        预算按逐轮累加（默认 6 轮最坏 43 500 token → 真机冒烟只能压到 1~2 题 × 3 轮）
+      · 待做：`tools.py` 注册表、`loop.py` 四条停止路径、真机核对 `tool_calls` 形状并回填实测单价
 
 第三阶段 · Mini Agent：把 RAG 注册成 `search_knowledge_base(query)` 工具，让模型自己决定查不查、证据够不够

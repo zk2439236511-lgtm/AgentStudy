@@ -808,3 +808,38 @@
 3. Mini Agent 沿用同一套纪律：**判据先写成常量、干跑先算预算、留哨兵组防回归、对照组当天重跑**。多轮循环的质量抖动会比单轮提示词更难肉眼判断。
 
 对应提交：feat(evals): 提示词单变量 A/B——判据写死 + 分层配对 + 哨兵，实测四条全过并记录反例
+#### 2026-09-30　Mini Agent 第一步：一次模型都不调，先把决定层与预算算式写成纯函数
+
+背景：外部评审把 **Agent Harness** 列为能力画像里唯一"仍然偏弱"的一项，并说 Mini Agent 做完（且不整个丢给 LangGraph 黑盒）作品能进 88~90 档。同时 qwen-plus 的免费额度已经被 ⑤c 那轮 A/B 吃掉大半（估余量不足 10 万 token）。两件事凑在一起决定了这一步怎么走：**先把零成本的部分做完做完再碰额度**——决定层的解析、工具的 schema、循环的停止条件，全都能在不调模型的情况下写完并测。
+
+改动：
+
+1. **`agent/__init__.py`**：定模块分工，按依赖方向 `schema` → `tools` → `loop` → `context/memory`，其中 `schema` 谁都不依赖（这样它能被单测直接喂 dict，也意味着以后换提供商不用动它）。
+2. **`agent/schema.py`**（新）：
+   - `parse_message(message)` 把一条 assistant 消息（**只吃 Mapping**，真机传 `message.model_dump()`）归一化成 `Decision(action, text, tool_calls)`，三态 `tool` / `final` / `invalid`，有 `tool_calls` 时**优先当工具轮**（模型经常一边说一句一边发调用）。
+   - `parse_arguments(value)` 专治 `function.arguments` 是 **JSON 字符串**这件事：空串算空参数（无参工具合法）、直接给 dict 也收、被双重编码的最多剥两层，**解不出 dict 就 raise**——静默丢参数照样调工具是这类代码最难查的错。
+   - 错误分成两类，处理方式完全不同：**协议层垃圾**（有 tool_calls 但缺 name、arguments 非法）raise `DecisionError`，这种消息没法执行、重试无意义；**模型这轮没决定**（既无工具又无文本）是合法的 `ACTION_INVALID`，交给循环决定要不要再问一次。混成一个返回值，循环就分不出"该重试"和"该停"。
+   - `find_unknown_tools()` / `missing_required()` 只**报告**不抛错：未知工具名是"内容错"不是"结构错"，标准做法是把错误当工具返回值喂回去让它下一轮自己改。`missing_required` 只查 `required`，不写半个 JSON Schema 校验器——那只会造成"什么都管"的错觉。
+   - `estimate_budget()`：**按逐轮累加 `base + i × growth`，不是 `max_turns × 单次单价`**。这是 ⑤c 那条"估低了会撞额度上限"的直接延续：Agent 的上下文每轮都在长，第 6 轮的输入是第 1 轮的 20 倍，用单价乘轮数会系统性低估一个数量级。默认值借 RAG 的实测价（base 600 + 每次检索结果 2600），**跑过 Agent 真机后必须换成 Agent 自己的实测数**。
+3. **`tests/conftest.py`**：把仓库根塞进 `sys.path`，让 `import agent.schema` 可用（`agent/` 没装成 pip 包，和 `apps/knowledge-rag` 用 `PYTHONPATH=src` 是同一思路）。
+4. **`tests/test_agent_schema.py`**（新，31 条）：逐形状覆盖 arguments 的六种畸形输入、多个 tool_calls、tool_calls 与文本同时出现、空消息算 `invalid` 不算 `final`、`missing_required` 把空串也当缺、以及一条**钉住设计动机的断言**——`test_budget_is_strictly_higher_than_turns_times_unit_price`（预算必须严格高于"轮数 × 单价"，否则这条公式就没必要存在）。
+
+验证（与证据）：
+
+1. `pytest tests` → **31 passed**，全程 0.05s、**0 次模型调用、0 token 消耗**。
+2. 默认预算算出来的数（`estimate_budget()`，6 轮）：输入曲线 `[600, 3200, 5800, 8400, 11000, 13600]`、合计 **43 500 token**；3 轮是 **10 050**。→ 这直接决定了 Mini Agent 真机冒烟的规模：**一次跑满 6 轮就吃掉当前余量的一半以上**，所以 ⑧d 只能 1~2 道题、`max_turns` 先压到 3。
+3. `apps/knowledge-rag` 与 `evals` 未受影响：`pytest evals` **134 passed**（回归确认）。
+
+踩坑与未证实的假设：
+
+1. **形状是从文档和 ⑤b 的经验推出来的，不是真机确认过的**。qwen-plus 在 DashScope 兼容模式下到底怎么吐 `tool_calls`（`arguments` 是不是字符串、`content` 与 `tool_calls` 会不会同时出现、有没有 `id`）——用例把这些都按 OpenAI 口径钉死了，但**只有真机能证明钉对了**。这就是 ⑧d 存在的理由，它的第一件事不是"看效果"，是**核对形状**：真机返回与 `parse_message` 不一致时，改的应该是解析层而不是把断言放宽。
+2. **`ToolCall` / `Decision` 第一版手写了 `Mapping` 协议**（`__iter__`/`__len__`/`__getitem__`/`__repr__` 一整套），看着"更像 dict 更通用"，实际代价是**没有值相等**——`assert decision == Decision(...)` 会退化成比对象身份，测试写起来更难读。改成 `@dataclass(frozen=True)` 后代码少一半、`==` 白送。教训：想要"能进消息历史、又能等值断言"的结构，dataclass 才是默认答案，手抄 dict 协议是负资产。
+3. **`base/growth` 现在是借来的数**。RAG 那 2.6~2.8k 是"一次生成塞 k=8 上下文"的价，Agent 的第 2 轮之后要塞的是**工具结果 + 历史对话**，量级接近但不能当成同一个数。所以预算函数刻意把两者拆成参数而不是写死一个常量，等 ⑧d 实测回填。
+
+下一步：
+
+1. ⑧b `agent/tools.py`：注册表（name / description / JSON schema / handler 可注入）+ 把 knowledge-rag 的检索包成 `search_knowledge_base(query, k)`。handler 用假的先测派发与 schema 校验，真检索留到接线时验。
+2. ⑧c `agent/loop.py`：`call_model` 做成注入点，替身按脚本吐消息序列 → 把"跑满轮数、中途放弃、协议错、预算超限"四条停止路径全部离线走通。
+3. ⑧d 才第一次花额度：1~2 道题、`max_turns=3`，只核对形状与实测每轮单价。
+
+对应提交：feat(agent): Mini Agent 决定层——tool_calls 解析与逐轮 token 预算，31 条离线用例零额度跑通
